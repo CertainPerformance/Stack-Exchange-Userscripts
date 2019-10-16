@@ -1,0 +1,83 @@
+// Use data attributes to reduce chance of accidentally interfering with any CSS or JS on the page
+.history-table {
+  > thead {
+    padding-bottom: 40px;
+
+    th {
+      padding: 5px;
+      text-align: center;
+    }
+
+    th:nth-child(3) > div {
+      margin-left: 70px;
+      display: grid;
+
+      > div:nth-child(2) {
+        grid-column: 2 / 3;
+      }
+    }
+  }
+
+  [data-cpuserscript-rowstats] {
+    width: 120px;
+    display: grid;
+    grid-column-gap: 3px;
+    grid-template-rows: 23px;
+    grid-template-columns: 36px 36px;
+
+    > [data-cpuserscript-qa-box] {
+      border-width: 1px;
+      border-color: #b9b9b9;
+      text-align: center;
+
+      &[data-cpuserscript-parent-post] {
+        border-style: solid;
+      }
+      &:not([data-cpuserscript-parent-post]) {
+        opacity: 0.5;
+        border-style: dotted;
+      }
+
+      &[data-cpuserscript-accepted] {
+        border-color: #5fba7d;
+        background: #5fba7d;
+        color: #fff;
+      }
+    }
+
+    > [data-cpuserscript-comment-score] {
+      grid-column: 3 / 4;
+      grid-row: 1 / 2;
+      justify-self: end;
+    }
+    > [data-cpuserscript-more-answers] {
+      grid-column: 2 / 3;
+      grid-row: 2 / 3;
+      justify-self: start;
+
+      > span {
+        position: absolute;
+        font-size: smaller;
+      }
+    }
+  }
+
+  [data-cpuserscript-unverified-trailing-row] {
+    // A few additional comment rows will be added at the bottom, to show deleted comments that don't get lost due to pagination
+    // They start out unverified and invisible. After API results come back, they will be made visible (with this attribute removed) OR removed from the DOM entirely
+    display: none;
+  }
+
+  [data-cpuserscript-post-removed] {
+    background-color: #f4eaea;
+  }
+  [data-cpuserscript-duplicate-removed] {
+    background-color: #d3ffc9;
+  }
+  [data-cpuserscript-self-deleted] {
+    background-color: #ffffcc;
+  }
+  [data-cpuserscript-comment-removed] {
+    background-color: #e58080;
+  }
+}

@@ -1,0 +1,60 @@
+{
+    "extends": [
+        "tslint-config-airbnb",
+        "tslint:recommended"
+    ],
+    "rules": {
+        "arrow-parens": false,
+        "await-promise": true,
+        "ban-comma-operator": true,
+        "cyclomatic-complexity": true,
+        "interface-name": false,
+        "interface-over-type-literal": false,
+        "max-line-length": false,
+        "no-any": true,
+        "no-console": false,
+        "no-default-export": true,
+        "no-floating-promises": true,
+        "no-for-in-array": true,
+        "no-implicit-dependencies": true,
+        "no-invalid-template-strings": true,
+        "no-invalid-this": true,
+        "no-object-literal-type-assertion": true,
+        "no-require-imports": true,
+        "no-return-await": true,
+        "no-sparse-arrays": true,
+        "no-tautology-expression": true,
+        "no-unbound-method": true,
+        "no-unnecessary-class": true,
+        "no-unnecessary-type-assertion": true,
+        "no-unsafe-any": true,
+        "no-void-expression": true,
+        "only-arrow-functions": true,
+        "prefer-array-literal": [
+            true,
+            {
+                "allow-type-parameters": true
+            }
+        ],
+        "prefer-conditional-expression": true,
+        "prefer-object-spread": false,
+        "quotemark": [
+            true,
+            "single",
+            "avoid-escape",
+            "avoid-template"
+        ],
+        "restrict-plus-operands": true,
+        "strict-type-predicates": true,
+        "ter-indent": [
+            true,
+            4,
+            {
+                "MemberExpression": {
+                    "type": 1
+                }
+            }
+        ],
+        "unnecessary-constructor": true
+    }
+}

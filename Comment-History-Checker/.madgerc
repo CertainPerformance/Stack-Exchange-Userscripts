@@ -1,0 +1,5 @@
+{
+  "excludeRegExp": [
+    "^commentHrefToIds\\.ts$"
+  ]
+}

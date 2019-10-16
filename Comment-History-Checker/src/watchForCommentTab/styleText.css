@@ -1,0 +1,56 @@
+.history-table > thead {
+  padding-bottom: 40px; }
+  .history-table > thead th {
+    padding: 5px;
+    text-align: center; }
+  .history-table > thead th:nth-child(3) > div {
+    margin-left: 70px;
+    display: grid; }
+    .history-table > thead th:nth-child(3) > div > div:nth-child(2) {
+      grid-column: 2 / 3; }
+
+.history-table [data-cpuserscript-rowstats] {
+  width: 120px;
+  display: grid;
+  grid-column-gap: 3px;
+  grid-template-rows: 23px;
+  grid-template-columns: 36px 36px; }
+  .history-table [data-cpuserscript-rowstats] > [data-cpuserscript-qa-box] {
+    border-width: 1px;
+    border-color: #b9b9b9;
+    text-align: center; }
+    .history-table [data-cpuserscript-rowstats] > [data-cpuserscript-qa-box][data-cpuserscript-parent-post] {
+      border-style: solid; }
+    .history-table [data-cpuserscript-rowstats] > [data-cpuserscript-qa-box]:not([data-cpuserscript-parent-post]) {
+      opacity: 0.5;
+      border-style: dotted; }
+    .history-table [data-cpuserscript-rowstats] > [data-cpuserscript-qa-box][data-cpuserscript-accepted] {
+      border-color: #5fba7d;
+      background: #5fba7d;
+      color: #fff; }
+  .history-table [data-cpuserscript-rowstats] > [data-cpuserscript-comment-score] {
+    grid-column: 3 / 4;
+    grid-row: 1 / 2;
+    justify-self: end; }
+  .history-table [data-cpuserscript-rowstats] > [data-cpuserscript-more-answers] {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    justify-self: start; }
+    .history-table [data-cpuserscript-rowstats] > [data-cpuserscript-more-answers] > span {
+      position: absolute;
+      font-size: smaller; }
+
+.history-table [data-cpuserscript-unverified-trailing-row] {
+  display: none; }
+
+.history-table [data-cpuserscript-post-removed] {
+  background-color: #f4eaea; }
+
+.history-table [data-cpuserscript-duplicate-removed] {
+  background-color: #d3ffc9; }
+
+.history-table [data-cpuserscript-self-deleted] {
+  background-color: #ffffcc; }
+
+.history-table [data-cpuserscript-comment-removed] {
+  background-color: #e58080; }
