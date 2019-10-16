@@ -14,30 +14,30 @@ type StackExchange = {
         serverTimeOffsetSec: number;
     }
 };
-type ApiComment = {
+type ApiComment = Readonly<{
     score: number;
     creation_date: number;
     comment_id: number;
-};
+}>;
 type ApiComments = {
-    items: ApiComment[];
+    readonly items: ApiComment[];
 };
-type ApiAnswer = {
+type ApiAnswer = Readonly<{
     is_accepted: boolean;
     score: number;
     answer_id: number;
-};
-type ApiQuestion = {
+}>;
+type ApiQuestion = Readonly<{
     score: number;
     last_activity_date: number;
     question_id: number;
     closed_reason?: string;
     answers?: ApiAnswer[];
-};
+}>;
 type ApiQuestions = {
-    items: ApiQuestion[];
+    readonly items: ApiQuestion[];
 };
-type RowstatsContainersByIds = {
+type RowstatsContainersByIds = Readonly<{
     byComment: Map<number, HTMLDivElement>;
     byQuestion: Map<number, Set<HTMLDivElement>>;
-};
+}>;
