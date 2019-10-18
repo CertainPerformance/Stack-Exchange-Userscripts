@@ -1,7 +1,7 @@
 type SavedComment = Readonly<{
     commentHTML: string;
     commentHref: string;
-    questionTitle: string
+    questionTitle: string;
     timestamp: number;
     selfDeleted?: true;
 }>;
