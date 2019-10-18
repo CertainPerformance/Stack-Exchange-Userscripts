@@ -1,6 +1,6 @@
-# Comment History Checker (&#8202;[install](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/raw/master/Comment-History-Checker/dist/StackCommentHistoryChecker.user.js)&#8202;)
+﻿# Comment History Checker (&#8202;[install](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/raw/master/Comment-History-Checker/dist/StackCommentHistoryChecker.user.js)&#8202;)
 
-Saves all comments you post into a local database. When you want to review them, go to your profile's Activity tab ([example](https://stackoverflow.com/users/9515207/certainperformance?tab=activity)) and click on the **Comments** subtab. Comments that are no longer visible (and would not be shown on the page by default) will be inserted into the table, and data taken from the Stack Exchange API will be put into every comment row:
+This is a userscript which saves all comments you post into a local database (IndexedDB). When you want to review them, go to your profile's Activity tab ([example](https://stackoverflow.com/users/9515207/certainperformance?tab=activity)) and click on the **Comments** subtab. Comments that are no longer visible (and would not be shown on the page by default) will be inserted into the table, and data taken from the Stack Exchange API will be put into every comment row:
 
 ![screenshot](https://raw.githubusercontent.com/CertainPerformance/Stack-Exchange-Userscripts/master/Comment-History-Checker/userscript-screenshot.png)
 
@@ -18,6 +18,7 @@ Info added to each row:
   * You deleted the comment
   * System removed your "Possible duplicate of" comment due to question being closed as a duplicate
   * A ♦ moderator deleted the comment, or the system deleted the comment in response to a flag
+* Question close reason, if closed
 
 The same data will be displayed on other users' profiles, but only comments *you* make are saved in the database, so deleted comments won't be shown.
 

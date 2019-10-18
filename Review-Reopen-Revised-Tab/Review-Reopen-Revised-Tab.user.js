@@ -1,8 +1,9 @@
 // ==UserScript==
 // @name             Stack Review Reopen Revised Tab
-// @author           CertainPerformance
 // @description      In Reopen Votes, automatically go to the "Revised" tab
-// @version          1.0
+// @author           CertainPerformance
+// @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
+// @version          1.0.0
 // @include          /^https://stackoverflow.com/review/reopen/\d+/
 // @grant            none
 // ==/UserScript==

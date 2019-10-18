@@ -1,9 +1,9 @@
-// ==UserScript==
+﻿// ==UserScript==
 // @name             Stack Sidebar Question Stats
 // @description      Puts question stats in the sidebar, rather than at the top of the page
 // @author           CertainPerformance
-// @homepage         https://github.com/CertainPerformance/Stack-Exchange-Userscripts/
-// @version          1.31
+// @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
+// @version          1.32.0
 // @include          /https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/questions/\d+/
 // @run-at           document-start
 // @grant            none
