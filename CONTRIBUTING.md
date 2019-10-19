@@ -52,3 +52,5 @@ then, to view the unminified source, go to
 The same pattern can be used to view the source of `wmd.en.js`, `stub.en.js`, etc.
 
 Once you've found a location in the minified code, find unique string(s) around it and search for those strings in the unminified source, and you should be able to identify the [corresponding source location](https://raw.githubusercontent.com/CertainPerformance/Stack-Exchange-Userscripts/master/images/Trace-SE-JS-Source.png). From there, you can see the readable variable names, comments, and so on.
+
+Unfortunately, this method isn't foolproof - you may have to fiddle with the URL on dev.stackoverflow.com, or you may not be able to find the source at all.
