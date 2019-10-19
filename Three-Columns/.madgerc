@@ -1,0 +1,5 @@
+{
+  "excludeRegExp": [
+    "^attachListenersAndOpen3ColLayoutOnTextareaFocus/postRootState\\.ts$"
+  ]
+}
