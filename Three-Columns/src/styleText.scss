@@ -1,0 +1,114 @@
+// There are only CSS changes while the user is in the 3-column = layout
+// which is toggled via an attribute on the <html>:
+html[data-three-columns-userscript] {
+    // Hide main scrollbar, since all main page content other than those in the columns are hidden while in 3-column layout
+    body {
+        overflow-y: hidden;
+    }
+
+    $first-column: "#mainbar";
+    $second-column: "[data-three-columns-userscript-post-root]";
+    $third-column: "[data-three-columns-userscript-post-root] .wmd-preview";
+
+    #{$first-column},
+    #{$second-column},
+    #{$third-column} {
+        position: fixed;
+        top: 50px;
+        background-color: white;
+        z-index: 1001; // .left-sidebar has a z-index of 1000
+        height: calc(100% - 50px);
+        padding: 15px;
+        // Be able to y-scroll on all 3 columns, though one shouldn't ever have to for the answer textarea (should never be vertical overflow)
+        overflow-y: auto;
+    }
+    #{$first-column} {
+        left: 0;
+        width: 33%;
+    }
+    #{$third-column} {
+        left: 67%;
+        width: 33%;
+    }
+    #{$second-column} {
+        left: 33%;
+        width: 34%;
+        @mixin verticalContainer {
+            display: flex;
+            flex-direction: column;
+        }
+        @mixin onlyVerticalChild {
+            flex-grow: 1;
+        }
+        @include verticalContainer;
+        &.answer [id^="post-editor"],
+        &.question [id^="post-editor"] {
+            // When editing an existing post, possibility of y-overflow in the 2nd column due to numerous comments is unavoidable
+            height: 70vh;
+        }
+        &#post-form {
+            // Hide the "Your Answer" header:
+            > .space {
+                display: none;
+            }
+            > #post-editor {
+                // Make the answer textarea take up most of the vertical space, with the Post Your Answer container at the bottom
+                @include onlyVerticalChild;
+            }
+        }
+        // Make the .wmd-input expand to the full height of the #post-editor* (is there a better way?):
+        [id^="post-editor"] {
+            @include verticalContainer;
+            /*
+            This isn't needed, the community option will be hidden entirely
+            It takes up precious vertical space, and is rarely used
+            User can close the 3-col layout before posting if they want it
+
+            [data-three-columns-userscript-post-root] [id^="post-editor"] > .community-option {
+                flex-grow: 0;
+                margin-left: auto;
+            }
+            */
+            margin-top: 0;
+            > .ps-relative {
+                &,
+                > .wmd-container {
+                    .wmd-button-bar {
+                        margin-top: 0;
+                    }
+                    &,
+                    > .js-stacks-validation {
+                        @include verticalContainer;
+                        &,
+                        > .ps-relative {
+                            @include onlyVerticalChild;
+                            > .wmd-input {
+                                height: 100% !important; // Need to override built-in high specificity
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        &.deleted-answer[data-three-columns-userscript-post-root] pre {
+            &,
+            > code {
+                background-color: #eff0f1;
+            }
+        }
+        // Hide the grippie bar that allows for resizing the textarea:
+        .grippie {
+            display: none;
+        }
+        textarea.wmd-input {
+            resize: none;
+        }
+    }
+
+    .hide-preview, // Hide the option to hide the preview while in 3-column layout
+    .bottom-share-links, // Hide the useless links at the bottom of the answer list
+    .bottom-notice,
+    .community-option { // Hide the "community wiki" section
+        display: none;
+    }
+}
