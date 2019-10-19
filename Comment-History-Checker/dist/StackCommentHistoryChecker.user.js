@@ -3,7 +3,7 @@
 // @description      Review the status and reception of your comments and their parent posts
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.0
+// @version          1.0.1
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/(?:users/.*\?tab=activity|questions/\d|review/[^/]+(?:/\d+|$))/
 // @grant            none
 // ==/UserScript==
@@ -238,7 +238,6 @@ exports.makeSaveAllVisibleComments = (userHref) => async () => {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const commentHrefToIds_1 = __webpack_require__(/*! ../commentHrefToIds */ "./build/commentHrefToIds.js");
-const anchorExists = (element) => Boolean(element);
 /**
  * Saves the comment surrounding this anchor in the database
  * @returns True if the database was changed, otherwise false
@@ -248,13 +247,15 @@ exports.saveComment = (userCommentAnchor, savedComments) => {
     const timestamp = new Date(dateElm.title).getTime();
     const commentHTML = userCommentAnchor.closest('.comment-body').children[0].innerHTML;
     const questionAnchor = document.querySelector('#question-header > h1 > a');
-    if (!anchorExists(questionAnchor)) {
+    if (!questionAnchor) {
         // Spam/rude question - it's likely already in the database, just don't try to update it
         return false;
     }
     const questionTitle = questionAnchor.textContent;
+    // Cannot just use .href  of the comment-link below,
+    // because there may be a query string which comes between the /question-title and the #commentID_postID
     const commentHrefAttrib = userCommentAnchor.parentElement.querySelector('a.comment-link').getAttribute('href');
-    const commentHref = questionAnchor.href + commentHrefAttrib;
+    const commentHref = window.location.origin + window.location.pathname + commentHrefAttrib;
     const { commentId } = commentHrefToIds_1.commentHrefToIds(commentHref);
     const newCommentObj = {
         commentHTML,
@@ -788,6 +789,31 @@ exports.makeRowstatsContainers = () => {
 
 /***/ }),
 
+/***/ "./build/watchForCommentTab/processApiResponse/getBestAnswer.js":
+/*!**********************************************************************!*\
+  !*** ./build/watchForCommentTab/processApiResponse/getBestAnswer.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getBestAnswer = (answers) => {
+    if (!answers.length) {
+        return null;
+    }
+    const acceptedAnswer = answers.find(({ is_accepted }) => is_accepted);
+    if (acceptedAnswer) {
+        return acceptedAnswer;
+    }
+    const highestScoreAnswer = answers.reduce((a, answer) => (answer.score > a.score ? answer : a));
+    return highestScoreAnswer;
+};
+
+
+/***/ }),
+
 /***/ "./build/watchForCommentTab/processApiResponse/highlightCommentsWithoutData.js":
 /*!*************************************************************************************!*\
   !*** ./build/watchForCommentTab/processApiResponse/highlightCommentsWithoutData.js ***!
@@ -874,17 +900,7 @@ exports.processApiResponse = ([questionData, commentData], rowstatsContainersByI
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const getBestAnswer = (answers) => {
-    if (!answers.length) {
-        return null;
-    }
-    const acceptedAnswer = answers.find(({ is_accepted }) => is_accepted);
-    if (acceptedAnswer) {
-        return acceptedAnswer;
-    }
-    const highestScoreAnswer = answers.reduce((a, answer) => (answer.score > a.score ? answer : a));
-    return highestScoreAnswer;
-};
+const getBestAnswer_1 = __webpack_require__(/*! ./getBestAnswer */ "./build/watchForCommentTab/processApiResponse/getBestAnswer.js");
 exports.populateRowstatsWithApiData = (questionData, commentData, rowstatsContainersByIds) => {
     /* Insert question scores (for all rows),
      * question acceptance attribute,
@@ -909,7 +925,7 @@ exports.populateRowstatsWithApiData = (questionData, commentData, rowstatsContai
             if (closed_reason && !commentAnchor.textContent.endsWith(']')) {
                 commentAnchor.innerHTML += ` [${closed_reason}]`;
             }
-            const bestAnswer = getBestAnswer(answers);
+            const bestAnswer = getBestAnswer_1.getBestAnswer(answers);
             if (bestAnswer && bestAnswer.is_accepted) {
                 questionBox.setAttribute('data-cpuserscript-accepted', '');
             }
@@ -1051,7 +1067,7 @@ exports.styleTag.textContent = styleText_css_1.default;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = (".history-table > thead {\n  padding-bottom: 40px; }\n  .history-table > thead th {\n    padding: 5px;\n    text-align: center; }\n  .history-table > thead th:nth-child(3) > div {\n    margin-left: 70px;\n    display: grid; }\n    .history-table > thead th:nth-child(3) > div > div:nth-child(2) {\n      grid-column: 2 / 3; }\n\n.history-table [data-cpuserscript-rowstats] {\n  width: 120px;\n  display: grid;\n  grid-column-gap: 3px;\n  grid-template-rows: 23px;\n  grid-template-columns: 36px 36px; }\n  .history-table [data-cpuserscript-rowstats] > [data-cpuserscript-qa-box] {\n    border-width: 1px;\n    border-color: #b9b9b9;\n    text-align: center; }\n    .history-table [data-cpuserscript-rowstats] > [data-cpuserscript-qa-box][data-cpuserscript-parent-post] {\n      border-style: solid; }\n    .history-table [data-cpuserscript-rowstats] > [data-cpuserscript-qa-box]:not([data-cpuserscript-parent-post]) {\n      opacity: 0.5;\n      border-style: dotted; }\n    .history-table [data-cpuserscript-rowstats] > [data-cpuserscript-qa-box][data-cpuserscript-accepted] {\n      border-color: #5fba7d;\n      background: #5fba7d;\n      color: #fff; }\n  .history-table [data-cpuserscript-rowstats] > [data-cpuserscript-comment-score] {\n    grid-column: 3 / 4;\n    grid-row: 1 / 2;\n    justify-self: end; }\n  .history-table [data-cpuserscript-rowstats] > [data-cpuserscript-more-answers] {\n    grid-column: 2 / 3;\n    grid-row: 2 / 3;\n    justify-self: start; }\n    .history-table [data-cpuserscript-rowstats] > [data-cpuserscript-more-answers] > span {\n      position: absolute;\n      font-size: smaller; }\n\n.history-table [data-cpuserscript-unverified-trailing-row] {\n  display: none; }\n\n.history-table [data-cpuserscript-post-removed] {\n  background-color: #f4eaea; }\n\n.history-table [data-cpuserscript-duplicate-removed] {\n  background-color: #d3ffc9; }\n\n.history-table [data-cpuserscript-self-deleted] {\n  background-color: #ffffcc; }\n\n.history-table [data-cpuserscript-comment-removed] {\n  background-color: #e58080; }\n");
+/* harmony default export */ __webpack_exports__["default"] = (".history-table > thead th {\n  padding: 5px;\n  text-align: center; }\n\n.history-table > thead th:nth-child(3) > div {\n  margin-left: 70px;\n  display: grid; }\n  .history-table > thead th:nth-child(3) > div > div:nth-child(2) {\n    grid-column: 2 / 3; }\n\n.history-table [data-cpuserscript-rowstats] {\n  width: 120px;\n  display: grid;\n  grid-column-gap: 3px;\n  grid-template-rows: 23px;\n  grid-template-columns: 36px 36px; }\n  .history-table [data-cpuserscript-rowstats] > [data-cpuserscript-qa-box] {\n    border-width: 1px;\n    border-color: #b9b9b9;\n    text-align: center; }\n    .history-table [data-cpuserscript-rowstats] > [data-cpuserscript-qa-box][data-cpuserscript-parent-post] {\n      border-style: solid; }\n    .history-table [data-cpuserscript-rowstats] > [data-cpuserscript-qa-box]:not([data-cpuserscript-parent-post]) {\n      opacity: 0.5;\n      border-style: dotted; }\n    .history-table [data-cpuserscript-rowstats] > [data-cpuserscript-qa-box][data-cpuserscript-accepted] {\n      border-color: #5fba7d;\n      background: #5fba7d;\n      color: #fff; }\n  .history-table [data-cpuserscript-rowstats] > [data-cpuserscript-comment-score] {\n    grid-column: 3 / 4;\n    grid-row: 1 / 2;\n    justify-self: end; }\n  .history-table [data-cpuserscript-rowstats] > [data-cpuserscript-more-answers] {\n    grid-column: 2 / 3;\n    grid-row: 2 / 3;\n    justify-self: start; }\n    .history-table [data-cpuserscript-rowstats] > [data-cpuserscript-more-answers] > span {\n      position: absolute;\n      font-size: smaller; }\n\n.history-table [data-cpuserscript-unverified-trailing-row] {\n  display: none; }\n\n.history-table [data-cpuserscript-post-removed] {\n  background-color: #f4eaea; }\n\n.history-table [data-cpuserscript-duplicate-removed] {\n  background-color: #d3ffc9; }\n\n.history-table [data-cpuserscript-self-deleted] {\n  background-color: #ffffcc; }\n\n.history-table [data-cpuserscript-comment-removed] {\n  background-color: #e58080; }\n");
 
 /***/ }),
 

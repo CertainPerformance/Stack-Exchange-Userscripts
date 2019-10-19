@@ -1,6 +1,6 @@
 const filters = {
     comments: '!SWJ_S9Hse(rWelcqk1', // wrapper.items, comment -> { score, comment_id })
-    questions: '!5RCI6qPDF8)WPM-vVxWYF-1w0', // wrapper.items, question -> { answers, closed_reason, question_id, score }, answer -> { score, accepted, answer_id }
+    questions: '!5RCI6qPDF8)WPM-vVxWYF-1w0', // wrapper.items, question -> { answers, closed_reason, question_id, score }, answer -> { score, is_accepted, answer_id }
 };
 const thisSite = window.location.hostname
     .replace(/\.\w+$/, '') // Remove the TLD (.com, .net, ...)

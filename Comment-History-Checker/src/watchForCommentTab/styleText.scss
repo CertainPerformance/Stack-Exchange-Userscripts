@@ -1,8 +1,6 @@
 // Use data attributes to reduce chance of accidentally interfering with any CSS or JS on the page
 .history-table {
     > thead {
-        padding-bottom: 40px;
-
         th {
             padding: 5px;
             text-align: center;

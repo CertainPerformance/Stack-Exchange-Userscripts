@@ -1,3 +1,10 @@
+type StackExchange = {
+    ready: (callback: () => void) => void;
+    options: {
+        serverTimeOffsetSec: number;
+    }
+};
+
 type SavedComment = Readonly<{
     commentHTML: string;
     commentHref: string;
@@ -7,12 +14,6 @@ type SavedComment = Readonly<{
 }>;
 type SavedComments = {
     [commentId: number]: SavedComment;
-};
-type StackExchange = {
-    ready: (callback: () => void) => void;
-    options: {
-        serverTimeOffsetSec: number;
-    }
 };
 type ApiComment = Readonly<{
     score: number;
@@ -29,7 +30,6 @@ type ApiAnswer = Readonly<{
 }>;
 type ApiQuestion = Readonly<{
     score: number;
-    last_activity_date: number;
     question_id: number;
     closed_reason?: string;
     answers?: ApiAnswer[];
