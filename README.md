@@ -10,6 +10,7 @@ Feel free to [report issues](https://github.com/CertainPerformance/Stack-Exchang
 
 ## Userscript index
 
-- [Sidebar Question Stats](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/tree/master/Sidebar-Question-Stats) - Puts question stats in the sidebar, rather than at the top of the page ([screenshot](https://raw.githubusercontent.com/CertainPerformance/Stack-Exchange-Userscripts/master/Sidebar-Question-Stats/userscript-screenshot.png))
-- [Review Reopen Revised Tab](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/tree/master/Review-Reopen-Revised-Tab) - In Reopen Votes, automatically go to the "Revised" tab
 - [Comment History Checker](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/tree/master/Comment-History-Checker) - Review the status and reception of your comments and their parent posts ([screenshot](https://raw.githubusercontent.com/CertainPerformance/Stack-Exchange-Userscripts/master/Comment-History-Checker/userscript-screenshot.png))
+- [Preview Antifocus](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/tree/master/Preview-Antifocus) - Prevents post textarea from stealing focus when clicking on preview
+- [Review Reopen Revised Tab](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/tree/master/Review-Reopen-Revised-Tab) - In Reopen Votes, automatically go to the "Revised" tab
+- [Sidebar Question Stats](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/tree/master/Sidebar-Question-Stats) - Puts question stats in the sidebar, rather than at the top of the page ([screenshot](https://raw.githubusercontent.com/CertainPerformance/Stack-Exchange-Userscripts/master/Sidebar-Question-Stats/userscript-screenshot.png))
