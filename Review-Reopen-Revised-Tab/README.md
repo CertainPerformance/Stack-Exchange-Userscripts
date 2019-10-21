@@ -1,4 +1,4 @@
-# Review Reopen Revised Tab (&#8202;[install](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/raw/master/Review-Reopen-Revised-Tab/Review-Reopen-Revised-Tab.user.js)&#8202;)
+# Review Reopen Revised Tab (&#8202;[install](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/raw/master/Review-Reopen-Revised-Tab/StackReviewReopenRevisedTab.user.js)&#8202;)
                                                                                                                           
 In the Reopen queue, you may prefer to look at the "Question (revised)" tab, which shows the plain question in its current state, rather than the "Revision" tab, which shows the question *and* the edits that were made to it after closing.
 

@@ -9,6 +9,8 @@
 // ==/UserScript==
 /* global $ */
 
+'use strict';
+
 $(document).on('ajaxComplete', (event, jqXHR, { url }) => {
   if ((url.startsWith('/review/next-task/') || url.startsWith('/review/task-reviewed/')) && jqXHR.responseJSON.reviewTaskId) {
     const revisedTabAnchor = document.querySelector('a.original-closed-post');

@@ -1,4 +1,4 @@
-# Sidebar Question Stats (&#8202;[install](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/raw/master/Sidebar-Question-Stats/Sidebar-Question-Stats.user.js)&#8202;)
+# Sidebar Question Stats (&#8202;[install](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/raw/master/Sidebar-Question-Stats/StackSidebarQuestionStats.user.js)&#8202;)
 
 The Stack Exchange UI now puts question stats (ask date, view count, and active date) under the question title. You [may find this distracting](https://meta.stackexchange.com/questions/331349/why-are-the-sidebar-stats-for-a-question-now-under-the-title), because the information is only occasionally useful, yet its current position results in it being the *second* thing you read on every page.
 

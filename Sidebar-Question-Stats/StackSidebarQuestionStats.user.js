@@ -4,10 +4,12 @@
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
 // @version          1.32.0
-// @include          /https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/questions/\d+/
+// @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/questions/\d+/
 // @run-at           document-start
 // @grant            none
 // ==/UserScript==
+
+'use strict';
 
 /* For compatibility with Roomba Forecaster
  * and with any other older userscripts that depended on the old location of question stats in the sidebar
