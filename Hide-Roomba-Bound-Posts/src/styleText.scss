@@ -1,0 +1,34 @@
+// Use data attributes to reduce chance of selector collisions
+[data-cpuserscript-hide-roomba-bound-posts-settings] {
+    margin: 0.5em auto;
+    height: 3em;
+    display: flex;
+    align-items: center;
+    > * {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    > label {
+        height: 2em;
+        cursor: pointer;
+        user-select: none;
+        > * {
+            cursor: pointer;
+        }
+        &:nth-child(2) {
+            margin-left: 70px;
+            margin-right: 40px;
+        }
+    }
+    input {
+        margin: 0 0 0 10px !important;
+    }
+}
+
+[data-cpuserscript-hide-roomba-bound-posts-settings][data-enabled] {
+    & ~ .island [data-cpuserscript-roomba-bound],
+    &[data-hide-posts-with-reopen-votes] ~ .island [data-cpuserscript-roomba-bound-but-reopen-votes] {
+        display: none;
+    }
+}
