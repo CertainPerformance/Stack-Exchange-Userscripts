@@ -19,3 +19,5 @@ Almost all of the changes the script makes are through CSS only - the actual DOM
 * We aren't perfect typers. When you see that the post preview doesn't match the output you were aiming for, you'll have to find the corresponding location in the textarea and make changes. This is a lot easier to do when the textarea and the preview are side-by-side, and when the vertical position of the problem in the preview (often) roughly corresponds to the vertical position in the textarea that needs to be edited.
 
 Caveat: The Community Wiki option is hidden in the 3-column layout, because (at least in my experience) it's rarely used, and takes up precious vertical space that could be utilized by the textarea. To make a post Community Wiki, exit the 3-column layout first.
+
+Recommended to be used in combination with [Preview Antifocus](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/tree/master/Preview-Antifocus), to prevent the textarea from stealing focus when clicking on the post preview.
