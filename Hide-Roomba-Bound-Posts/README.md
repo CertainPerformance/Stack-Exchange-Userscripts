@@ -1,4 +1,4 @@
-# Hide Roomba Bound Posts (&#8202;[install](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/raw/master/Hide-Roomba-Bound-Posts/StackHideRoombaBoundPosts.user.js)&#8202;)
+# Hide Roomba Bound Posts (&#8202;[install](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/raw/master/Hide-Roomba-Bound-Posts/dist/StackHideRoombaBoundPosts.user.js)&#8202;)
 
 Delete votes are limited to 30 per day, maximum, but horrible posts that do not deserve to remain on the site appear at a rate far exceeding that. Luckily, we have the [roomba](https://stackoverflow.com/help/roomba) which will automatically delete closed and poorly received questions, under certain conditions.
 
