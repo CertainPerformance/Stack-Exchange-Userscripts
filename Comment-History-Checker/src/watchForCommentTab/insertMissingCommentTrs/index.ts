@@ -28,8 +28,10 @@ export const insertMissingCommentTrs = (savedComments: SavedComments) => {
                 commentHrefToIds(commentHref).commentId <= commentIdToFind
             ));
         });
-    const thisPageNumber = document.querySelector('#user-tab-activity .page-numbers.current')!.textContent;
-    const sliceStartIndex = (startTRIndexInSavedCommentsArr === -1 || thisPageNumber === '1')
+    // This may not exist if the user has made less than a page-full of comments on this site:
+    const pageNumbersElm = document.querySelector('#user-tab-activity .page-numbers.current');
+    const thisPageNumber = pageNumbersElm ? Number(pageNumbersElm.textContent) : 1;
+    const sliceStartIndex = (startTRIndexInSavedCommentsArr === -1 || thisPageNumber === 1)
         ? 0
         : startTRIndexInSavedCommentsArr;
     /* sliceEndIndex is usually endTRIndexInSavedCommentsArr + 7,

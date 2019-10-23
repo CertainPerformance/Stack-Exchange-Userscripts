@@ -3,7 +3,7 @@
 // @description      Review the status and reception of your comments and their parent posts
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.1
+// @version          1.0.2
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/(?:users/.*\?tab=activity|questions/\d|review/[^/]+(?:/\d+|$))/
 // @grant            none
 // ==/UserScript==
@@ -551,8 +551,10 @@ exports.insertMissingCommentTrs = (savedComments) => {
         // (that is, a theoretical TR created from the found commentId should be the same, or come right below this `tr` being iterated over
         return savedCommentsArrLatestFirst.findIndex(({ commentHref }) => (commentHrefToIds_1.commentHrefToIds(commentHref).commentId <= commentIdToFind));
     });
-    const thisPageNumber = document.querySelector('#user-tab-activity .page-numbers.current').textContent;
-    const sliceStartIndex = (startTRIndexInSavedCommentsArr === -1 || thisPageNumber === '1')
+    // This may not exist if the user has made less than a page-full of comments on this site:
+    const pageNumbersElm = document.querySelector('#user-tab-activity .page-numbers.current');
+    const thisPageNumber = pageNumbersElm ? Number(pageNumbersElm.textContent) : 1;
+    const sliceStartIndex = (startTRIndexInSavedCommentsArr === -1 || thisPageNumber === 1)
         ? 0
         : startTRIndexInSavedCommentsArr;
     /* sliceEndIndex is usually endTRIndexInSavedCommentsArr + 7,
