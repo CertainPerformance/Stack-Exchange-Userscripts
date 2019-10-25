@@ -7,8 +7,8 @@ declare global {
     }
 }
 
-const youarehere = document.querySelector('.youarehere') as HTMLElement;
-if (youarehere.dataset.value === 'delete') {
+const youarehere = document.querySelector('.youarehere');
+if (youarehere && (youarehere as HTMLElement).dataset.value === 'delete') {
     insertStyle();
     waitForTablesToExist();
 }

@@ -3,8 +3,8 @@
 // @description      In Moderator Tools Delete Votes, creates an option to hide posts that will be roombad without intervention
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.0
-// @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/tools\?tab=Delete/
+// @version          1.0.1
+// @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/tools
 // @grant            none
 // ==/UserScript==
 
@@ -270,7 +270,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const insertStyle_1 = __webpack_require__(/*! ./insertStyle */ "./build/insertStyle.js");
 const waitForTablesToExist_1 = __webpack_require__(/*! ./waitForTablesToExist */ "./build/waitForTablesToExist.js");
 const youarehere = document.querySelector('.youarehere');
-if (youarehere.dataset.value === 'delete') {
+if (youarehere && youarehere.dataset.value === 'delete') {
     insertStyle_1.insertStyle();
     waitForTablesToExist_1.waitForTablesToExist();
 }
