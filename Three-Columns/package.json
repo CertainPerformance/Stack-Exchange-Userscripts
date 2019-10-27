@@ -1,24 +1,25 @@
 {
     "name": "three-columns",
     "scripts": {
-        "build": "tslint src/**/*.ts && node-sass src -o build && tsc && webpack",
-        "watch": "onchange -i ./src/**/* -- \"node-sass src -o build && ((tsc && webpack --display minimal -o StackThreeColumnsLiveDev.user.js) || echo Build failed) && echo =================================\"",
+        "build": "tslint src/**/*.ts && node-sass src -o build && webpack",
+        "watch": "onchange -i ./src/**/* -- \"node-sass src -o build && (webpack --display minimal -o StackThreeColumnsLiveDev.user.js || echo Build failed) && echo =================================\"",
         "lint": "tslint src/**/*.ts",
-        "node-sass": "node-sass src -o src",
+        "node-sass": "node-sass src -o build",
         "graph": "madge ./src/index.ts --ts-config=tsconfig.json -i ./madge-dependency-graph.png"
     },
     "author": "CertainPerformance",
     "license": "MIT",
     "private": true,
     "devDependencies": {
-        "typescript": "^3.6.4",
-        "webpack": "^4.41.2",
-        "webpack-cli": "^3.3.9",
+        "@types/jquery": "^3.3.31",
+        "node-sass": "^4.12.0",
+        "onchange": "^6.1.0",
+        "raw-loader": "^3.1.0",
+        "ts-loader": "^6.2.1",
         "tslint": "^5.20.0",
         "tslint-config-airbnb": "^5.11.2",
-        "node-sass": "^4.12.0",
-        "raw-loader": "^3.1.0",
-        "onchange": "^6.1.0",
-        "@types/jquery": "^3.3.31"
+        "typescript": "^3.6.4",
+        "webpack": "^4.41.2",
+        "webpack-cli": "^3.3.9"
     }
 }
