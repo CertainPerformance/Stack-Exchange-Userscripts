@@ -1,3 +1,4 @@
+import { showToastError } from '../../../common/showToast';
 import { fixCommentTab } from './fixCommentTab';
 import { styleTag } from './styleTag';
 
@@ -12,8 +13,11 @@ export const watchForCommentTab = () => {
             return;
         }
         document.body.appendChild(styleTag);
-        // tslint:disable-next-line: no-floating-promises
-        fixCommentTab();
+        fixCommentTab()
+            .catch((error) => {
+                console.error(error);
+                showToastError('Stack Comment History Checker: An error occurred, see console for details');
+            });
     };
     new MutationObserver(onMutation)
         .observe(mainBarFull, { childList: true });
