@@ -1,10 +1,3 @@
-type StackExchange = {
-    ready: (callback: () => void) => void;
-    options: {
-        serverTimeOffsetSec: number;
-    }
-};
-
 type SavedComment = Readonly<{
     commentHTML: string;
     commentHref: string;

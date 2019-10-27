@@ -1,9 +1,9 @@
+import '../../common/declareGlobalStackExchange';
 import { watchForCommentChanges } from './watchForCommentChanges';
 import { watchForCommentTab } from './watchForCommentTab';
 
 declare global {
     interface Window {
-        StackExchange: StackExchange;
         $: JQueryStatic;
     }
 }

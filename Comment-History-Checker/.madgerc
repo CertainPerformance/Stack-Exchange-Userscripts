@@ -1,5 +1,6 @@
 {
   "excludeRegExp": [
-    "^commentHrefToIds\\.ts$"
+    "^commentHrefToIds\\.ts$",
+    "^\\.\\./\\.\\./common/declareGlobalStackExchange\\.ts$"
   ]
 }
