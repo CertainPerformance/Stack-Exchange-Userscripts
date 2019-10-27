@@ -1,7 +1,7 @@
+import { showToastError } from '../../../common/showToast';
 import { getApi } from './getApi';
 import { processApiResponse } from './processApiResponse';
 import * as settingsStore from './settingsStore';
-import { showToastError } from './showToastError';
 
 const processedTables = new Set();
 /**

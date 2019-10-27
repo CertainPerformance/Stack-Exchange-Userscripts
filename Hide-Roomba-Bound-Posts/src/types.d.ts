@@ -2,16 +2,6 @@ type Settings = {
     enabled: boolean,
     showPostsWithReopenVotes: boolean,
 };
-type ToastSettings = {
-    transient: false;
-    type: 'danger';
-};
-type StackExchange = {
-    helpers: {
-        suggestedTransientTimeout(message: string, isToast: boolean): number;
-        showToast(message: string, settings: ToastSettings): void;
-    },
-};
 type ApiAnswer = {
     score: number;
 };

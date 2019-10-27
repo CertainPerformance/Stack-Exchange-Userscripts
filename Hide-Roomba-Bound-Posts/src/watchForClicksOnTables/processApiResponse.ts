@@ -1,4 +1,4 @@
-import { showToastError } from './showToastError';
+import { showToastError } from '../../../common/showToast';
 import { willQuestionRoomba } from './willQuestionRoomba';
 
 export const processApiResponse = ({ error_id, items }: ApiQuestionsResponse, trsByQuestionId: TrsByQuestionId, trs: HTMLTableRowElement[]) => {
