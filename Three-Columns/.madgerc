@@ -1,5 +1,6 @@
 {
   "excludeRegExp": [
+    "^\\.\\./\\.\\./common/declareGlobalStackExchange\\.ts$",
     "^attachListenersAndOpen3ColLayoutOnTextareaFocus/postRootState\\.ts$"
   ]
 }
