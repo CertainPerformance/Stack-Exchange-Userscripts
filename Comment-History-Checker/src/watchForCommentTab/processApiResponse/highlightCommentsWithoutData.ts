@@ -17,7 +17,8 @@ export const highlightCommentsWithoutData = (
         // Either the post was deleted, or the comment was deleted:
         const tr = rowstatsContainer.closest('tr')!;
         const postId = Number(tr.dataset.postid);
-        const commentIsPossibleDuplicateOf = tr.querySelector('td:nth-child(3) > span')!.textContent!.startsWith('Possible duplicate of ');
+        const commentText = tr.querySelector('td:nth-child(3) > span')!.textContent!;
+        const commentIsPossibleDuplicateOf = commentText.startsWith('Possible duplicate of ') || commentText.startsWith('Does this answer your question? ');
         // Note that the the post deletion indicator takes priority over both comment self-deletion indicator and mod deletion indicator
         if (!apiPostIds.has(postId)) {
             // The parent post was deleted; the comment was not singled out

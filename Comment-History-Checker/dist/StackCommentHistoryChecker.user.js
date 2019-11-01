@@ -3,7 +3,7 @@
 // @description      Review the status and reception of your comments and their parent posts
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.2
+// @version          1.0.3
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/(?:users/.*\?tab=activity|questions/\d|review/[^/]+(?:/\d+|$))/
 // @grant            none
 // ==/UserScript==
@@ -91,95 +91,14 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./build/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/index.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./build/commentDB.js":
-/*!****************************!*\
-  !*** ./build/commentDB.js ***!
-  \****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-/* The ultimate output bundle will not be minified, for the sake of easier debugging
- * But localforage, if imported ordinarily without minification, will be a HUGE part of the output bundle
- * despite its implementation being near-irrelevant to this script
- * So, the minified version of localforage is imported instead
- */
-// @ts-ignore
-const localforageUntyped = __webpack_require__(/*! ../node_modules/localforage/dist/localforage.min.js */ "./node_modules/localforage/dist/localforage.min.js");
-const localforage = localforageUntyped;
-// Only allow a get or set operation after the previous operation is complete:
-let lastProm = Promise.resolve();
-exports.getDB = async () => {
-    await lastProm;
-    lastProm = localforage.getItem('cpuserscriptCommentHistoryCheckerSavedComments');
-    return (await lastProm) || {};
-};
-exports.setDB = async (newData) => {
-    await lastProm;
-    lastProm = localforage.setItem('cpuserscriptCommentHistoryCheckerSavedComments', newData);
-    return lastProm;
-};
-// To debug the database, temporarily add this to the userscript metadata block (or insert it into the DOM as a script tag) so window.localforage can be used:
-// @require          https://cdn.jsdelivr.net/npm/localforage@1.7.3/dist/localforage.min.js#sha256=1ff66c1e32922549d0c824076703e69fb5535857934c8faa8023f51a4881f732
-
-
-/***/ }),
-
-/***/ "./build/commentHrefToIds.js":
-/*!***********************************!*\
-  !*** ./build/commentHrefToIds.js ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.commentHrefToIds = (commentHref) => {
-    // commentHref will be in a format like:
-    // https://stackoverflow.com/questions/1732348/regex-match-open-tags-except-xhtml-self-contained-tags#comment1612336_1732454
-    //                                     questionId                                                          commentId postId
-    const match = commentHref.match(/\/questions\/(\d+)\/[^\/]+(?:\/\d+)?[^#]*#comment(\d+)_(\d+)/);
-    // postId refers to the post the comment was made on - may be a question or answer
-    const [, questionId, commentId, postId] = match.map(Number);
-    return { questionId, commentId, postId, isAnswer: postId !== questionId };
-};
-
-
-/***/ }),
-
-/***/ "./build/index.js":
-/*!************************!*\
-  !*** ./build/index.js ***!
-  \************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const watchForCommentChanges_1 = __webpack_require__(/*! ./watchForCommentChanges */ "./build/watchForCommentChanges/index.js");
-const watchForCommentTab_1 = __webpack_require__(/*! ./watchForCommentTab */ "./build/watchForCommentTab/index.js");
-if (window.location.href.includes('?tab=activity')) {
-    watchForCommentTab_1.watchForCommentTab();
-}
-else {
-    watchForCommentChanges_1.watchForCommentChanges();
-}
-
-
-/***/ }),
-
-/***/ "./build/watchForCommentChanges/index.js":
+/***/ "../common/declareGlobalStackExchange.ts":
 /*!***********************************************!*\
-  !*** ./build/watchForCommentChanges/index.js ***!
+  !*** ../common/declareGlobalStackExchange.ts ***!
   \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -187,857 +106,28 @@ else {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const watchForNewComments_1 = __webpack_require__(/*! ./watchForNewComments */ "./build/watchForCommentChanges/watchForNewComments.js");
-const watchForSelfDeletedComments_1 = __webpack_require__(/*! ./watchForSelfDeletedComments */ "./build/watchForCommentChanges/watchForSelfDeletedComments.js");
-exports.watchForCommentChanges = () => {
-    watchForSelfDeletedComments_1.watchForSelfDeletedComments();
-    window.StackExchange.ready(() => {
-        setTimeout(watchForNewComments_1.watchForNewComments);
-    });
-};
 
 
 /***/ }),
 
-/***/ "./build/watchForCommentChanges/makeSaveAllVisibleComments.js":
-/*!********************************************************************!*\
-  !*** ./build/watchForCommentChanges/makeSaveAllVisibleComments.js ***!
-  \********************************************************************/
+/***/ "../common/showToast.ts":
+/*!******************************!*\
+  !*** ../common/showToast.ts ***!
+  \******************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const commentDB_1 = __webpack_require__(/*! ../commentDB */ "./build/commentDB.js");
-const saveComment_1 = __webpack_require__(/*! ./saveComment */ "./build/watchForCommentChanges/saveComment.js");
-exports.makeSaveAllVisibleComments = (userHref) => async () => {
-    const anchorsToSave = [...document.querySelectorAll('a.comment-user')]
-        .filter(({ href }) => href === userHref);
-    if (!anchorsToSave.length) {
-        return;
-    }
-    const savedComments = await commentDB_1.getDB();
-    const anyChangesMade = anchorsToSave.reduce((a, anchor) => saveComment_1.saveComment(anchor, savedComments) || a, false);
-    if (anyChangesMade) {
-        await commentDB_1.setDB(savedComments);
-    }
+__webpack_require__(/*! ./declareGlobalStackExchange */ "../common/declareGlobalStackExchange.ts");
+exports.showToastError = (message) => {
+    window.StackExchange.helpers.showToast(message, { transient: false, type: 'danger' });
 };
-
-
-/***/ }),
-
-/***/ "./build/watchForCommentChanges/saveComment.js":
-/*!*****************************************************!*\
-  !*** ./build/watchForCommentChanges/saveComment.js ***!
-  \*****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const commentHrefToIds_1 = __webpack_require__(/*! ../commentHrefToIds */ "./build/commentHrefToIds.js");
-/**
- * Saves the comment surrounding this anchor in the database
- * @returns True if the database was changed, otherwise false
- */
-exports.saveComment = (userCommentAnchor, savedComments) => {
-    const dateElm = userCommentAnchor.nextElementSibling.querySelector('.relativetime-clean');
-    const timestamp = new Date(dateElm.title).getTime();
-    const commentHTML = userCommentAnchor.closest('.comment-body').children[0].innerHTML;
-    const questionAnchor = document.querySelector('#question-header > h1 > a');
-    if (!questionAnchor) {
-        // Spam/rude question - it's likely already in the database, just don't try to update it
-        return false;
-    }
-    const questionTitle = questionAnchor.textContent;
-    // Cannot just use .href  of the comment-link below,
-    // because there may be a query string which comes between the /question-title and the #commentID_postID
-    const commentHrefAttrib = userCommentAnchor.parentElement.querySelector('a.comment-link').getAttribute('href');
-    const commentHref = window.location.origin + window.location.pathname + commentHrefAttrib;
-    const { commentId } = commentHrefToIds_1.commentHrefToIds(commentHref);
-    const newCommentObj = {
-        commentHTML,
-        commentHref,
-        questionTitle,
-        timestamp,
-    };
-    if (JSON.stringify(newCommentObj) !== JSON.stringify(savedComments[commentId])) {
-        savedComments[commentId] = newCommentObj;
-        // A change was made:
-        return true;
-    }
-    // No changes were made:
-    return false;
+exports.showToastInfo = (message) => {
+    const transientTimeout = window.StackExchange.helpers.suggestedTransientTimeout(message, true);
+    window.StackExchange.helpers.showToast(message, { transientTimeout, transient: true, type: 'info' });
 };
-
-
-/***/ }),
-
-/***/ "./build/watchForCommentChanges/saveDeletedComment.js":
-/*!************************************************************!*\
-  !*** ./build/watchForCommentChanges/saveDeletedComment.js ***!
-  \************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const commentDB_1 = __webpack_require__(/*! ../commentDB */ "./build/commentDB.js");
-exports.saveDeletedComment = async (commentId) => {
-    const savedComments = await commentDB_1.getDB();
-    const thisSavedComment = savedComments[commentId];
-    // This probably shouldn't ever happen
-    // if a comment is deleted, that comment *should* have been put into the DB, either on pageload, or when user clicks to show new or hidden comments
-    if (!thisSavedComment) {
-        return;
-    }
-    // I don't consider object spread to be sufficiently supported to use it
-    savedComments[commentId] = Object.assign({}, thisSavedComment, { selfDeleted: true });
-    await commentDB_1.setDB(savedComments);
-};
-
-
-/***/ }),
-
-/***/ "./build/watchForCommentChanges/watchForNewComments.js":
-/*!*************************************************************!*\
-  !*** ./build/watchForCommentChanges/watchForNewComments.js ***!
-  \*************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const makeSaveAllVisibleComments_1 = __webpack_require__(/*! ./makeSaveAllVisibleComments */ "./build/watchForCommentChanges/makeSaveAllVisibleComments.js");
-exports.watchForNewComments = async () => {
-    const myProfile = document.querySelector('a.my-profile');
-    if (!myProfile) {
-        // not logged in
-        return;
-    }
-    const userHref = myProfile.href;
-    const saveAllVisibleComments = makeSaveAllVisibleComments_1.makeSaveAllVisibleComments(userHref);
-    await saveAllVisibleComments();
-    // Each post (question or answer) has a UL as a comment container
-    // When changes are observed there with MutationObserver, save all of the user's comments on the page
-    // Attach a MutationObserver to all ULs on pageload, and also on every ajaxComplete (when new answers, and thus new ULs, may have appeared)
-    const ulsBeingObserved = new Set();
-    const attachObserverToUL = (ul) => {
-        if (ulsBeingObserved.has(ul)) {
-            return;
-        }
-        ulsBeingObserved.add(ul);
-        new MutationObserver(saveAllVisibleComments).observe(ul, { childList: true });
-    };
-    const attachObserverToAllULs = () => {
-        // tslint:disable-next-line: no-unnecessary-type-assertion
-        document.querySelectorAll('ul.comments-list').forEach(attachObserverToUL);
-    };
-    attachObserverToAllULs();
-    window.$(document).ajaxComplete(attachObserverToAllULs);
-};
-
-
-/***/ }),
-
-/***/ "./build/watchForCommentChanges/watchForSelfDeletedComments.js":
-/*!*********************************************************************!*\
-  !*** ./build/watchForCommentChanges/watchForSelfDeletedComments.js ***!
-  \*********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const saveDeletedComment_1 = __webpack_require__(/*! ./saveDeletedComment */ "./build/watchForCommentChanges/saveDeletedComment.js");
-exports.watchForSelfDeletedComments = () => {
-    const responseJSONHasSuccessProp = (responseJSON) => 'Success' in responseJSON;
-    window.$(document).ajaxComplete((_, jqXHR, ajaxOptions) => {
-        if (!ajaxOptions || !ajaxOptions.url) {
-            return;
-        }
-        // A self-deleted comment results in a request to /posts/comments/commentId/vote/10:
-        const commentIdMatch = ajaxOptions.url.match(/^\/posts\/comments\/(\d+)\/vote\/10$/);
-        if (!commentIdMatch) {
-            return;
-        }
-        const deletedCommentId = Number(commentIdMatch[1]);
-        const responseJSON = jqXHR.responseJSON;
-        if (typeof responseJSON !== 'object' || responseJSON === null) {
-            return;
-        }
-        if (responseJSONHasSuccessProp(responseJSON) && responseJSON.Success === true) {
-            // The comment was deleted successfully
-            // wait for all SE handlers to finish, and wait for the MutationObserver (watching the <UL>) in watchForNewComments to finish too
-            setTimeout(saveDeletedComment_1.saveDeletedComment, 0, deletedCommentId);
-        }
-    });
-};
-
-
-/***/ }),
-
-/***/ "./build/watchForCommentTab/fixCommentTab.js":
-/*!***************************************************!*\
-  !*** ./build/watchForCommentTab/fixCommentTab.js ***!
-  \***************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const commentDB_1 = __webpack_require__(/*! ../commentDB */ "./build/commentDB.js");
-const getApi_1 = __webpack_require__(/*! ./getApi */ "./build/watchForCommentTab/getApi.js");
-const insertMissingCommentTrs_1 = __webpack_require__(/*! ./insertMissingCommentTrs */ "./build/watchForCommentTab/insertMissingCommentTrs/index.js");
-const insertTh_1 = __webpack_require__(/*! ./insertTh */ "./build/watchForCommentTab/insertTh.js");
-const makeRowstatsContainers_1 = __webpack_require__(/*! ./makeRowstatsContainers */ "./build/watchForCommentTab/makeRowstatsContainers.js");
-const processApiResponse_1 = __webpack_require__(/*! ./processApiResponse */ "./build/watchForCommentTab/processApiResponse/index.js");
-const selectorToUserId = (selector) => {
-    const anchor = document.querySelector(selector);
-    if (!anchor) {
-        return null;
-    }
-    return anchor.href.match(/\d+/)[0];
-};
-exports.fixCommentTab = async () => {
-    const savedComments = await commentDB_1.getDB();
-    const thisProfileIsLoggedIn = selectorToUserId('a.my-profile') === selectorToUserId('.subheader a[href^="/users/"]');
-    // If not logged in, OR if you're viewing the comments of a different user's profile,
-    // then no rows will be dynamically inserted, and all rows will be ordinary visible comments, without color-coding
-    if (thisProfileIsLoggedIn) {
-        insertMissingCommentTrs_1.insertMissingCommentTrs(savedComments);
-    }
-    insertTh_1.insertTh(thisProfileIsLoggedIn);
-    const rowstatsContainersByIds = makeRowstatsContainers_1.makeRowstatsContainers();
-    const apiData = await Promise.all([
-        getApi_1.getApi('questions', [...rowstatsContainersByIds.byQuestion.keys()]),
-        getApi_1.getApi('comments', [...rowstatsContainersByIds.byComment.keys()]),
-    ]);
-    processApiResponse_1.processApiResponse(apiData, rowstatsContainersByIds, savedComments);
-};
-
-
-/***/ }),
-
-/***/ "./build/watchForCommentTab/getApi.js":
-/*!********************************************!*\
-  !*** ./build/watchForCommentTab/getApi.js ***!
-  \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const filters = {
-    comments: '!SWJ_S9Hse(rWelcqk1',
-    questions: '!5RCI6qPDF8)WPM-vVxWYF-1w0',
-};
-const thisSite = window.location.hostname
-    .replace(/\.\w+$/, '') // Remove the TLD (.com, .net, ...)
-    .replace(/\.stackexchange$/, ''); // The API does not need the ".stackexchange" suffix
-const defaultParamsArr = [
-    ['key', ')b5jvgz1hz0gdK)*4WvlPA(('],
-    ['site', thisSite],
-];
-exports.getApi = async (method, ids) => {
-    if (!ids.length) {
-        return { items: [] };
-    }
-    const searchParams = new URLSearchParams(defaultParamsArr);
-    searchParams.set('filter', filters[method]);
-    const paramsString = `?${searchParams.toString()}`;
-    const url = `https://api.stackexchange.com/2.2/${method}/${ids.join(';')}${paramsString}`;
-    const response = await fetch(url);
-    const responseObj = await response.json();
-    return responseObj;
-};
-
-
-/***/ }),
-
-/***/ "./build/watchForCommentTab/index.js":
-/*!*******************************************!*\
-  !*** ./build/watchForCommentTab/index.js ***!
-  \*******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const fixCommentTab_1 = __webpack_require__(/*! ./fixCommentTab */ "./build/watchForCommentTab/fixCommentTab.js");
-const styleTag_1 = __webpack_require__(/*! ./styleTag */ "./build/watchForCommentTab/styleTag.js");
-exports.watchForCommentTab = () => {
-    // When user goes to comments tab, append style tag and call fixCommentTab
-    // When user navigates to another tab under All Actions (they'll still be on the same page), remove the style tag if it's appended
-    const mainBarFull = document.querySelector('#mainbar-full');
-    const onMutation = () => {
-        const commentTabHighlighted = document.querySelector('#user-tab-activity .youarehere').href.endsWith('&sort=comments');
-        if (!commentTabHighlighted) {
-            styleTag_1.styleTag.remove();
-            return;
-        }
-        document.body.appendChild(styleTag_1.styleTag);
-        // tslint:disable-next-line: no-floating-promises
-        fixCommentTab_1.fixCommentTab();
-    };
-    new MutationObserver(onMutation)
-        .observe(mainBarFull, { childList: true });
-    window.StackExchange.ready(onMutation);
-};
-
-
-/***/ }),
-
-/***/ "./build/watchForCommentTab/insertMissingCommentTrs/escapeHTML.js":
-/*!************************************************************************!*\
-  !*** ./build/watchForCommentTab/insertMissingCommentTrs/escapeHTML.js ***!
-  \************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.escapeHTML = (unsafe) => unsafe
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
-
-
-/***/ }),
-
-/***/ "./build/watchForCommentTab/insertMissingCommentTrs/index.js":
-/*!*******************************************************************!*\
-  !*** ./build/watchForCommentTab/insertMissingCommentTrs/index.js ***!
-  \*******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const commentHrefToIds_1 = __webpack_require__(/*! ../../commentHrefToIds */ "./build/commentHrefToIds.js");
-const makeTr_1 = __webpack_require__(/*! ./makeTr */ "./build/watchForCommentTab/insertMissingCommentTrs/makeTr.js");
-// Make sure to only select trs with data-postids;
-// Old comments have year-indicator TRs show up in the table, eg <tr><th>2018</th></tr>, which we don't want to select
-const getTrs = () => [...document.querySelectorAll('.history-table > tbody tr[data-postid]')];
-const trToIds = (tr) => commentHrefToIds_1.commentHrefToIds(tr.querySelector('a[href^="/questions"]').href);
-/**
- * Finds and inserts comments that, given the date range, are in the database and should exist in the table, but don't
- */
-exports.insertMissingCommentTrs = (savedComments) => {
-    /* All this function does is change the DOM to insert missing comments as TRs - no data is saved or returned
-     * because the DOM can be treated as the source of truth:
-     * From the trs (inserted by the userscript or not), everything needed can be retrieved - the comment hrefs contain all IDs needed later
-     */
-    // The keys of savedComments are the numeric commentIds, and so will already be in ascending numeric order in basically every implementation: no need to .sort
-    // (until a commentId reaches the limit of array indicies, 2 ** 32 - 1, which is a long way off)
-    const savedCommentsArrLatestFirst = Object.values(savedComments).reverse();
-    const commentTrs = getTrs();
-    const [startTRIndexInSavedCommentsArr, endTRIndexInSavedCommentsArr] = [commentTrs[0], commentTrs[commentTrs.length - 1]]
-        .map((tr) => {
-        const commentIdToFind = trToIds(tr).commentId;
-        // In saved comments, find first commentId which is equal to (likely) or earlier than the commentId of this tr
-        // (that is, a theoretical TR created from the found commentId should be the same, or come right below this `tr` being iterated over
-        return savedCommentsArrLatestFirst.findIndex(({ commentHref }) => (commentHrefToIds_1.commentHrefToIds(commentHref).commentId <= commentIdToFind));
-    });
-    // This may not exist if the user has made less than a page-full of comments on this site:
-    const pageNumbersElm = document.querySelector('#user-tab-activity .page-numbers.current');
-    const thisPageNumber = pageNumbersElm ? Number(pageNumbersElm.textContent) : 1;
-    const sliceStartIndex = (startTRIndexInSavedCommentsArr === -1 || thisPageNumber === 1)
-        ? 0
-        : startTRIndexInSavedCommentsArr;
-    /* sliceEndIndex is usually endTRIndexInSavedCommentsArr + 7,
-     * to show up to 7 deleted comments in between the buttom of this page and the top of the next page
-     * The comments that would be visible if user navigates to the next page will be hidden later, once the SE API response is processed
-     */
-    const sliceEndIndex = endTRIndexInSavedCommentsArr === -1
-        ? savedCommentsArrLatestFirst.length - 1
-        : Math.min(endTRIndexInSavedCommentsArr + 7, savedCommentsArrLatestFirst.length - 1);
-    const allCommentsToBeShownOnThisPage = savedCommentsArrLatestFirst.slice(sliceStartIndex, sliceEndIndex);
-    const commentIdsAlreadyOnPage = new Set(commentTrs.map(tr => trToIds(tr).commentId));
-    const tBody = commentTrs[0].parentElement;
-    const lastOriginalTrCommentId = trToIds(commentTrs[commentTrs.length - 1]).commentId;
-    const insertTr = (savedComment) => {
-        const thisCommentId = commentHrefToIds_1.commentHrefToIds(savedComment.commentHref).commentId;
-        // If a tr for this commentId already exists, nothing to create:
-        if (commentIdsAlreadyOnPage.has(thisCommentId)) {
-            return;
-        }
-        const trThisNewRowShouldBeInsertedBefore = getTrs().find(tr => trToIds(tr).commentId < thisCommentId);
-        const isTrailing = thisCommentId < lastOriginalTrCommentId;
-        const trToInsert = makeTr_1.makeTr(savedComment, isTrailing);
-        // If trThisNewRowShouldBeInsertedBefore is null, the TR will be inserted at the end of the tbody, like appendChild, as desired:
-        tBody.insertBefore(trToInsert, trThisNewRowShouldBeInsertedBefore || null);
-    };
-    allCommentsToBeShownOnThisPage.forEach(insertTr);
-};
-
-
-/***/ }),
-
-/***/ "./build/watchForCommentTab/insertMissingCommentTrs/makeTr.js":
-/*!********************************************************************!*\
-  !*** ./build/watchForCommentTab/insertMissingCommentTrs/makeTr.js ***!
-  \********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const commentHrefToIds_1 = __webpack_require__(/*! ../../commentHrefToIds */ "./build/commentHrefToIds.js");
-const escapeHTML_1 = __webpack_require__(/*! ./escapeHTML */ "./build/watchForCommentTab/insertMissingCommentTrs/escapeHTML.js");
-const timestampToDateDivHTML_1 = __webpack_require__(/*! ./timestampToDateDivHTML */ "./build/watchForCommentTab/insertMissingCommentTrs/timestampToDateDivHTML.js");
-exports.makeTr = (savedComment, isTrailing) => {
-    const { questionTitle, // This may be out of date if the question was edited - user will have to visit the question page to get an updated title, by design
-    commentHTML, commentHref, timestamp, } = savedComment;
-    const tr = document.createElement('tr');
-    if (isTrailing) {
-        tr.setAttribute('data-cpuserscript-unverified-trailing-row', '');
-    }
-    // Some of the below changes are not *necessary*, but they make the inserted rows' HTML consistent with the default markup
-    tr.setAttribute('class', '');
-    const partialHref = commentHref.match(/\/questions.+/)[0];
-    // postId refers to the post the comment was made on - may be a question or answer:
-    const { postId } = commentHrefToIds_1.commentHrefToIds(commentHref);
-    tr.dataset.postid = String(postId);
-    const dateDivHTML = timestampToDateDivHTML_1.timestampToDateDivHTML(timestamp);
-    tr.innerHTML = `
-    <td>
-        ${dateDivHTML}
-    </td>
-    <td>comment</td>
-    <td>
-        <b><a href="${partialHref}" class="answer-hyperlink timeline-answers">${escapeHTML_1.escapeHTML(questionTitle)}</a></b>
-        <br>
-        <span class="comments">${commentHTML}</span>
-    </td>
-    `;
-    return tr;
-};
-
-
-/***/ }),
-
-/***/ "./build/watchForCommentTab/insertMissingCommentTrs/timestampToDateDivHTML.js":
-/*!************************************************************************************!*\
-  !*** ./build/watchForCommentTab/insertMissingCommentTrs/timestampToDateDivHTML.js ***!
-  \************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const timestampToTimeAgoStr_1 = __webpack_require__(/*! ./timestampToTimeAgoStr */ "./build/watchForCommentTab/insertMissingCommentTrs/timestampToTimeAgoStr.js");
-exports.timestampToDateDivHTML = (timestamp) => {
-    const dateTitleAttr = new Date(timestamp).toISOString()
-        .replace('T', ' ')
-        .replace('.000', '');
-    const timeAgoStr = timestampToTimeAgoStr_1.timestampToTimeAgoStr(timestamp);
-    if (/^\d/.test(timeAgoStr)) {
-        return `<div class="date" title="${dateTitleAttr}">${timeAgoStr}</div>`;
-    }
-    // This doesn't take into account years, but that's OK
-    const [month, day] = timeAgoStr.split(' ');
-    return `
-    <div class="date">
-      <div class="date_brick" title="${dateTitleAttr}">${month}<br>${day}</div>
-    </div>
-    `;
-};
-
-
-/***/ }),
-
-/***/ "./build/watchForCommentTab/insertMissingCommentTrs/timestampToTimeAgoStr.js":
-/*!***********************************************************************************!*\
-  !*** ./build/watchForCommentTab/insertMissingCommentTrs/timestampToTimeAgoStr.js ***!
-  \***********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-/**
- * If difference between timestamp and now is more than 2 days, return "mon #" (eg "Jan 1").
- * Otherwise, return one of: "#d", "#h", "#m", "#s", or "now".
- * This aims to imitate the date string displayed in the comment table by default.
- * @param timestamp A timestamp ultimately taken from SE's HTML - this can be relied on to be accurate
- */
-exports.timestampToTimeAgoStr = (timestamp) => {
-    /* The user's machine's time (returned by Date.now()) may not be accurate
-     * This is a problem, because the relative time ago given in each TR log (eg, "3m ago") must be accurate to be meaningful
-     * SE handles this general issue by sending a serverTimeOffsetSec number with every page response
-     * Use that information here to get an accurate secsDiff:
-     */
-    const secsDiff = window.StackExchange.options.serverTimeOffsetSec + ((Date.now() - timestamp) / 1000);
-    const dayDiff = Math.floor(secsDiff / 86400);
-    if (secsDiff < 2) {
-        return 'now';
-    }
-    if (secsDiff < 60) {
-        return `${Math.floor(secsDiff)}s`;
-    }
-    if (secsDiff < 3600) {
-        return `${Math.floor(secsDiff / 60)}m`;
-    }
-    if (dayDiff === 0) {
-        return `${Math.floor(secsDiff / 3600)}h`;
-    }
-    if (dayDiff <= 2) {
-        return `${dayDiff}d`;
-    }
-    // So dayDiff > 2
-    const date = new Date(timestamp);
-    return `${date.toLocaleString(undefined, { month: 'short' })} ${date.getUTCDate()}`;
-};
-
-
-/***/ }),
-
-/***/ "./build/watchForCommentTab/insertTh.js":
-/*!**********************************************!*\
-  !*** ./build/watchForCommentTab/insertTh.js ***!
-  \**********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.insertTh = (thisProfileIsLoggedIn) => {
-    const table = document.querySelector('.history-table');
-    const thead = table.insertBefore(document.createElement('thead'), table.children[0]);
-    // Limitation: Below only makes sense on English sites
-    thead.innerHTML = `
-    <tr>
-        <th></th>
-        <th>
-            <div data-cpuserscript-rowstats>
-                <div data-cpuserscript-qa-box data-cpuserscript-parent-post>Q</div>
-                <div data-cpuserscript-qa-box data-cpuserscript-parent-post>A</div>
-                <div data-cpuserscript-comment-score>Score</div>
-                <div data-cpuserscript-more-answers><span># of additional answers</span></div>
-            </div>
-        </th>
-        <th>
-            <div${!thisProfileIsLoggedIn ? ' style="visibility: hidden;"' : ''}>
-                <div data-cpuserscript-self-deleted>Comment deleted by you</div>
-                <div data-cpuserscript-post-removed>Parent post removed</div>
-                <div data-cpuserscript-duplicate-removed>Possible Duplicate comment removed</div>
-                <div data-cpuserscript-comment-removed>Comment deleted by mod/system</div>
-            </div>
-        </th>
-    </tr>
-    `;
-};
-
-
-/***/ }),
-
-/***/ "./build/watchForCommentTab/makeRowstatsContainers.js":
-/*!************************************************************!*\
-  !*** ./build/watchForCommentTab/makeRowstatsContainers.js ***!
-  \************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const commentHrefToIds_1 = __webpack_require__(/*! ../commentHrefToIds */ "./build/commentHrefToIds.js");
-exports.makeRowstatsContainers = () => {
-    // Map question / comment IDs to the second td in every tr, the tds which initially contain "Comment" on pageload
-    const rowstatsContainersByIds = {
-        byComment: new Map(),
-        byQuestion: new Map(),
-    };
-    // Then replace the content of those TDs with the rowstats HTML framework,
-    // which will be populated once the API response comes back
-    document.querySelectorAll('.history-table > tbody tr[data-postid]').forEach((tr) => {
-        const commentHref = tr.querySelector('a').href;
-        const { questionId, commentId, isAnswer } = commentHrefToIds_1.commentHrefToIds(commentHref);
-        const td = tr.children[1];
-        td.textContent = '';
-        const rowstatsContainer = td.appendChild(document.createElement('div'));
-        rowstatsContainer.setAttribute('data-cpuserscript-rowstats', '');
-        rowstatsContainer.innerHTML = `
-            <div data-cpuserscript-qa-box></div>
-            <div data-cpuserscript-qa-box></div>
-        `;
-        rowstatsContainer.children[isAnswer ? 1 : 0].setAttribute('data-cpuserscript-parent-post', '');
-        if (!rowstatsContainersByIds.byQuestion.has(questionId)) {
-            rowstatsContainersByIds.byQuestion.set(questionId, new Set());
-        }
-        rowstatsContainersByIds.byQuestion.get(questionId).add(rowstatsContainer);
-        rowstatsContainersByIds.byComment.set(commentId, rowstatsContainer);
-    });
-    return rowstatsContainersByIds;
-};
-
-
-/***/ }),
-
-/***/ "./build/watchForCommentTab/processApiResponse/getBestAnswer.js":
-/*!**********************************************************************!*\
-  !*** ./build/watchForCommentTab/processApiResponse/getBestAnswer.js ***!
-  \**********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getBestAnswer = (answers) => {
-    if (!answers.length) {
-        return null;
-    }
-    const acceptedAnswer = answers.find(({ is_accepted }) => is_accepted);
-    if (acceptedAnswer) {
-        return acceptedAnswer;
-    }
-    const highestScoreAnswer = answers.reduce((a, answer) => (answer.score > a.score ? answer : a));
-    return highestScoreAnswer;
-};
-
-
-/***/ }),
-
-/***/ "./build/watchForCommentTab/processApiResponse/highlightCommentsWithoutData.js":
-/*!*************************************************************************************!*\
-  !*** ./build/watchForCommentTab/processApiResponse/highlightCommentsWithoutData.js ***!
-  \*************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-/*
- * Iterate through all rowstatsContainers on the page.
- * If the comment associated with a container is not in apiCommentIds,
- * identify the cause and set the appropriate attribute for color-coding
- */
-exports.highlightCommentsWithoutData = (rowstatsContainersByIds, apiCommentIds, apiPostIds, savedComments) => {
-    [...rowstatsContainersByIds.byComment.entries()].forEach(([commentId, rowstatsContainer]) => {
-        if (apiCommentIds.has(commentId)) {
-            // Comment still exists in system - nothing to highlight
-            return;
-        }
-        // Either the post was deleted, or the comment was deleted:
-        const tr = rowstatsContainer.closest('tr');
-        const postId = Number(tr.dataset.postid);
-        const commentIsPossibleDuplicateOf = tr.querySelector('td:nth-child(3) > span').textContent.startsWith('Possible duplicate of ');
-        // Note that the the post deletion indicator takes priority over both comment self-deletion indicator and mod deletion indicator
-        if (!apiPostIds.has(postId)) {
-            // The parent post was deleted; the comment was not singled out
-            tr.setAttribute('data-cpuserscript-post-removed', '');
-        }
-        else if (savedComments[commentId] && savedComments[commentId].selfDeleted) {
-            // You deleted the comment:
-            tr.setAttribute('data-cpuserscript-self-deleted', '');
-        }
-        else if (commentIsPossibleDuplicateOf) {
-            // Comment starts with "Possible duplicate of" and no longer exists:
-            tr.setAttribute('data-cpuserscript-duplicate-removed', '');
-        }
-        else {
-            // The parent post still exists; the comment was deleted by a mod or the system:
-            tr.setAttribute('data-cpuserscript-comment-removed', '');
-        }
-    });
-};
-
-
-/***/ }),
-
-/***/ "./build/watchForCommentTab/processApiResponse/index.js":
-/*!**************************************************************!*\
-  !*** ./build/watchForCommentTab/processApiResponse/index.js ***!
-  \**************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const highlightCommentsWithoutData_1 = __webpack_require__(/*! ./highlightCommentsWithoutData */ "./build/watchForCommentTab/processApiResponse/highlightCommentsWithoutData.js");
-const populateRowstatsWithApiData_1 = __webpack_require__(/*! ./populateRowstatsWithApiData */ "./build/watchForCommentTab/processApiResponse/populateRowstatsWithApiData.js");
-const removeEmptyContainers_1 = __webpack_require__(/*! ./removeEmptyContainers */ "./build/watchForCommentTab/processApiResponse/removeEmptyContainers.js");
-const removeRedundantTrs_1 = __webpack_require__(/*! ./removeRedundantTrs */ "./build/watchForCommentTab/processApiResponse/removeRedundantTrs.js");
-exports.processApiResponse = ([questionData, commentData], rowstatsContainersByIds, savedComments) => {
-    populateRowstatsWithApiData_1.populateRowstatsWithApiData(questionData, commentData, rowstatsContainersByIds);
-    const apiQuestionIds = new Set(questionData.items.map(({ question_id }) => question_id));
-    const apiAnswerIds = new Set([].concat(...questionData.items.map(({ answers = [] }) => answers.map(({ answer_id }) => answer_id))));
-    const apiPostIds = new Set([...apiQuestionIds, ...apiAnswerIds]);
-    const apiCommentIds = new Set(commentData.items.map(({ comment_id }) => comment_id));
-    highlightCommentsWithoutData_1.highlightCommentsWithoutData(rowstatsContainersByIds, apiCommentIds, apiPostIds, savedComments);
-    removeEmptyContainers_1.removeEmptyContainers();
-    removeRedundantTrs_1.removeRedundantTrs(apiCommentIds);
-};
-
-
-/***/ }),
-
-/***/ "./build/watchForCommentTab/processApiResponse/populateRowstatsWithApiData.js":
-/*!************************************************************************************!*\
-  !*** ./build/watchForCommentTab/processApiResponse/populateRowstatsWithApiData.js ***!
-  \************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const getBestAnswer_1 = __webpack_require__(/*! ./getBestAnswer */ "./build/watchForCommentTab/processApiResponse/getBestAnswer.js");
-exports.populateRowstatsWithApiData = (questionData, commentData, rowstatsContainersByIds) => {
-    /* Insert question scores (for all rows),
-     * question acceptance attribute,
-     * answer score (for the answer the comment is on, or for the best answer on the question),
-     * answer acceptance attribute (for the same answer as above),
-     * answer count (if >= 2 answers),
-     * comment score (if score > 0)
-     */
-    questionData.items.forEach(({ answers = [], closed_reason, question_id, score }) => {
-        const answersByAnswerId = answers.reduce((a, answer) => {
-            a[answer.answer_id] = answer;
-            return a;
-        }, {});
-        const plusMore = answers && answers.length > 1 ? answers.length - 1 : 0;
-        rowstatsContainersByIds.byQuestion.get(question_id).forEach((rowstatsContainer) => {
-            const [questionBox, answerBox] = rowstatsContainer.children;
-            questionBox.textContent = String(score);
-            if (plusMore) {
-                rowstatsContainer.insertAdjacentHTML('beforeend', `<div data-cpuserscript-more-answers=""><span>+ ${plusMore} more</span></div>`);
-            }
-            const commentAnchor = rowstatsContainer.closest('td').nextElementSibling.querySelector('a');
-            if (closed_reason && !commentAnchor.textContent.endsWith(']')) {
-                commentAnchor.innerHTML += ` [${closed_reason}]`;
-            }
-            const bestAnswer = getBestAnswer_1.getBestAnswer(answers);
-            if (bestAnswer && bestAnswer.is_accepted) {
-                questionBox.setAttribute('data-cpuserscript-accepted', '');
-            }
-            const postId = Number(rowstatsContainer.closest('tr').dataset.postid);
-            const postIsQuestion = commentAnchor.href.endsWith(String(question_id));
-            const answerToDisplay = postIsQuestion ? bestAnswer : answersByAnswerId[postId];
-            if (!answerToDisplay) {
-                return;
-            }
-            if (answerToDisplay.is_accepted) {
-                answerBox.setAttribute('data-cpuserscript-accepted', '');
-            }
-            answerBox.textContent = String(answerToDisplay.score);
-        });
-    });
-    commentData.items.forEach(({ score, comment_id }) => {
-        if (score > 0) {
-            const rowstatsContainer = rowstatsContainersByIds.byComment.get(comment_id);
-            rowstatsContainer.insertAdjacentHTML('beforeend', `<div data-cpuserscript-comment-score>${score}</div>`);
-        }
-    });
-};
-
-
-/***/ }),
-
-/***/ "./build/watchForCommentTab/processApiResponse/removeEmptyContainers.js":
-/*!******************************************************************************!*\
-  !*** ./build/watchForCommentTab/processApiResponse/removeEmptyContainers.js ***!
-  \******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.removeEmptyContainers = () => {
-    const commentTrs = document.querySelectorAll('.history-table > tbody tr[data-postid]');
-    commentTrs.forEach((commentTr) => {
-        const rowstatsContainer = commentTr.querySelector('[data-cpuserscript-rowstats]');
-        const [questionBox, answerBox] = rowstatsContainer.children;
-        if (!questionBox.textContent) {
-            // If there's no question info, there's no info at all; the question was deleted, remove the whole container
-            rowstatsContainer.remove();
-        }
-        else if (!answerBox.textContent) {
-            answerBox.remove();
-        }
-    });
-};
-
-
-/***/ }),
-
-/***/ "./build/watchForCommentTab/processApiResponse/removeRedundantTrs.js":
-/*!***************************************************************************!*\
-  !*** ./build/watchForCommentTab/processApiResponse/removeRedundantTrs.js ***!
-  \***************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const commentHrefToIds_1 = __webpack_require__(/*! ../../commentHrefToIds */ "./build/commentHrefToIds.js");
-/**
- * Remove the TRs at the bottom of the comment table which will be visible if user navigates to the next page
- * so as to leave visible only the TRs for deleted comments which would have fallen through the cracks due to pagination
- */
-exports.removeRedundantTrs = (apiCommentIds) => {
-    /* Starting at the topmost invisible tr near the bottom (these TRs were all dynamically inserted),
-     * make the trs visible until you come across one whose comment_id exists
-     * do not show that tr, and don't show any trs after that one either
-     * because they'll all be visible at the top of the next page
-     */
-    const trailingRows = document.querySelectorAll('[data-cpuserscript-unverified-trailing-row]');
-    let haveFoundExistingPost = false;
-    trailingRows.forEach((tr) => {
-        const { commentId } = commentHrefToIds_1.commentHrefToIds(tr.querySelector('a').href);
-        if (apiCommentIds.has(commentId)) {
-            haveFoundExistingPost = true;
-        }
-        if (haveFoundExistingPost) {
-            tr.remove();
-        }
-        else {
-            // Make the row visible:
-            tr.removeAttribute('data-cpuserscript-unverified-trailing-row');
-        }
-    });
-};
-
-
-/***/ }),
-
-/***/ "./build/watchForCommentTab/styleTag.js":
-/*!**********************************************!*\
-  !*** ./build/watchForCommentTab/styleTag.js ***!
-  \**********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-// @ts-ignore
-// tslint:disable-next-line: no-implicit-dependencies
-const styleText_css_1 = __webpack_require__(/*! raw-loader!./styleText.css */ "./node_modules/raw-loader/dist/cjs.js!./build/watchForCommentTab/styleText.css");
-exports.styleTag = document.createElement('style');
-exports.styleTag.textContent = styleText_css_1.default;
 
 
 /***/ }),
@@ -1100,6 +190,958 @@ try {
 // easier to handle this case. if(!global) { ...}
 
 module.exports = g;
+
+
+/***/ }),
+
+/***/ "./src/commentDB.ts":
+/*!**************************!*\
+  !*** ./src/commentDB.ts ***!
+  \**************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+/* The ultimate output bundle will not be minified, for the sake of easier debugging
+ * But localforage, if imported ordinarily without minification, will be a HUGE part of the output bundle
+ * despite its implementation being near-irrelevant to this script
+ * So, the minified version of localforage is imported instead
+ */
+// @ts-ignore
+const localforageUntyped = __webpack_require__(/*! ../node_modules/localforage/dist/localforage.min.js */ "./node_modules/localforage/dist/localforage.min.js");
+const localforage = localforageUntyped;
+// Only allow a get or set operation after the previous operation is complete:
+let lastProm = Promise.resolve();
+exports.getDB = async () => {
+    await lastProm;
+    lastProm = localforage.getItem('cpuserscriptCommentHistoryCheckerSavedComments');
+    return (await lastProm) || {};
+};
+exports.setDB = async (newData) => {
+    await lastProm;
+    lastProm = localforage.setItem('cpuserscriptCommentHistoryCheckerSavedComments', newData);
+    return lastProm;
+};
+// To debug the database, temporarily add this to the userscript metadata block (or insert it into the DOM as a script tag) so window.localforage can be used:
+// @require          https://cdn.jsdelivr.net/npm/localforage@1.7.3/dist/localforage.min.js#sha256=1ff66c1e32922549d0c824076703e69fb5535857934c8faa8023f51a4881f732
+
+
+/***/ }),
+
+/***/ "./src/commentHrefToIds.ts":
+/*!*********************************!*\
+  !*** ./src/commentHrefToIds.ts ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.commentHrefToIds = (commentHref) => {
+    // commentHref will be in a format like:
+    // https://stackoverflow.com/questions/1732348/regex-match-open-tags-except-xhtml-self-contained-tags#comment1612336_1732454
+    //                                     questionId                                                          commentId postId
+    const match = commentHref.match(/\/questions\/(\d+)\/[^\/]+(?:\/\d+)?[^#]*#comment(\d+)_(\d+)/);
+    // postId refers to the post the comment was made on - may be a question or answer
+    const [, questionId, commentId, postId] = match.map(Number);
+    return { questionId, commentId, postId, isAnswer: postId !== questionId };
+};
+
+
+/***/ }),
+
+/***/ "./src/index.ts":
+/*!**********************!*\
+  !*** ./src/index.ts ***!
+  \**********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+__webpack_require__(/*! ../../common/declareGlobalStackExchange */ "../common/declareGlobalStackExchange.ts");
+const watchForCommentChanges_1 = __webpack_require__(/*! ./watchForCommentChanges */ "./src/watchForCommentChanges/index.ts");
+const watchForCommentTab_1 = __webpack_require__(/*! ./watchForCommentTab */ "./src/watchForCommentTab/index.ts");
+if (window.location.href.includes('?tab=activity')) {
+    watchForCommentTab_1.watchForCommentTab();
+}
+else {
+    watchForCommentChanges_1.watchForCommentChanges();
+}
+
+
+/***/ }),
+
+/***/ "./src/watchForCommentChanges/index.ts":
+/*!*********************************************!*\
+  !*** ./src/watchForCommentChanges/index.ts ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const watchForNewComments_1 = __webpack_require__(/*! ./watchForNewComments */ "./src/watchForCommentChanges/watchForNewComments.ts");
+const watchForSelfDeletedComments_1 = __webpack_require__(/*! ./watchForSelfDeletedComments */ "./src/watchForCommentChanges/watchForSelfDeletedComments.ts");
+exports.watchForCommentChanges = () => {
+    watchForSelfDeletedComments_1.watchForSelfDeletedComments();
+    window.StackExchange.ready(() => {
+        setTimeout(watchForNewComments_1.watchForNewComments);
+    });
+};
+
+
+/***/ }),
+
+/***/ "./src/watchForCommentChanges/makeSaveAllVisibleComments.ts":
+/*!******************************************************************!*\
+  !*** ./src/watchForCommentChanges/makeSaveAllVisibleComments.ts ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const commentDB_1 = __webpack_require__(/*! ../commentDB */ "./src/commentDB.ts");
+const saveComment_1 = __webpack_require__(/*! ./saveComment */ "./src/watchForCommentChanges/saveComment.ts");
+exports.makeSaveAllVisibleComments = (userHref) => async () => {
+    const anchorsToSave = [...document.querySelectorAll('a.comment-user')]
+        .filter(({ href }) => href === userHref);
+    if (!anchorsToSave.length) {
+        return;
+    }
+    const savedComments = await commentDB_1.getDB();
+    const anyChangesMade = anchorsToSave.reduce((a, anchor) => saveComment_1.saveComment(anchor, savedComments) || a, false);
+    if (anyChangesMade) {
+        await commentDB_1.setDB(savedComments);
+    }
+};
+
+
+/***/ }),
+
+/***/ "./src/watchForCommentChanges/saveComment.ts":
+/*!***************************************************!*\
+  !*** ./src/watchForCommentChanges/saveComment.ts ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const commentHrefToIds_1 = __webpack_require__(/*! ../commentHrefToIds */ "./src/commentHrefToIds.ts");
+/**
+ * Saves the comment surrounding this anchor in the database
+ * @returns True if the database was changed, otherwise false
+ */
+exports.saveComment = (userCommentAnchor, savedComments) => {
+    const dateElm = userCommentAnchor.nextElementSibling.querySelector('.relativetime-clean');
+    const timestamp = new Date(dateElm.title).getTime();
+    const commentHTML = userCommentAnchor.closest('.comment-body').children[0].innerHTML;
+    const questionAnchor = document.querySelector('#question-header > h1 > a');
+    if (!questionAnchor) {
+        // Spam/rude question - it's likely already in the database, just don't try to update it
+        return false;
+    }
+    const questionTitle = questionAnchor.textContent;
+    // Cannot just use .href  of the comment-link below,
+    // because there may be a query string which comes between the /question-title and the #commentID_postID
+    const commentHrefAttrib = userCommentAnchor.parentElement.querySelector('a.comment-link').getAttribute('href');
+    const commentHref = window.location.origin + window.location.pathname + commentHrefAttrib;
+    const { commentId } = commentHrefToIds_1.commentHrefToIds(commentHref);
+    const newCommentObj = {
+        commentHTML,
+        commentHref,
+        questionTitle,
+        timestamp,
+    };
+    if (JSON.stringify(newCommentObj) !== JSON.stringify(savedComments[commentId])) {
+        savedComments[commentId] = newCommentObj;
+        // A change was made:
+        return true;
+    }
+    // No changes were made:
+    return false;
+};
+
+
+/***/ }),
+
+/***/ "./src/watchForCommentChanges/saveDeletedComment.ts":
+/*!**********************************************************!*\
+  !*** ./src/watchForCommentChanges/saveDeletedComment.ts ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const commentDB_1 = __webpack_require__(/*! ../commentDB */ "./src/commentDB.ts");
+exports.saveDeletedComment = async (commentId) => {
+    const savedComments = await commentDB_1.getDB();
+    const thisSavedComment = savedComments[commentId];
+    // This probably shouldn't ever happen
+    // if a comment is deleted, that comment *should* have been put into the DB, either on pageload, or when user clicks to show new or hidden comments
+    if (!thisSavedComment) {
+        return;
+    }
+    // I don't consider object spread to be sufficiently supported to use it
+    savedComments[commentId] = Object.assign({}, thisSavedComment, { selfDeleted: true });
+    await commentDB_1.setDB(savedComments);
+};
+
+
+/***/ }),
+
+/***/ "./src/watchForCommentChanges/watchForNewComments.ts":
+/*!***********************************************************!*\
+  !*** ./src/watchForCommentChanges/watchForNewComments.ts ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const makeSaveAllVisibleComments_1 = __webpack_require__(/*! ./makeSaveAllVisibleComments */ "./src/watchForCommentChanges/makeSaveAllVisibleComments.ts");
+exports.watchForNewComments = async () => {
+    const myProfile = document.querySelector('a.my-profile');
+    if (!myProfile) {
+        // not logged in
+        return;
+    }
+    const userHref = myProfile.href;
+    const saveAllVisibleComments = makeSaveAllVisibleComments_1.makeSaveAllVisibleComments(userHref);
+    await saveAllVisibleComments();
+    // Each post (question or answer) has a UL as a comment container
+    // When changes are observed there with MutationObserver, save all of the user's comments on the page
+    // Attach a MutationObserver to all ULs on pageload, and also on every ajaxComplete (when new answers, and thus new ULs, may have appeared)
+    const ulsBeingObserved = new Set();
+    const attachObserverToUL = (ul) => {
+        if (ulsBeingObserved.has(ul)) {
+            return;
+        }
+        ulsBeingObserved.add(ul);
+        new MutationObserver(saveAllVisibleComments).observe(ul, { childList: true });
+    };
+    const attachObserverToAllULs = () => {
+        // tslint:disable-next-line: no-unnecessary-type-assertion
+        document.querySelectorAll('ul.comments-list').forEach(attachObserverToUL);
+    };
+    attachObserverToAllULs();
+    window.$(document).ajaxComplete(attachObserverToAllULs);
+};
+
+
+/***/ }),
+
+/***/ "./src/watchForCommentChanges/watchForSelfDeletedComments.ts":
+/*!*******************************************************************!*\
+  !*** ./src/watchForCommentChanges/watchForSelfDeletedComments.ts ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const saveDeletedComment_1 = __webpack_require__(/*! ./saveDeletedComment */ "./src/watchForCommentChanges/saveDeletedComment.ts");
+exports.watchForSelfDeletedComments = () => {
+    const responseJSONHasSuccessProp = (responseJSON) => 'Success' in responseJSON;
+    window.$(document).ajaxComplete((_, jqXHR, ajaxOptions) => {
+        if (!ajaxOptions || !ajaxOptions.url) {
+            return;
+        }
+        // A self-deleted comment results in a request to /posts/comments/commentId/vote/10:
+        const commentIdMatch = ajaxOptions.url.match(/^\/posts\/comments\/(\d+)\/vote\/10$/);
+        if (!commentIdMatch) {
+            return;
+        }
+        const deletedCommentId = Number(commentIdMatch[1]);
+        const responseJSON = jqXHR.responseJSON;
+        if (typeof responseJSON !== 'object' || responseJSON === null) {
+            return;
+        }
+        if (responseJSONHasSuccessProp(responseJSON) && responseJSON.Success === true) {
+            // The comment was deleted successfully
+            // wait for all SE handlers to finish, and wait for the MutationObserver (watching the <UL>) in watchForNewComments to finish too
+            setTimeout(saveDeletedComment_1.saveDeletedComment, 0, deletedCommentId);
+        }
+    });
+};
+
+
+/***/ }),
+
+/***/ "./src/watchForCommentTab/fixCommentTab.ts":
+/*!*************************************************!*\
+  !*** ./src/watchForCommentTab/fixCommentTab.ts ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const commentDB_1 = __webpack_require__(/*! ../commentDB */ "./src/commentDB.ts");
+const getApi_1 = __webpack_require__(/*! ./getApi */ "./src/watchForCommentTab/getApi.ts");
+const insertMissingCommentTrs_1 = __webpack_require__(/*! ./insertMissingCommentTrs */ "./src/watchForCommentTab/insertMissingCommentTrs/index.ts");
+const insertTh_1 = __webpack_require__(/*! ./insertTh */ "./src/watchForCommentTab/insertTh.ts");
+const makeRowstatsContainers_1 = __webpack_require__(/*! ./makeRowstatsContainers */ "./src/watchForCommentTab/makeRowstatsContainers.ts");
+const processApiResponse_1 = __webpack_require__(/*! ./processApiResponse */ "./src/watchForCommentTab/processApiResponse/index.ts");
+const selectorToUserId = (selector) => {
+    const anchor = document.querySelector(selector);
+    if (!anchor) {
+        return null;
+    }
+    return anchor.href.match(/\d+/)[0];
+};
+exports.fixCommentTab = async () => {
+    const savedComments = await commentDB_1.getDB();
+    const thisProfileIsLoggedIn = selectorToUserId('a.my-profile') === selectorToUserId('.subheader a[href^="/users/"]');
+    // If not logged in, OR if you're viewing the comments of a different user's profile,
+    // then no rows will be dynamically inserted, and all rows will be ordinary visible comments, without color-coding
+    if (thisProfileIsLoggedIn) {
+        insertMissingCommentTrs_1.insertMissingCommentTrs(savedComments);
+    }
+    insertTh_1.insertTh(thisProfileIsLoggedIn);
+    const rowstatsContainersByIds = makeRowstatsContainers_1.makeRowstatsContainers();
+    const apiData = await Promise.all([
+        getApi_1.getApi('questions', [...rowstatsContainersByIds.byQuestion.keys()]),
+        getApi_1.getApi('comments', [...rowstatsContainersByIds.byComment.keys()]),
+    ]);
+    processApiResponse_1.processApiResponse(apiData, rowstatsContainersByIds, savedComments);
+};
+
+
+/***/ }),
+
+/***/ "./src/watchForCommentTab/getApi.ts":
+/*!******************************************!*\
+  !*** ./src/watchForCommentTab/getApi.ts ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const filters = {
+    comments: '!SWJ_S9Hse(rWelcqk1',
+    questions: '!5RCI6qPDF8)WPM-vVxWYF-1w0',
+};
+const thisSite = window.location.hostname
+    .replace(/\.\w+$/, '') // Remove the TLD (.com, .net, ...)
+    .replace(/\.stackexchange$/, ''); // The API does not need the ".stackexchange" suffix
+const defaultParamsArr = [
+    ['key', ')b5jvgz1hz0gdK)*4WvlPA(('],
+    ['site', thisSite],
+];
+exports.getApi = async (method, ids) => {
+    if (!ids.length) {
+        return { items: [] };
+    }
+    const searchParams = new URLSearchParams(defaultParamsArr);
+    searchParams.set('filter', filters[method]);
+    const paramsString = `?${searchParams.toString()}`;
+    const url = `https://api.stackexchange.com/2.2/${method}/${ids.join(';')}${paramsString}`;
+    const response = await fetch(url);
+    const responseObj = await response.json();
+    return responseObj;
+};
+
+
+/***/ }),
+
+/***/ "./src/watchForCommentTab/index.ts":
+/*!*****************************************!*\
+  !*** ./src/watchForCommentTab/index.ts ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const showToast_1 = __webpack_require__(/*! ../../../common/showToast */ "../common/showToast.ts");
+const fixCommentTab_1 = __webpack_require__(/*! ./fixCommentTab */ "./src/watchForCommentTab/fixCommentTab.ts");
+const styleTag_1 = __webpack_require__(/*! ./styleTag */ "./src/watchForCommentTab/styleTag.ts");
+exports.watchForCommentTab = () => {
+    // When user goes to comments tab, append style tag and call fixCommentTab
+    // When user navigates to another tab under All Actions (they'll still be on the same page), remove the style tag if it's appended
+    const mainBarFull = document.querySelector('#mainbar-full');
+    const onMutation = () => {
+        const commentTabHighlighted = document.querySelector('#user-tab-activity .youarehere').href.endsWith('&sort=comments');
+        if (!commentTabHighlighted) {
+            styleTag_1.styleTag.remove();
+            return;
+        }
+        document.body.appendChild(styleTag_1.styleTag);
+        fixCommentTab_1.fixCommentTab()
+            .catch((error) => {
+            console.error(error);
+            showToast_1.showToastError('Stack Comment History Checker: An error occurred, see console for details');
+        });
+    };
+    new MutationObserver(onMutation)
+        .observe(mainBarFull, { childList: true });
+    window.StackExchange.ready(onMutation);
+};
+
+
+/***/ }),
+
+/***/ "./src/watchForCommentTab/insertMissingCommentTrs/escapeHTML.ts":
+/*!**********************************************************************!*\
+  !*** ./src/watchForCommentTab/insertMissingCommentTrs/escapeHTML.ts ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.escapeHTML = (unsafe) => unsafe
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+
+
+/***/ }),
+
+/***/ "./src/watchForCommentTab/insertMissingCommentTrs/index.ts":
+/*!*****************************************************************!*\
+  !*** ./src/watchForCommentTab/insertMissingCommentTrs/index.ts ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const commentHrefToIds_1 = __webpack_require__(/*! ../../commentHrefToIds */ "./src/commentHrefToIds.ts");
+const makeTr_1 = __webpack_require__(/*! ./makeTr */ "./src/watchForCommentTab/insertMissingCommentTrs/makeTr.ts");
+// Make sure to only select trs with data-postids;
+// Old comments have year-indicator TRs show up in the table, eg <tr><th>2018</th></tr>, which we don't want to select
+const getTrs = () => [...document.querySelectorAll('.history-table > tbody tr[data-postid]')];
+const trToIds = (tr) => commentHrefToIds_1.commentHrefToIds(tr.querySelector('a[href^="/questions"]').href);
+/**
+ * Finds and inserts comments that, given the date range, are in the database and should exist in the table, but don't
+ */
+exports.insertMissingCommentTrs = (savedComments) => {
+    /* All this function does is change the DOM to insert missing comments as TRs - no data is saved or returned
+     * because the DOM can be treated as the source of truth:
+     * From the trs (inserted by the userscript or not), everything needed can be retrieved - the comment hrefs contain all IDs needed later
+     */
+    // The keys of savedComments are the numeric commentIds, and so will already be in ascending numeric order in basically every implementation: no need to .sort
+    // (until a commentId reaches the limit of array indicies, 2 ** 32 - 1, which is a long way off)
+    const savedCommentsArrLatestFirst = Object.values(savedComments).reverse();
+    const commentTrs = getTrs();
+    const [startTRIndexInSavedCommentsArr, endTRIndexInSavedCommentsArr] = [commentTrs[0], commentTrs[commentTrs.length - 1]]
+        .map((tr) => {
+        const commentIdToFind = trToIds(tr).commentId;
+        // In saved comments, find first commentId which is equal to (likely) or earlier than the commentId of this tr
+        // (that is, a theoretical TR created from the found commentId should be the same, or come right below this `tr` being iterated over
+        return savedCommentsArrLatestFirst.findIndex(({ commentHref }) => (commentHrefToIds_1.commentHrefToIds(commentHref).commentId <= commentIdToFind));
+    });
+    // This may not exist if the user has made less than a page-full of comments on this site:
+    const pageNumbersElm = document.querySelector('#user-tab-activity .page-numbers.current');
+    const thisPageNumber = pageNumbersElm ? Number(pageNumbersElm.textContent) : 1;
+    const sliceStartIndex = (startTRIndexInSavedCommentsArr === -1 || thisPageNumber === 1)
+        ? 0
+        : startTRIndexInSavedCommentsArr;
+    /* sliceEndIndex is usually endTRIndexInSavedCommentsArr + 7,
+     * to show up to 7 deleted comments in between the buttom of this page and the top of the next page
+     * The comments that would be visible if user navigates to the next page will be hidden later, once the SE API response is processed
+     */
+    const sliceEndIndex = endTRIndexInSavedCommentsArr === -1
+        ? savedCommentsArrLatestFirst.length - 1
+        : Math.min(endTRIndexInSavedCommentsArr + 7, savedCommentsArrLatestFirst.length - 1);
+    const allCommentsToBeShownOnThisPage = savedCommentsArrLatestFirst.slice(sliceStartIndex, sliceEndIndex);
+    const commentIdsAlreadyOnPage = new Set(commentTrs.map(tr => trToIds(tr).commentId));
+    const tBody = commentTrs[0].parentElement;
+    const lastOriginalTrCommentId = trToIds(commentTrs[commentTrs.length - 1]).commentId;
+    const insertTr = (savedComment) => {
+        const thisCommentId = commentHrefToIds_1.commentHrefToIds(savedComment.commentHref).commentId;
+        // If a tr for this commentId already exists, nothing to create:
+        if (commentIdsAlreadyOnPage.has(thisCommentId)) {
+            return;
+        }
+        const trThisNewRowShouldBeInsertedBefore = getTrs().find(tr => trToIds(tr).commentId < thisCommentId);
+        const isTrailing = thisCommentId < lastOriginalTrCommentId;
+        const trToInsert = makeTr_1.makeTr(savedComment, isTrailing);
+        // If trThisNewRowShouldBeInsertedBefore is null, the TR will be inserted at the end of the tbody, like appendChild, as desired:
+        tBody.insertBefore(trToInsert, trThisNewRowShouldBeInsertedBefore || null);
+    };
+    allCommentsToBeShownOnThisPage.forEach(insertTr);
+};
+
+
+/***/ }),
+
+/***/ "./src/watchForCommentTab/insertMissingCommentTrs/makeTr.ts":
+/*!******************************************************************!*\
+  !*** ./src/watchForCommentTab/insertMissingCommentTrs/makeTr.ts ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const commentHrefToIds_1 = __webpack_require__(/*! ../../commentHrefToIds */ "./src/commentHrefToIds.ts");
+const escapeHTML_1 = __webpack_require__(/*! ./escapeHTML */ "./src/watchForCommentTab/insertMissingCommentTrs/escapeHTML.ts");
+const timestampToDateDivHTML_1 = __webpack_require__(/*! ./timestampToDateDivHTML */ "./src/watchForCommentTab/insertMissingCommentTrs/timestampToDateDivHTML.ts");
+exports.makeTr = (savedComment, isTrailing) => {
+    const { questionTitle, // This may be out of date if the question was edited - user will have to visit the question page to get an updated title, by design
+    commentHTML, commentHref, timestamp, } = savedComment;
+    const tr = document.createElement('tr');
+    if (isTrailing) {
+        tr.setAttribute('data-cpuserscript-unverified-trailing-row', '');
+    }
+    // Some of the below changes are not *necessary*, but they make the inserted rows' HTML consistent with the default markup
+    tr.setAttribute('class', '');
+    const partialHref = commentHref.match(/\/questions.+/)[0];
+    // postId refers to the post the comment was made on - may be a question or answer:
+    const { postId } = commentHrefToIds_1.commentHrefToIds(commentHref);
+    tr.dataset.postid = String(postId);
+    const dateDivHTML = timestampToDateDivHTML_1.timestampToDateDivHTML(timestamp);
+    tr.innerHTML = `
+    <td>
+        ${dateDivHTML}
+    </td>
+    <td>comment</td>
+    <td>
+        <b><a href="${partialHref}" class="answer-hyperlink timeline-answers">${escapeHTML_1.escapeHTML(questionTitle)}</a></b>
+        <br>
+        <span class="comments">${commentHTML}</span>
+    </td>
+    `;
+    return tr;
+};
+
+
+/***/ }),
+
+/***/ "./src/watchForCommentTab/insertMissingCommentTrs/timestampToDateDivHTML.ts":
+/*!**********************************************************************************!*\
+  !*** ./src/watchForCommentTab/insertMissingCommentTrs/timestampToDateDivHTML.ts ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const timestampToTimeAgoStr_1 = __webpack_require__(/*! ./timestampToTimeAgoStr */ "./src/watchForCommentTab/insertMissingCommentTrs/timestampToTimeAgoStr.ts");
+exports.timestampToDateDivHTML = (timestamp) => {
+    const dateTitleAttr = new Date(timestamp).toISOString()
+        .replace('T', ' ')
+        .replace('.000', '');
+    const timeAgoStr = timestampToTimeAgoStr_1.timestampToTimeAgoStr(timestamp);
+    if (/^\d/.test(timeAgoStr)) {
+        return `<div class="date" title="${dateTitleAttr}">${timeAgoStr}</div>`;
+    }
+    // This doesn't take into account years, but that's OK
+    const [month, day] = timeAgoStr.split(' ');
+    return `
+    <div class="date">
+      <div class="date_brick" title="${dateTitleAttr}">${month}<br>${day}</div>
+    </div>
+    `;
+};
+
+
+/***/ }),
+
+/***/ "./src/watchForCommentTab/insertMissingCommentTrs/timestampToTimeAgoStr.ts":
+/*!*********************************************************************************!*\
+  !*** ./src/watchForCommentTab/insertMissingCommentTrs/timestampToTimeAgoStr.ts ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * If difference between timestamp and now is more than 2 days, return "mon #" (eg "Jan 1").
+ * Otherwise, return one of: "#d", "#h", "#m", "#s", or "now".
+ * This aims to imitate the date string displayed in the comment table by default.
+ * @param timestamp A timestamp ultimately taken from SE's HTML - this can be relied on to be accurate
+ */
+exports.timestampToTimeAgoStr = (timestamp) => {
+    /* The user's machine's time (returned by Date.now()) may not be accurate
+     * This is a problem, because the relative time ago given in each TR log (eg, "3m ago") must be accurate to be meaningful
+     * SE handles this general issue by sending a serverTimeOffsetSec number with every page response
+     * Use that information here to get an accurate secsDiff:
+     */
+    const secsDiff = window.StackExchange.options.serverTimeOffsetSec + ((Date.now() - timestamp) / 1000);
+    const dayDiff = Math.floor(secsDiff / 86400);
+    if (secsDiff < 2) {
+        return 'now';
+    }
+    if (secsDiff < 60) {
+        return `${Math.floor(secsDiff)}s`;
+    }
+    if (secsDiff < 3600) {
+        return `${Math.floor(secsDiff / 60)}m`;
+    }
+    if (dayDiff === 0) {
+        return `${Math.floor(secsDiff / 3600)}h`;
+    }
+    if (dayDiff <= 2) {
+        return `${dayDiff}d`;
+    }
+    // So dayDiff > 2
+    const date = new Date(timestamp);
+    return `${date.toLocaleString(undefined, { month: 'short' })} ${date.getUTCDate()}`;
+};
+
+
+/***/ }),
+
+/***/ "./src/watchForCommentTab/insertTh.ts":
+/*!********************************************!*\
+  !*** ./src/watchForCommentTab/insertTh.ts ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.insertTh = (thisProfileIsLoggedIn) => {
+    const table = document.querySelector('.history-table');
+    const thead = table.insertBefore(document.createElement('thead'), table.children[0]);
+    // Limitation: Below only makes sense on English sites
+    thead.innerHTML = `
+    <tr>
+        <th></th>
+        <th>
+            <div data-cpuserscript-rowstats>
+                <div data-cpuserscript-qa-box data-cpuserscript-parent-post>Q</div>
+                <div data-cpuserscript-qa-box data-cpuserscript-parent-post>A</div>
+                <div data-cpuserscript-comment-score>Score</div>
+                <div data-cpuserscript-more-answers><span># of additional answers</span></div>
+            </div>
+        </th>
+        <th>
+            <div${!thisProfileIsLoggedIn ? ' style="visibility: hidden;"' : ''}>
+                <div data-cpuserscript-self-deleted>Comment deleted by you</div>
+                <div data-cpuserscript-post-removed>Parent post removed</div>
+                <div data-cpuserscript-duplicate-removed>Possible Duplicate comment removed</div>
+                <div data-cpuserscript-comment-removed>Comment deleted by mod/system</div>
+            </div>
+        </th>
+    </tr>
+    `;
+};
+
+
+/***/ }),
+
+/***/ "./src/watchForCommentTab/makeRowstatsContainers.ts":
+/*!**********************************************************!*\
+  !*** ./src/watchForCommentTab/makeRowstatsContainers.ts ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const commentHrefToIds_1 = __webpack_require__(/*! ../commentHrefToIds */ "./src/commentHrefToIds.ts");
+exports.makeRowstatsContainers = () => {
+    // Map question / comment IDs to the second td in every tr, the tds which initially contain "Comment" on pageload
+    const rowstatsContainersByIds = {
+        byComment: new Map(),
+        byQuestion: new Map(),
+    };
+    // Then replace the content of those TDs with the rowstats HTML framework,
+    // which will be populated once the API response comes back
+    document.querySelectorAll('.history-table > tbody tr[data-postid]').forEach((tr) => {
+        const commentHref = tr.querySelector('a').href;
+        const { questionId, commentId, isAnswer } = commentHrefToIds_1.commentHrefToIds(commentHref);
+        const td = tr.children[1];
+        td.textContent = '';
+        const rowstatsContainer = td.appendChild(document.createElement('div'));
+        rowstatsContainer.setAttribute('data-cpuserscript-rowstats', '');
+        rowstatsContainer.innerHTML = `
+            <div data-cpuserscript-qa-box></div>
+            <div data-cpuserscript-qa-box></div>
+        `;
+        rowstatsContainer.children[isAnswer ? 1 : 0].setAttribute('data-cpuserscript-parent-post', '');
+        if (!rowstatsContainersByIds.byQuestion.has(questionId)) {
+            rowstatsContainersByIds.byQuestion.set(questionId, new Set());
+        }
+        rowstatsContainersByIds.byQuestion.get(questionId).add(rowstatsContainer);
+        rowstatsContainersByIds.byComment.set(commentId, rowstatsContainer);
+    });
+    return rowstatsContainersByIds;
+};
+
+
+/***/ }),
+
+/***/ "./src/watchForCommentTab/processApiResponse/getBestAnswer.ts":
+/*!********************************************************************!*\
+  !*** ./src/watchForCommentTab/processApiResponse/getBestAnswer.ts ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getBestAnswer = (answers) => {
+    if (!answers.length) {
+        return null;
+    }
+    const acceptedAnswer = answers.find(({ is_accepted }) => is_accepted);
+    if (acceptedAnswer) {
+        return acceptedAnswer;
+    }
+    const highestScoreAnswer = answers.reduce((a, answer) => (answer.score > a.score ? answer : a));
+    return highestScoreAnswer;
+};
+
+
+/***/ }),
+
+/***/ "./src/watchForCommentTab/processApiResponse/highlightCommentsWithoutData.ts":
+/*!***********************************************************************************!*\
+  !*** ./src/watchForCommentTab/processApiResponse/highlightCommentsWithoutData.ts ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+/*
+ * Iterate through all rowstatsContainers on the page.
+ * If the comment associated with a container is not in apiCommentIds,
+ * identify the cause and set the appropriate attribute for color-coding
+ */
+exports.highlightCommentsWithoutData = (rowstatsContainersByIds, apiCommentIds, apiPostIds, savedComments) => {
+    [...rowstatsContainersByIds.byComment.entries()].forEach(([commentId, rowstatsContainer]) => {
+        if (apiCommentIds.has(commentId)) {
+            // Comment still exists in system - nothing to highlight
+            return;
+        }
+        // Either the post was deleted, or the comment was deleted:
+        const tr = rowstatsContainer.closest('tr');
+        const postId = Number(tr.dataset.postid);
+        const commentText = tr.querySelector('td:nth-child(3) > span').textContent;
+        const commentIsPossibleDuplicateOf = commentText.startsWith('Possible duplicate of ') || commentText.startsWith('Does this answer your question? ');
+        // Note that the the post deletion indicator takes priority over both comment self-deletion indicator and mod deletion indicator
+        if (!apiPostIds.has(postId)) {
+            // The parent post was deleted; the comment was not singled out
+            tr.setAttribute('data-cpuserscript-post-removed', '');
+        }
+        else if (savedComments[commentId] && savedComments[commentId].selfDeleted) {
+            // You deleted the comment:
+            tr.setAttribute('data-cpuserscript-self-deleted', '');
+        }
+        else if (commentIsPossibleDuplicateOf) {
+            // Comment starts with "Possible duplicate of" and no longer exists:
+            tr.setAttribute('data-cpuserscript-duplicate-removed', '');
+        }
+        else {
+            // The parent post still exists; the comment was deleted by a mod or the system:
+            tr.setAttribute('data-cpuserscript-comment-removed', '');
+        }
+    });
+};
+
+
+/***/ }),
+
+/***/ "./src/watchForCommentTab/processApiResponse/index.ts":
+/*!************************************************************!*\
+  !*** ./src/watchForCommentTab/processApiResponse/index.ts ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const highlightCommentsWithoutData_1 = __webpack_require__(/*! ./highlightCommentsWithoutData */ "./src/watchForCommentTab/processApiResponse/highlightCommentsWithoutData.ts");
+const populateRowstatsWithApiData_1 = __webpack_require__(/*! ./populateRowstatsWithApiData */ "./src/watchForCommentTab/processApiResponse/populateRowstatsWithApiData.ts");
+const removeEmptyContainers_1 = __webpack_require__(/*! ./removeEmptyContainers */ "./src/watchForCommentTab/processApiResponse/removeEmptyContainers.ts");
+const removeRedundantTrs_1 = __webpack_require__(/*! ./removeRedundantTrs */ "./src/watchForCommentTab/processApiResponse/removeRedundantTrs.ts");
+exports.processApiResponse = ([questionData, commentData], rowstatsContainersByIds, savedComments) => {
+    populateRowstatsWithApiData_1.populateRowstatsWithApiData(questionData, commentData, rowstatsContainersByIds);
+    const apiQuestionIds = new Set(questionData.items.map(({ question_id }) => question_id));
+    const apiAnswerIds = new Set([].concat(...questionData.items.map(({ answers = [] }) => answers.map(({ answer_id }) => answer_id))));
+    const apiPostIds = new Set([...apiQuestionIds, ...apiAnswerIds]);
+    const apiCommentIds = new Set(commentData.items.map(({ comment_id }) => comment_id));
+    highlightCommentsWithoutData_1.highlightCommentsWithoutData(rowstatsContainersByIds, apiCommentIds, apiPostIds, savedComments);
+    removeEmptyContainers_1.removeEmptyContainers();
+    removeRedundantTrs_1.removeRedundantTrs(apiCommentIds);
+};
+
+
+/***/ }),
+
+/***/ "./src/watchForCommentTab/processApiResponse/populateRowstatsWithApiData.ts":
+/*!**********************************************************************************!*\
+  !*** ./src/watchForCommentTab/processApiResponse/populateRowstatsWithApiData.ts ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const getBestAnswer_1 = __webpack_require__(/*! ./getBestAnswer */ "./src/watchForCommentTab/processApiResponse/getBestAnswer.ts");
+exports.populateRowstatsWithApiData = (questionData, commentData, rowstatsContainersByIds) => {
+    /* Insert question scores (for all rows),
+     * question acceptance attribute,
+     * answer score (for the answer the comment is on, or for the best answer on the question),
+     * answer acceptance attribute (for the same answer as above),
+     * answer count (if >= 2 answers),
+     * comment score (if score > 0)
+     */
+    questionData.items.forEach(({ answers = [], closed_reason, question_id, score }) => {
+        const answersByAnswerId = answers.reduce((a, answer) => {
+            a[answer.answer_id] = answer;
+            return a;
+        }, {});
+        const plusMore = answers && answers.length > 1 ? answers.length - 1 : 0;
+        rowstatsContainersByIds.byQuestion.get(question_id).forEach((rowstatsContainer) => {
+            const [questionBox, answerBox] = rowstatsContainer.children;
+            questionBox.textContent = String(score);
+            if (plusMore) {
+                rowstatsContainer.insertAdjacentHTML('beforeend', `<div data-cpuserscript-more-answers=""><span>+ ${plusMore} more</span></div>`);
+            }
+            const commentAnchor = rowstatsContainer.closest('td').nextElementSibling.querySelector('a');
+            if (closed_reason && !commentAnchor.textContent.endsWith(']')) {
+                commentAnchor.innerHTML += ` [${closed_reason}]`;
+            }
+            const bestAnswer = getBestAnswer_1.getBestAnswer(answers);
+            if (bestAnswer && bestAnswer.is_accepted) {
+                questionBox.setAttribute('data-cpuserscript-accepted', '');
+            }
+            const postId = Number(rowstatsContainer.closest('tr').dataset.postid);
+            const postIsQuestion = commentAnchor.href.endsWith(String(question_id));
+            const answerToDisplay = postIsQuestion ? bestAnswer : answersByAnswerId[postId];
+            if (!answerToDisplay) {
+                return;
+            }
+            if (answerToDisplay.is_accepted) {
+                answerBox.setAttribute('data-cpuserscript-accepted', '');
+            }
+            answerBox.textContent = String(answerToDisplay.score);
+        });
+    });
+    commentData.items.forEach(({ score, comment_id }) => {
+        if (score > 0) {
+            const rowstatsContainer = rowstatsContainersByIds.byComment.get(comment_id);
+            rowstatsContainer.insertAdjacentHTML('beforeend', `<div data-cpuserscript-comment-score>${score}</div>`);
+        }
+    });
+};
+
+
+/***/ }),
+
+/***/ "./src/watchForCommentTab/processApiResponse/removeEmptyContainers.ts":
+/*!****************************************************************************!*\
+  !*** ./src/watchForCommentTab/processApiResponse/removeEmptyContainers.ts ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.removeEmptyContainers = () => {
+    const commentTrs = document.querySelectorAll('.history-table > tbody tr[data-postid]');
+    commentTrs.forEach((commentTr) => {
+        const rowstatsContainer = commentTr.querySelector('[data-cpuserscript-rowstats]');
+        const [questionBox, answerBox] = rowstatsContainer.children;
+        if (!questionBox.textContent) {
+            // If there's no question info, there's no info at all; the question was deleted, remove the whole container
+            rowstatsContainer.remove();
+        }
+        else if (!answerBox.textContent) {
+            answerBox.remove();
+        }
+    });
+};
+
+
+/***/ }),
+
+/***/ "./src/watchForCommentTab/processApiResponse/removeRedundantTrs.ts":
+/*!*************************************************************************!*\
+  !*** ./src/watchForCommentTab/processApiResponse/removeRedundantTrs.ts ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const commentHrefToIds_1 = __webpack_require__(/*! ../../commentHrefToIds */ "./src/commentHrefToIds.ts");
+/**
+ * Remove the TRs at the bottom of the comment table which will be visible if user navigates to the next page
+ * so as to leave visible only the TRs for deleted comments which would have fallen through the cracks due to pagination
+ */
+exports.removeRedundantTrs = (apiCommentIds) => {
+    /* Starting at the topmost invisible tr near the bottom (these TRs were all dynamically inserted),
+     * make the trs visible until you come across one whose comment_id exists
+     * do not show that tr, and don't show any trs after that one either
+     * because they'll all be visible at the top of the next page
+     */
+    const trailingRows = document.querySelectorAll('[data-cpuserscript-unverified-trailing-row]');
+    let haveFoundExistingPost = false;
+    trailingRows.forEach((tr) => {
+        const { commentId } = commentHrefToIds_1.commentHrefToIds(tr.querySelector('a').href);
+        if (apiCommentIds.has(commentId)) {
+            haveFoundExistingPost = true;
+        }
+        if (haveFoundExistingPost) {
+            tr.remove();
+        }
+        else {
+            // Make the row visible:
+            tr.removeAttribute('data-cpuserscript-unverified-trailing-row');
+        }
+    });
+};
+
+
+/***/ }),
+
+/***/ "./src/watchForCommentTab/styleTag.ts":
+/*!********************************************!*\
+  !*** ./src/watchForCommentTab/styleTag.ts ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+// @ts-ignore
+// tslint:disable-next-line: no-implicit-dependencies
+const styleText_css_1 = __webpack_require__(/*! raw-loader!../../build/watchForCommentTab/styleText.css */ "./node_modules/raw-loader/dist/cjs.js!./build/watchForCommentTab/styleText.css");
+exports.styleTag = document.createElement('style');
+exports.styleTag.textContent = styleText_css_1.default;
 
 
 /***/ })
