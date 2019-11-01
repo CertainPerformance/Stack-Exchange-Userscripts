@@ -1,0 +1,1 @@
+An [experiment](https://meta.stackoverflow.com/questions/390178/) was conducted on Stack Overflow to hide the true vote counts of posts. This userscript turned it off and showed users the true vote counts on pageload and after voting.
