@@ -1,0 +1,20 @@
+{
+    "name": "userscript-name",
+    "scripts": {
+        "build": "tslint src/**/*.ts && webpack",
+        "watch": "webpack --watch -o StackUserscriptNameLiveDev.user.js",
+        "lint": "tslint src/**/*.ts",
+        "graph": "madge ./src/index.ts --ts-config=tsconfig.json -i ./madge-dependency-graph.png"
+    },
+    "author": "CertainPerformance",
+    "license": "MIT",
+    "private": true,
+    "devDependencies": {
+        "ts-loader": "^6.2.1",
+        "tslint": "^5.20.0",
+        "tslint-config-airbnb": "^5.11.2",
+        "typescript": "^3.6.3",
+        "webpack": "^4.41.0",
+        "webpack-cli": "^3.3.9"
+    }
+}
