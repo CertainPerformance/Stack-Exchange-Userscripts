@@ -1,0 +1,62 @@
+// Use data attributes to reduce chance of accidentally interfering with any CSS or JS on the page
+.history-table {
+    th {
+        padding: 5px;
+    }
+    td:nth-child(2), th:nth-child(2) {
+        width: 220px;
+    }
+    // Question title td: need to override the built-in width: 100% so that the rowstats can fit on one line
+    td:last-child {
+        width: initial !important;
+    }
+    [data-cpuserscript-rowstats] {
+        &th {
+            margin-bottom: 20px;
+        }
+        float: right;
+        width: 150px;
+        padding-left: 15px;
+        &,
+        & > * {
+            display: inline-block;
+        }
+
+        > :first-child,
+        > :nth-child(2) {
+            height: 23px;
+            width: 36px;
+            border-width: 1px;
+            border-color: #b9b9b9;
+            text-align: center;
+
+            &[data-cpuserscript-parent-post] {
+                border-style: solid;
+            }
+            &:not([data-cpuserscript-parent-post]) {
+                opacity: 0.5;
+                border-style: dotted;
+            }
+
+            &[data-cpuserscript-accepted] {
+                border-color: #5fba7d;
+                background: #5fba7d;
+                color: #fff;
+            }
+        }
+        > :nth-child(2) {
+            margin-left: 3px;
+        }
+
+        > :nth-child(3) {
+            margin-left: 3px;
+            font-size: smaller;
+            /* The following (in combination with the container widths given above) is used so that
+             * the "Q" "A" boxes in the <th> vertically line up with the same boxes in the <td>s,
+             * while ensuring the "# of additional answers" text can overflow the 2nd table cell without expanding it
+             * (which would result in a lot of useless empty space in the table)
+             */
+            position: absolute;
+        }
+    }
+}
