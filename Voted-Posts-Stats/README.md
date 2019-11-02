@@ -1,4 +1,4 @@
-# Voted Posts Stats (&#8202;[install](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/raw/master/Voted-Posts-Stats/StackVotedPostsStats.user.js)&#8202;)
+# Voted Posts Stats (&#8202;[install](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/raw/master/Voted-Posts-Stats/dist/StackVotedPostsStats.user.js)&#8202;)
 
 Creates an interface similar to [Comment History Checker](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/tree/master/Comment-History-Checker) for your [personal votes page](https://stackoverflow.com/users/9515207/certainperformance?tab=votes).
 
