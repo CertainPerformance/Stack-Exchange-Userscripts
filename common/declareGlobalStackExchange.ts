@@ -21,6 +21,9 @@ export type StackExchange = {
     };
     options: {
         serverTimeOffsetSec: number;
+        user: {
+            fkey: string;
+        };
     };
     topbar: {
         hideAll: () => void;
