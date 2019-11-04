@@ -6,4 +6,4 @@ This is intended for those with reasonably wide screens. The VTC reasons are put
 
 You'll still have to open the pop-up interface in order to VTC as duplicate or with a custom reason.
 
-([screenshot](https://raw.githubusercontent.com/CertainPerformance/Stack-Exchange-Userscripts/master/One-Click-VTC/userscript-screenshot.png))
+![screenshot](https://raw.githubusercontent.com/CertainPerformance/Stack-Exchange-Userscripts/master/One-Click-VTC/userscript-screenshot.png)

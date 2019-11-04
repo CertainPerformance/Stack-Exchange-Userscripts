@@ -4,6 +4,6 @@ The Stack Exchange UI now puts question stats (ask date, view count, and active 
 
 This userscript restores the question stats back to their prior position in the sidebar before the UI change, removing them from just below the title:
 
-([screenshot](https://raw.githubusercontent.com/CertainPerformance/Stack-Exchange-Userscripts/master/Sidebar-Question-Stats/userscript-screenshot.png))
+![screenshot](https://raw.githubusercontent.com/CertainPerformance/Stack-Exchange-Userscripts/master/Sidebar-Question-Stats/userscript-screenshot.png)
 
 For compatibility with [Roomba Forecaster](https://github.com/makyen/StackExchange-userscripts/tree/master/Roomba-Forecaster) and with any other older userscripts that depended on the old location of question stats in the sidebar, make sure this userscript runs [before they do](https://www.mturkcrowd.com/threads/how-to-change-execution-order-of-userscripts-and-customize-excluded-pages.152/), so that the `#qinfo` table it creates can be found by the other userscripts.
