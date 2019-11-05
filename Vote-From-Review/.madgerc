@@ -1,0 +1,7 @@
+{
+    "excludeRegExp": [
+      "^\\.\\./\\.\\./common/declareGlobalStackExchange\\.ts$",
+      "^handleNewTask/showToast\\.ts$",
+      "^handleNewTask/handleError\\.ts$"
+    ]
+}
