@@ -3,7 +3,7 @@
 // @description      When answering or editing, displays the question page, post textarea, and post preview in side-by-side columns
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.0
+// @version          1.1.0
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/questions/\d+/
 // @grant            none
 // ==/UserScript==
@@ -91,44 +91,73 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./build/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/index.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./build/addListeners.js":
-/*!*******************************!*\
-  !*** ./build/addListeners.js ***!
-  \*******************************/
+/***/ "../common/declareGlobalStackExchange.ts":
+/*!***********************************************!*\
+  !*** ../common/declareGlobalStackExchange.ts ***!
+  \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const attachListenersAndOpen3ColLayoutOnTextareaFocus_1 = __webpack_require__(/*! ./attachListenersAndOpen3ColLayoutOnTextareaFocus */ "./build/attachListenersAndOpen3ColLayoutOnTextareaFocus/index.js");
-const closeLayoutWhenClickOnCloseOrPendingEdit_1 = __webpack_require__(/*! ./closeLayoutWhenClickOnCloseOrPendingEdit */ "./build/closeLayoutWhenClickOnCloseOrPendingEdit.js");
-const closeTopbarWhenClickingPreview_1 = __webpack_require__(/*! ./closeTopbarWhenClickingPreview */ "./build/closeTopbarWhenClickingPreview.js");
+
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/dist/cjs.js!./build/styleText.css":
+/*!*******************************************************************!*\
+  !*** ./node_modules/raw-loader/dist/cjs.js!./build/styleText.css ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("html[data-three-columns-userscript] body {\n  overflow-y: hidden; }\n\nhtml[data-three-columns-userscript] #mainbar,\nhtml[data-three-columns-userscript] [data-three-columns-userscript-post-root],\nhtml[data-three-columns-userscript] [data-three-columns-userscript-post-root] .wmd-preview {\n  position: fixed;\n  top: 50px;\n  background-color: white;\n  z-index: 1001;\n  height: calc(100% - 50px);\n  padding: 15px;\n  overflow-y: auto; }\n\nhtml[data-three-columns-userscript] #mainbar {\n  left: 0;\n  width: 33%; }\n\nhtml[data-three-columns-userscript] [data-three-columns-userscript-post-root] .wmd-preview {\n  left: 67%;\n  width: 33%; }\n\nhtml[data-three-columns-userscript] [data-three-columns-userscript-post-root] {\n  left: 33%;\n  width: 34%;\n  display: flex;\n  flex-direction: column; }\n  html[data-three-columns-userscript] [data-three-columns-userscript-post-root].answer [id^=\"post-editor\"],\n  html[data-three-columns-userscript] [data-three-columns-userscript-post-root].question [id^=\"post-editor\"] {\n    height: 70vh; }\n  html[data-three-columns-userscript] [data-three-columns-userscript-post-root]#post-form > .space {\n    display: none; }\n  html[data-three-columns-userscript] [data-three-columns-userscript-post-root]#post-form > #post-editor {\n    flex-grow: 1; }\n  html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] {\n    display: flex;\n    flex-direction: column;\n    /*\r\n            This isn't needed, the community option will be hidden entirely\r\n            It takes up precious vertical space, and is rarely used\r\n            User can close the 3-col layout before posting if they want it\r\n\r\n            [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .community-option {\r\n                flex-grow: 0;\r\n                margin-left: auto;\r\n            }\r\n            */\n    margin-top: 0; }\n    html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative .wmd-button-bar,\n    html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container .wmd-button-bar {\n      margin-top: 0; }\n    html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative,\n    html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .js-stacks-validation,\n    html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container,\n    html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .js-stacks-validation {\n      display: flex;\n      flex-direction: column; }\n      html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative,\n      html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .ps-relative,\n      html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .js-stacks-validation,\n      html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .js-stacks-validation > .ps-relative,\n      html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container,\n      html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .ps-relative,\n      html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .js-stacks-validation,\n      html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .js-stacks-validation > .ps-relative {\n        flex-grow: 1; }\n        html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-input,\n        html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .ps-relative > .wmd-input,\n        html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .js-stacks-validation > .wmd-input,\n        html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .js-stacks-validation > .ps-relative > .wmd-input,\n        html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .wmd-input,\n        html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .ps-relative > .wmd-input,\n        html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .js-stacks-validation > .wmd-input,\n        html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .js-stacks-validation > .ps-relative > .wmd-input {\n          height: 100% !important; }\n  html[data-three-columns-userscript] [data-three-columns-userscript-post-root].deleted-answer[data-three-columns-userscript-post-root] pre,\n  html[data-three-columns-userscript] [data-three-columns-userscript-post-root].deleted-answer[data-three-columns-userscript-post-root] pre > code {\n    background-color: #eff0f1; }\n  html[data-three-columns-userscript] [data-three-columns-userscript-post-root] .grippie {\n    display: none; }\n  html[data-three-columns-userscript] [data-three-columns-userscript-post-root] textarea.wmd-input {\n    resize: none; }\n\nhtml[data-three-columns-userscript] .hide-preview,\nhtml[data-three-columns-userscript] .bottom-share-links,\nhtml[data-three-columns-userscript] .bottom-notice,\nhtml[data-three-columns-userscript] .community-option {\n  display: none; }\n");
+
+/***/ }),
+
+/***/ "./src/addListeners.ts":
+/*!*****************************!*\
+  !*** ./src/addListeners.ts ***!
+  \*****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const attachListenersAndOpen3ColLayoutOnTextareaFocus_1 = __webpack_require__(/*! ./attachListenersAndOpen3ColLayoutOnTextareaFocus */ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/index.ts");
+const closeLayoutWhenClickOnCloseOrPendingEdit_1 = __webpack_require__(/*! ./closeLayoutWhenClickOnCloseOrPendingEdit */ "./src/closeLayoutWhenClickOnCloseOrPendingEdit.ts");
+const closeTopbarWhenClickingPreview_1 = __webpack_require__(/*! ./closeTopbarWhenClickingPreview */ "./src/closeTopbarWhenClickingPreview.ts");
+const enterInterfaceWhenCopyToAnswer_1 = __webpack_require__(/*! ./enterInterfaceWhenCopyToAnswer */ "./src/enterInterfaceWhenCopyToAnswer.ts");
 exports.addListeners = () => {
     attachListenersAndOpen3ColLayoutOnTextareaFocus_1.attachListenersAndOpen3ColLayoutOnTextareaFocus();
     closeLayoutWhenClickOnCloseOrPendingEdit_1.closeLayoutWhenClickOnCloseOrPendingEdit();
     closeTopbarWhenClickingPreview_1.closeTopbarWhenClickingPreview();
+    enterInterfaceWhenCopyToAnswer_1.enterInterfaceWhenCopyToAnswer();
 };
 
 
 /***/ }),
 
-/***/ "./build/attachListenersAndOpen3ColLayoutOnTextareaFocus/closeLayoutIfEditCancelSucceeds.js":
-/*!**************************************************************************************************!*\
-  !*** ./build/attachListenersAndOpen3ColLayoutOnTextareaFocus/closeLayoutIfEditCancelSucceeds.js ***!
-  \**************************************************************************************************/
+/***/ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/closeLayoutIfEditCancelSucceeds.ts":
+/*!************************************************************************************************!*\
+  !*** ./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/closeLayoutIfEditCancelSucceeds.ts ***!
+  \************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const closeLayout_1 = __webpack_require__(/*! ../closeLayout */ "./build/closeLayout.js");
+const closeLayout_1 = __webpack_require__(/*! ../closeLayout */ "./src/closeLayout.ts");
 /**
  * Close layout if user confirms (via SE's window.confirm) that they want to discard the edit
  */
@@ -152,19 +181,19 @@ exports.closeLayoutIfEditCancelSucceeds = (child) => {
 
 /***/ }),
 
-/***/ "./build/attachListenersAndOpen3ColLayoutOnTextareaFocus/closeLayoutOnPostEditorClose.js":
-/*!***********************************************************************************************!*\
-  !*** ./build/attachListenersAndOpen3ColLayoutOnTextareaFocus/closeLayoutOnPostEditorClose.js ***!
-  \***********************************************************************************************/
+/***/ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/closeLayoutOnPostEditorClose.ts":
+/*!*********************************************************************************************!*\
+  !*** ./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/closeLayoutOnPostEditorClose.ts ***!
+  \*********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const closeLayout_1 = __webpack_require__(/*! ../closeLayout */ "./build/closeLayout.js");
-const closeLayoutIfEditCancelSucceeds_1 = __webpack_require__(/*! ./closeLayoutIfEditCancelSucceeds */ "./build/attachListenersAndOpen3ColLayoutOnTextareaFocus/closeLayoutIfEditCancelSucceeds.js");
-const postRootState = __webpack_require__(/*! ./postRootState */ "./build/attachListenersAndOpen3ColLayoutOnTextareaFocus/postRootState.js");
+const closeLayout_1 = __webpack_require__(/*! ../closeLayout */ "./src/closeLayout.ts");
+const closeLayoutIfEditCancelSucceeds_1 = __webpack_require__(/*! ./closeLayoutIfEditCancelSucceeds */ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/closeLayoutIfEditCancelSucceeds.ts");
+const postRootState = __webpack_require__(/*! ./postRootState */ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/postRootState.ts");
 /**
  * If 3-columns layout is open for a post edit when the edit gets submitted, or when the user cancels the edit via Escape or cancel button,
  * close the layout
@@ -201,17 +230,17 @@ exports.closeLayoutOnPostEditorClose = (thisPostRoot) => {
 
 /***/ }),
 
-/***/ "./build/attachListenersAndOpen3ColLayoutOnTextareaFocus/closeLayoutWhenPostRefreshed.js":
-/*!***********************************************************************************************!*\
-  !*** ./build/attachListenersAndOpen3ColLayoutOnTextareaFocus/closeLayoutWhenPostRefreshed.js ***!
-  \***********************************************************************************************/
+/***/ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/closeLayoutWhenPostRefreshed.ts":
+/*!*********************************************************************************************!*\
+  !*** ./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/closeLayoutWhenPostRefreshed.ts ***!
+  \*********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const closeLayout_1 = __webpack_require__(/*! ../closeLayout */ "./build/closeLayout.js");
+const closeLayout_1 = __webpack_require__(/*! ../closeLayout */ "./src/closeLayout.ts");
 /**
  * If the user clicks on "An edit has been made to this post" while editing that post in 3-column layout, close the layout
  */
@@ -229,18 +258,18 @@ exports.closeLayoutWhenPostRefreshed = (newPostRoot) => {
 
 /***/ }),
 
-/***/ "./build/attachListenersAndOpen3ColLayoutOnTextareaFocus/createToggleButton.js":
-/*!*************************************************************************************!*\
-  !*** ./build/attachListenersAndOpen3ColLayoutOnTextareaFocus/createToggleButton.js ***!
-  \*************************************************************************************/
+/***/ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/createToggleButton.ts":
+/*!***********************************************************************************!*\
+  !*** ./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/createToggleButton.ts ***!
+  \***********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const closeLayout_1 = __webpack_require__(/*! ../closeLayout */ "./build/closeLayout.js");
-const postRootState = __webpack_require__(/*! ./postRootState */ "./build/attachListenersAndOpen3ColLayoutOnTextareaFocus/postRootState.js");
+const closeLayout_1 = __webpack_require__(/*! ../closeLayout */ "./src/closeLayout.ts");
+const postRootState = __webpack_require__(/*! ./postRootState */ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/postRootState.ts");
 exports.createToggleButton = (postRootOfButton, openLayout) => {
     // Get a reference to the container that either has "Save Edits" or "Post Your Answer" button:
     const postButtomContainerSelector = postRootOfButton.matches('#post-form') ? '.form-submit' : '.post-editor ~ .grid.ai-center';
@@ -278,20 +307,20 @@ exports.createToggleButton = (postRootOfButton, openLayout) => {
 
 /***/ }),
 
-/***/ "./build/attachListenersAndOpen3ColLayoutOnTextareaFocus/index.js":
-/*!************************************************************************!*\
-  !*** ./build/attachListenersAndOpen3ColLayoutOnTextareaFocus/index.js ***!
-  \************************************************************************/
+/***/ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/index.ts":
+/*!**********************************************************************!*\
+  !*** ./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/index.ts ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const closeLayoutOnPostEditorClose_1 = __webpack_require__(/*! ./closeLayoutOnPostEditorClose */ "./build/attachListenersAndOpen3ColLayoutOnTextareaFocus/closeLayoutOnPostEditorClose.js");
-const closeLayoutWhenPostRefreshed_1 = __webpack_require__(/*! ./closeLayoutWhenPostRefreshed */ "./build/attachListenersAndOpen3ColLayoutOnTextareaFocus/closeLayoutWhenPostRefreshed.js");
-const openLayout_1 = __webpack_require__(/*! ./openLayout */ "./build/attachListenersAndOpen3ColLayoutOnTextareaFocus/openLayout.js");
-const postRootState = __webpack_require__(/*! ./postRootState */ "./build/attachListenersAndOpen3ColLayoutOnTextareaFocus/postRootState.js");
+const closeLayoutOnPostEditorClose_1 = __webpack_require__(/*! ./closeLayoutOnPostEditorClose */ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/closeLayoutOnPostEditorClose.ts");
+const closeLayoutWhenPostRefreshed_1 = __webpack_require__(/*! ./closeLayoutWhenPostRefreshed */ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/closeLayoutWhenPostRefreshed.ts");
+const openLayout_1 = __webpack_require__(/*! ./openLayout */ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/openLayout.ts");
+const postRootState = __webpack_require__(/*! ./postRootState */ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/postRootState.ts");
 exports.attachListenersAndOpen3ColLayoutOnTextareaFocus = () => {
     const focusinHandler = (e) => {
         const target = e.target;
@@ -327,18 +356,18 @@ exports.attachListenersAndOpen3ColLayoutOnTextareaFocus = () => {
 
 /***/ }),
 
-/***/ "./build/attachListenersAndOpen3ColLayoutOnTextareaFocus/openLayout.js":
-/*!*****************************************************************************!*\
-  !*** ./build/attachListenersAndOpen3ColLayoutOnTextareaFocus/openLayout.js ***!
-  \*****************************************************************************/
+/***/ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/openLayout.ts":
+/*!***************************************************************************!*\
+  !*** ./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/openLayout.ts ***!
+  \***************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const createToggleButton_1 = __webpack_require__(/*! ./createToggleButton */ "./build/attachListenersAndOpen3ColLayoutOnTextareaFocus/createToggleButton.js");
-const postRootState = __webpack_require__(/*! ./postRootState */ "./build/attachListenersAndOpen3ColLayoutOnTextareaFocus/postRootState.js");
+const createToggleButton_1 = __webpack_require__(/*! ./createToggleButton */ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/createToggleButton.ts");
+const postRootState = __webpack_require__(/*! ./postRootState */ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/postRootState.ts");
 exports.openLayout = (newPostRoot) => {
     const textarea = newPostRoot.querySelector('textarea.wmd-input');
     // Remove rows attribute so that the height: 100% in the CSS can take effect:
@@ -360,10 +389,10 @@ exports.openLayout = (newPostRoot) => {
 
 /***/ }),
 
-/***/ "./build/attachListenersAndOpen3ColLayoutOnTextareaFocus/postRootState.js":
-/*!********************************************************************************!*\
-  !*** ./build/attachListenersAndOpen3ColLayoutOnTextareaFocus/postRootState.js ***!
-  \********************************************************************************/
+/***/ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/postRootState.ts":
+/*!******************************************************************************!*\
+  !*** ./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/postRootState.ts ***!
+  \******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -384,17 +413,17 @@ exports.set = (newPostRoot) => {
 
 /***/ }),
 
-/***/ "./build/closeLayout.js":
-/*!******************************!*\
-  !*** ./build/closeLayout.js ***!
-  \******************************/
+/***/ "./src/closeLayout.ts":
+/*!****************************!*\
+  !*** ./src/closeLayout.ts ***!
+  \****************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const postRootState = __webpack_require__(/*! ./attachListenersAndOpen3ColLayoutOnTextareaFocus/postRootState */ "./build/attachListenersAndOpen3ColLayoutOnTextareaFocus/postRootState.js");
+const postRootState = __webpack_require__(/*! ./attachListenersAndOpen3ColLayoutOnTextareaFocus/postRootState */ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/postRootState.ts");
 exports.closeLayout = (scrollImmediately = false) => {
     const oldPostRoot = postRootState.get();
     if (!oldPostRoot) {
@@ -413,17 +442,17 @@ exports.closeLayout = (scrollImmediately = false) => {
 
 /***/ }),
 
-/***/ "./build/closeLayoutWhenClickOnCloseOrPendingEdit.js":
-/*!***********************************************************!*\
-  !*** ./build/closeLayoutWhenClickOnCloseOrPendingEdit.js ***!
-  \***********************************************************/
+/***/ "./src/closeLayoutWhenClickOnCloseOrPendingEdit.ts":
+/*!*********************************************************!*\
+  !*** ./src/closeLayoutWhenClickOnCloseOrPendingEdit.ts ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const closeLayout_1 = __webpack_require__(/*! ./closeLayout */ "./build/closeLayout.js");
+const closeLayout_1 = __webpack_require__(/*! ./closeLayout */ "./src/closeLayout.ts");
 /**
  * If the user clicks on "close" or "edit (1)" (pending edit which needs to be approved) on ANY post while in 3-column layout,
  * prevent the click, close the layout, and then click() what they clicked manually
@@ -457,10 +486,10 @@ exports.closeLayoutWhenClickOnCloseOrPendingEdit = () => {
 
 /***/ }),
 
-/***/ "./build/closeTopbarWhenClickingPreview.js":
-/*!*************************************************!*\
-  !*** ./build/closeTopbarWhenClickingPreview.js ***!
-  \*************************************************/
+/***/ "./src/closeTopbarWhenClickingPreview.ts":
+/*!***********************************************!*\
+  !*** ./src/closeTopbarWhenClickingPreview.ts ***!
+  \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -484,28 +513,57 @@ exports.closeTopbarWhenClickingPreview = () => {
 
 /***/ }),
 
-/***/ "./build/index.js":
-/*!************************!*\
-  !*** ./build/index.js ***!
-  \************************/
+/***/ "./src/enterInterfaceWhenCopyToAnswer.ts":
+/*!***********************************************!*\
+  !*** ./src/enterInterfaceWhenCopyToAnswer.ts ***!
+  \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const addListeners_1 = __webpack_require__(/*! ./addListeners */ "./build/addListeners.js");
-const insertStyle_1 = __webpack_require__(/*! ./insertStyle */ "./build/insertStyle.js");
+exports.enterInterfaceWhenCopyToAnswer = () => {
+    /* This will only actually enter the interface if it's currently closed (and this textarea hasn't been focused before).
+     * The interface won't open in the rare case that this is an extremely popular question
+     * that asks for confirmation that you want to add yet another answer,
+     * but that's so rare it's not worth worrying about (and user can always focus the textarea manually)
+     */
+    window.addEventListener('click', (e) => {
+        if (!(e.target.matches('.copySnippet'))) {
+            return;
+        }
+        const markdownTextarea = $('#post-editor textarea.wmd-input');
+        markdownTextarea.focus();
+    });
+};
+
+
+/***/ }),
+
+/***/ "./src/index.ts":
+/*!**********************!*\
+  !*** ./src/index.ts ***!
+  \**********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+__webpack_require__(/*! ../../common/declareGlobalStackExchange */ "../common/declareGlobalStackExchange.ts");
+const addListeners_1 = __webpack_require__(/*! ./addListeners */ "./src/addListeners.ts");
+const insertStyle_1 = __webpack_require__(/*! ./insertStyle */ "./src/insertStyle.ts");
 insertStyle_1.insertStyle();
 addListeners_1.addListeners();
 
 
 /***/ }),
 
-/***/ "./build/insertStyle.js":
-/*!******************************!*\
-  !*** ./build/insertStyle.js ***!
-  \******************************/
+/***/ "./src/insertStyle.ts":
+/*!****************************!*\
+  !*** ./src/insertStyle.ts ***!
+  \****************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -514,7 +572,7 @@ addListeners_1.addListeners();
 Object.defineProperty(exports, "__esModule", { value: true });
 // @ts-ignore
 // tslint:disable-next-line: no-implicit-dependencies
-const styleText_css_1 = __webpack_require__(/*! raw-loader!./styleText.css */ "./node_modules/raw-loader/dist/cjs.js!./build/styleText.css");
+const styleText_css_1 = __webpack_require__(/*! raw-loader!../build/styleText.css */ "./node_modules/raw-loader/dist/cjs.js!./build/styleText.css");
 /* Most of the display changes are done through CSS alone. The only DOM modifications made by the userscript are:
  * Injected stylesheet
  * data- attributes on a few elements
@@ -525,19 +583,6 @@ exports.insertStyle = () => {
     styleTag.textContent = styleText_css_1.default;
 };
 
-
-/***/ }),
-
-/***/ "./node_modules/raw-loader/dist/cjs.js!./build/styleText.css":
-/*!*******************************************************************!*\
-  !*** ./node_modules/raw-loader/dist/cjs.js!./build/styleText.css ***!
-  \*******************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("html[data-three-columns-userscript] body {\n  overflow-y: hidden; }\n\nhtml[data-three-columns-userscript] #mainbar,\nhtml[data-three-columns-userscript] [data-three-columns-userscript-post-root],\nhtml[data-three-columns-userscript] [data-three-columns-userscript-post-root] .wmd-preview {\n  position: fixed;\n  top: 50px;\n  background-color: white;\n  z-index: 1001;\n  height: calc(100% - 50px);\n  padding: 15px;\n  overflow-y: auto; }\n\nhtml[data-three-columns-userscript] #mainbar {\n  left: 0;\n  width: 33%; }\n\nhtml[data-three-columns-userscript] [data-three-columns-userscript-post-root] .wmd-preview {\n  left: 67%;\n  width: 33%; }\n\nhtml[data-three-columns-userscript] [data-three-columns-userscript-post-root] {\n  left: 33%;\n  width: 34%;\n  display: flex;\n  flex-direction: column; }\n  html[data-three-columns-userscript] [data-three-columns-userscript-post-root].answer [id^=\"post-editor\"],\n  html[data-three-columns-userscript] [data-three-columns-userscript-post-root].question [id^=\"post-editor\"] {\n    height: 70vh; }\n  html[data-three-columns-userscript] [data-three-columns-userscript-post-root]#post-form > .space {\n    display: none; }\n  html[data-three-columns-userscript] [data-three-columns-userscript-post-root]#post-form > #post-editor {\n    flex-grow: 1; }\n  html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] {\n    display: flex;\n    flex-direction: column;\n    /*\r\n            This isn't needed, the community option will be hidden entirely\r\n            It takes up precious vertical space, and is rarely used\r\n            User can close the 3-col layout before posting if they want it\r\n\r\n            [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .community-option {\r\n                flex-grow: 0;\r\n                margin-left: auto;\r\n            }\r\n            */\n    margin-top: 0; }\n    html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative .wmd-button-bar,\n    html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container .wmd-button-bar {\n      margin-top: 0; }\n    html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative,\n    html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .js-stacks-validation,\n    html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container,\n    html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .js-stacks-validation {\n      display: flex;\n      flex-direction: column; }\n      html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative,\n      html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .ps-relative,\n      html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .js-stacks-validation,\n      html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .js-stacks-validation > .ps-relative,\n      html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container,\n      html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .ps-relative,\n      html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .js-stacks-validation,\n      html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .js-stacks-validation > .ps-relative {\n        flex-grow: 1; }\n        html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-input,\n        html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .ps-relative > .wmd-input,\n        html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .js-stacks-validation > .wmd-input,\n        html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .js-stacks-validation > .ps-relative > .wmd-input,\n        html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .wmd-input,\n        html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .ps-relative > .wmd-input,\n        html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .js-stacks-validation > .wmd-input,\n        html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .js-stacks-validation > .ps-relative > .wmd-input {\n          height: 100% !important; }\n  html[data-three-columns-userscript] [data-three-columns-userscript-post-root].deleted-answer[data-three-columns-userscript-post-root] pre,\n  html[data-three-columns-userscript] [data-three-columns-userscript-post-root].deleted-answer[data-three-columns-userscript-post-root] pre > code {\n    background-color: #eff0f1; }\n  html[data-three-columns-userscript] [data-three-columns-userscript-post-root] .grippie {\n    display: none; }\n  html[data-three-columns-userscript] [data-three-columns-userscript-post-root] textarea.wmd-input {\n    resize: none; }\n\nhtml[data-three-columns-userscript] .hide-preview,\nhtml[data-three-columns-userscript] .bottom-share-links,\nhtml[data-three-columns-userscript] .bottom-notice,\nhtml[data-three-columns-userscript] .community-option {\n  display: none; }\n");
 
 /***/ })
 
