@@ -29,6 +29,9 @@
         "no-unnecessary-type-assertion": true,
         "no-unsafe-any": true,
         "no-void-expression": true,
+        "object-literal-sort-keys": {
+            "options": ["shorthand-first"]
+        },
         "only-arrow-functions": true,
         "prefer-array-literal": [
             true,
