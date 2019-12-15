@@ -23,6 +23,7 @@ export type StackExchange = {
         serverTimeOffsetSec: number;
         user: {
             fkey: string;
+            rep: number;
         };
     };
     topbar: {
