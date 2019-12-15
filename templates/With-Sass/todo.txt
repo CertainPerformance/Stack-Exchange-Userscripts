@@ -1,8 +1,5 @@
 package.json:
     Fix name property
-    Fix .user.js filename in watch script
-webpack.config.js:
-    Fix output .user.js filename
 README.md:
     Fix name (3 places)
 Fill out userscript-metadata-block.js
