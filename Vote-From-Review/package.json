@@ -2,7 +2,7 @@
     "name": "vote-from-review",
     "scripts": {
         "build": "tslint src/**/*.ts && webpack",
-        "watch": "webpack --watch -o StackVoteFromReviewLiveDev.user.js",
+        "watch": "webpack --watch --env.liveDev",
         "lint": "tslint src/**/*.ts",
         "graph": "madge ./src/index.ts --ts-config=tsconfig.json -i ./madge-dependency-graph.png"
     },
