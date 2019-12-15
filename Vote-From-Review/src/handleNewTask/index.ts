@@ -2,10 +2,15 @@ import { highlightVoteButtonIfVotedHere } from './highlightVoteButtonIfVotedHere
 import { listenForUpDownVotes } from './listenForUpDownVotes';
 import { listenForVoteCountClick } from './listenForVoteCountClick';
 
-export const handleNewTask = () => {
+export const handleNewTask = (accessTokenWasJustSaved: boolean) => {
     const voteCountDiv = document.querySelector('.js-vote-count');
     if (!voteCountDiv) {
         // No new tasks
+        return;
+    }
+    if (document.querySelector('.js-vote-up-btn')) {
+        // Vote buttons (including highlight indicating whether user has voted here) already exist
+        // This can occur with certain completed review tasks, like in Triage
         return;
     }
     const voteCount = voteCountDiv.textContent;
@@ -21,5 +26,5 @@ export const handleNewTask = () => {
     voteCellDiv.parentElement!.replaceChild(votingContainer, voteCellDiv);
     listenForUpDownVotes(votingContainer);
     listenForVoteCountClick(votingContainer.children[1] as HTMLDivElement);
-    highlightVoteButtonIfVotedHere(votingContainer);
+    highlightVoteButtonIfVotedHere(votingContainer, accessTokenWasJustSaved);
 };

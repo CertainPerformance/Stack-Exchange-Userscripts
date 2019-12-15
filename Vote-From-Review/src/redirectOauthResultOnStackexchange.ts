@@ -7,6 +7,6 @@ export const redirectOauthResultOnStackexchange = () => {
         console.error('Stack Vote From Review: Required parameters missing from URL hash');
         return;
     }
-    const newUrl = `${originURL}#access_token_vote_from_review=${accessToken}`;
+    const newUrl = `${originURL}?access_token_vote_from_review=${accessToken}`;
     window.location.href = newUrl;
 };

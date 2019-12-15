@@ -37,7 +37,7 @@ const paramsString = `?${searchParams.toString()}`;
 const url = `https://stackoverflow.com/oauth/dialog${paramsString}`;
 
 export const requestAccessToken = () => {
-    if (!window.location.hash) {
+    if (!window.location.search) {
         window.location.href = url;
     }
 };

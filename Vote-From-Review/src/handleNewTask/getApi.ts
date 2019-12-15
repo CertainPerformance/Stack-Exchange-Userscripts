@@ -1,14 +1,3 @@
-import { requestAccessToken } from './requestAccessToken';
-
-if (!localStorage.cpUserscriptVoteFromReviewAccessToken) {
-    /* This should only occur the first time the script is run, ever
-     * The access token only stays active for 24? hours
-     * After it expires, the API will return an error, and the user will have to re-authenticate
-     * (handled in highlightVoteButtonIfVotedHere)
-     */
-    requestAccessToken();
-}
-
 const getParamsString = () => {
     /* This is done in a function rather than set on the top level
      * to make sure that that the *latest* cpUserscriptVoteFromReviewAccessToken is retrieved from localStorage

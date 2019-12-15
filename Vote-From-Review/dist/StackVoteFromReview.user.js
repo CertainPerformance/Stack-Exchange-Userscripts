@@ -3,7 +3,7 @@
 // @description      Allows voting on items being reviewed from review queues
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.0
+// @version          1.0.1
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/review/(?!first-posts|late-answers)[^/]+(?:$|/\d)/
 // @include          /^https://stackexchange.com/oauth-vote-from-review/
 // @grant            none
@@ -143,15 +143,6 @@ exports.showToastInfo = (message) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const requestAccessToken_1 = __webpack_require__(/*! ./requestAccessToken */ "./src/handleNewTask/requestAccessToken.ts");
-if (!localStorage.cpUserscriptVoteFromReviewAccessToken) {
-    /* This should only occur the first time the script is run, ever
-     * The access token only stays active for 24? hours
-     * After it expires, the API will return an error, and the user will have to re-authenticate
-     * (handled in highlightVoteButtonIfVotedHere)
-     */
-    requestAccessToken_1.requestAccessToken();
-}
 const getParamsString = () => {
     /* This is done in a function rather than set on the top level
      * to make sure that that the *latest* cpUserscriptVoteFromReviewAccessToken is retrieved from localStorage
@@ -270,7 +261,7 @@ const getApi_1 = __webpack_require__(/*! ./getApi */ "./src/handleNewTask/getApi
 const getPostId_1 = __webpack_require__(/*! ./getPostId */ "./src/handleNewTask/getPostId.ts");
 const handleError_1 = __webpack_require__(/*! ./handleError */ "./src/handleNewTask/handleError.ts");
 const requestAccessToken_1 = __webpack_require__(/*! ./requestAccessToken */ "./src/handleNewTask/requestAccessToken.ts");
-exports.highlightVoteButtonIfVotedHere = (votingContainer) => {
+exports.highlightVoteButtonIfVotedHere = (votingContainer, accessTokenWasJustSaved) => {
     const postId = getPostId_1.getPostId();
     getApi_1.getApi(postId)
         .then((apiResponseUntyped) => {
@@ -278,7 +269,14 @@ exports.highlightVoteButtonIfVotedHere = (votingContainer) => {
         if (error_id) {
             if (error_id === 403) {
                 // Need to refresh access token:
-                requestAccessToken_1.requestAccessToken();
+                if (accessTokenWasJustSaved) {
+                    // In case there's an issue with the SE API or in this userscript, make sure not to enter an endless redirecting loop
+                    // This may also occur if user stays on a /review page for more than 24 hours, but that's rare and not worth bothering with
+                    console.error('Stack Vote From Review: Access token was just saved, but API gave an error ID of 403');
+                }
+                else {
+                    requestAccessToken_1.requestAccessToken();
+                }
             }
             else {
                 showToast_1.showToastError(`Stack Vote From Review Error: Stack Exchange API response code ${error_id}`);
@@ -290,11 +288,8 @@ exports.highlightVoteButtonIfVotedHere = (votingContainer) => {
             return;
         }
         const { upvoted, downvoted } = items[0];
-        if (upvoted) {
-            votingContainer.children[0].classList.add('fc-theme-primary');
-        }
-        else if (downvoted) {
-            votingContainer.children[2].classList.add('fc-theme-primary');
+        if (upvoted || downvoted) {
+            votingContainer.children[upvoted ? 0 : 2].classList.add('fc-theme-primary');
         }
     })
         .catch(handleError_1.handleError);
@@ -316,10 +311,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const highlightVoteButtonIfVotedHere_1 = __webpack_require__(/*! ./highlightVoteButtonIfVotedHere */ "./src/handleNewTask/highlightVoteButtonIfVotedHere.ts");
 const listenForUpDownVotes_1 = __webpack_require__(/*! ./listenForUpDownVotes */ "./src/handleNewTask/listenForUpDownVotes.ts");
 const listenForVoteCountClick_1 = __webpack_require__(/*! ./listenForVoteCountClick */ "./src/handleNewTask/listenForVoteCountClick.ts");
-exports.handleNewTask = () => {
+exports.handleNewTask = (accessTokenWasJustSaved) => {
     const voteCountDiv = document.querySelector('.js-vote-count');
     if (!voteCountDiv) {
         // No new tasks
+        return;
+    }
+    if (document.querySelector('.js-vote-up-btn')) {
+        // Vote buttons (including highlight indicating whether user has voted here) already exist
+        // This can occur with certain completed review tasks, like in Triage
         return;
     }
     const voteCount = voteCountDiv.textContent;
@@ -335,7 +335,7 @@ exports.handleNewTask = () => {
     voteCellDiv.parentElement.replaceChild(votingContainer, voteCellDiv);
     listenForUpDownVotes_1.listenForUpDownVotes(votingContainer);
     listenForVoteCountClick_1.listenForVoteCountClick(votingContainer.children[1]);
-    highlightVoteButtonIfVotedHere_1.highlightVoteButtonIfVotedHere(votingContainer);
+    highlightVoteButtonIfVotedHere_1.highlightVoteButtonIfVotedHere(votingContainer, accessTokenWasJustSaved);
 };
 
 
@@ -501,7 +501,7 @@ const searchParams = new URLSearchParams(paramsArr);
 const paramsString = `?${searchParams.toString()}`;
 const url = `https://stackoverflow.com/oauth/dialog${paramsString}`;
 exports.requestAccessToken = () => {
-    if (!window.location.hash) {
+    if (!window.location.search) {
         window.location.href = url;
     }
 };
@@ -521,6 +521,7 @@ exports.requestAccessToken = () => {
 Object.defineProperty(exports, "__esModule", { value: true });
 __webpack_require__(/*! ../../common/declareGlobalStackExchange */ "../common/declareGlobalStackExchange.ts");
 const handleNewTask_1 = __webpack_require__(/*! ./handleNewTask */ "./src/handleNewTask/index.ts");
+const requestAccessToken_1 = __webpack_require__(/*! ./handleNewTask/requestAccessToken */ "./src/handleNewTask/requestAccessToken.ts");
 const redirectOauthResultOnStackexchange_1 = __webpack_require__(/*! ./redirectOauthResultOnStackexchange */ "./src/redirectOauthResultOnStackexchange.ts");
 const saveOauthResultOnOrigin_1 = __webpack_require__(/*! ./saveOauthResultOnOrigin */ "./src/saveOauthResultOnOrigin.ts");
 // See handleNewTask/requestAccessToken for a description of this
@@ -528,14 +529,24 @@ if (window.location.href.startsWith('https://stackexchange.com/oauth-vote-from-r
     redirectOauthResultOnStackexchange_1.redirectOauthResultOnStackexchange();
 }
 else {
-    const { hash } = window.location;
-    if (window.location.hash) {
-        saveOauthResultOnOrigin_1.saveOauthResultOnOrigin(hash);
+    const { search } = window.location;
+    const accessTokenWasJustSaved = saveOauthResultOnOrigin_1.saveOauthResultOnOrigin(search);
+    if (!localStorage.cpUserscriptVoteFromReviewAccessToken && !accessTokenWasJustSaved) {
+        /* This if-block should only occur the first time the script is run, ever
+         * The access token only stays active for 24 hours (there is no duration option other than 24 hours, or completely permanent)
+         * After it expires, the API will return an error, and the user will have to re-authenticate
+         * (handled in highlightVoteButtonIfVotedHere)
+         */
+        requestAccessToken_1.requestAccessToken();
     }
-    const reviewContent = document.querySelector('.review-content');
-    if (reviewContent) {
-        new MutationObserver(handleNewTask_1.handleNewTask)
-            .observe(reviewContent, { childList: true });
+    else {
+        const reviewContent = document.querySelector('.review-content');
+        if (reviewContent) {
+            new MutationObserver(() => {
+                handleNewTask_1.handleNewTask(accessTokenWasJustSaved);
+            })
+                .observe(reviewContent, { childList: true });
+        }
     }
 }
 
@@ -561,7 +572,7 @@ exports.redirectOauthResultOnStackexchange = () => {
         console.error('Stack Vote From Review: Required parameters missing from URL hash');
         return;
     }
-    const newUrl = `${originURL}#access_token_vote_from_review=${accessToken}`;
+    const newUrl = `${originURL}?access_token_vote_from_review=${accessToken}`;
     window.location.href = newUrl;
 };
 
@@ -578,15 +589,19 @@ exports.redirectOauthResultOnStackexchange = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.saveOauthResultOnOrigin = (hash) => {
-    const params = new URLSearchParams(hash.slice(1));
+exports.saveOauthResultOnOrigin = (search) => {
+    const params = new URLSearchParams(search);
     const accessToken = params.get('access_token_vote_from_review');
     if (!accessToken) {
-        // This is quite unlikely, the static page does not have any hashes that have meaning for the user when permalinked
-        console.error('Stack Vote From Review: No access_token found in hash', hash);
-        return;
+        // This may occur if there's a search string that doesn't include access_token_vote_from_review
+        // Not sure if it could ever happen during normal operation
+        return false;
     }
     localStorage.cpUserscriptVoteFromReviewAccessToken = accessToken;
+    // Remove the token from the address bar:
+    const { origin, pathname } = window.location;
+    history.replaceState({}, '', origin + pathname);
+    return true;
 };
 
 
