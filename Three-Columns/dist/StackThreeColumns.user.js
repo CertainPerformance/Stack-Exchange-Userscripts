@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name             Stack Three Columns
-// @description      When answering or editing, displays the question page, post textarea, and post preview in side-by-side columns
+// @description      When answering, editing, or asking, displays the question page, post textarea, and post preview in side-by-side columns
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.1.0
-// @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/questions/\d+/
+// @version          1.2.0
+// @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/(?:posts/\d+/edit|questions/(?:\d+|ask))/
 // @grant            none
 // ==/UserScript==
 
@@ -119,7 +119,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("html[data-three-columns-userscript] body {\n  overflow-y: hidden; }\n\nhtml[data-three-columns-userscript] #mainbar,\nhtml[data-three-columns-userscript] [data-three-columns-userscript-post-root],\nhtml[data-three-columns-userscript] [data-three-columns-userscript-post-root] .wmd-preview {\n  position: fixed;\n  top: 50px;\n  background-color: white;\n  z-index: 1001;\n  height: calc(100% - 50px);\n  padding: 15px;\n  overflow-y: auto; }\n\nhtml[data-three-columns-userscript] #mainbar {\n  left: 0;\n  width: 33%; }\n\nhtml[data-three-columns-userscript] [data-three-columns-userscript-post-root] .wmd-preview {\n  left: 67%;\n  width: 33%; }\n\nhtml[data-three-columns-userscript] [data-three-columns-userscript-post-root] {\n  left: 33%;\n  width: 34%;\n  display: flex;\n  flex-direction: column; }\n  html[data-three-columns-userscript] [data-three-columns-userscript-post-root].answer [id^=\"post-editor\"],\n  html[data-three-columns-userscript] [data-three-columns-userscript-post-root].question [id^=\"post-editor\"] {\n    height: 70vh; }\n  html[data-three-columns-userscript] [data-three-columns-userscript-post-root]#post-form > .space {\n    display: none; }\n  html[data-three-columns-userscript] [data-three-columns-userscript-post-root]#post-form > #post-editor {\n    flex-grow: 1; }\n  html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] {\n    display: flex;\n    flex-direction: column;\n    /*\r\n            This isn't needed, the community option will be hidden entirely\r\n            It takes up precious vertical space, and is rarely used\r\n            User can close the 3-col layout before posting if they want it\r\n\r\n            [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .community-option {\r\n                flex-grow: 0;\r\n                margin-left: auto;\r\n            }\r\n            */\n    margin-top: 0; }\n    html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative .wmd-button-bar,\n    html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container .wmd-button-bar {\n      margin-top: 0; }\n    html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative,\n    html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .js-stacks-validation,\n    html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container,\n    html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .js-stacks-validation {\n      display: flex;\n      flex-direction: column; }\n      html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative,\n      html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .ps-relative,\n      html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .js-stacks-validation,\n      html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .js-stacks-validation > .ps-relative,\n      html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container,\n      html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .ps-relative,\n      html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .js-stacks-validation,\n      html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .js-stacks-validation > .ps-relative {\n        flex-grow: 1; }\n        html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-input,\n        html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .ps-relative > .wmd-input,\n        html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .js-stacks-validation > .wmd-input,\n        html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .js-stacks-validation > .ps-relative > .wmd-input,\n        html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .wmd-input,\n        html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .ps-relative > .wmd-input,\n        html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .js-stacks-validation > .wmd-input,\n        html[data-three-columns-userscript] [data-three-columns-userscript-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .js-stacks-validation > .ps-relative > .wmd-input {\n          height: 100% !important; }\n  html[data-three-columns-userscript] [data-three-columns-userscript-post-root].deleted-answer[data-three-columns-userscript-post-root] pre,\n  html[data-three-columns-userscript] [data-three-columns-userscript-post-root].deleted-answer[data-three-columns-userscript-post-root] pre > code {\n    background-color: #eff0f1; }\n  html[data-three-columns-userscript] [data-three-columns-userscript-post-root] .grippie {\n    display: none; }\n  html[data-three-columns-userscript] [data-three-columns-userscript-post-root] textarea.wmd-input {\n    resize: none; }\n\nhtml[data-three-columns-userscript] .hide-preview,\nhtml[data-three-columns-userscript] .bottom-share-links,\nhtml[data-three-columns-userscript] .bottom-notice,\nhtml[data-three-columns-userscript] .community-option {\n  display: none; }\n");
+/* harmony default export */ __webpack_exports__["default"] = ("html[data-cpuserscript-three-columns-layout-open] .hide-preview,\nhtml[data-cpuserscript-three-columns-layout-open] .bottom-share-links,\nhtml[data-cpuserscript-three-columns-layout-open] .bottom-notice,\nhtml[data-cpuserscript-three-columns-layout-open] .community-option {\n  display: none; }\n\nhtml[data-cpuserscript-three-columns-layout-open] body {\n  overflow-y: hidden; }\n\nhtml[data-cpuserscript-three-columns-layout-open] #mainbar, html[data-cpuserscript-three-columns-layout-open] #post-form[action=\"/questions/ask/submit\"],\nhtml[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root],\nhtml[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root] .wmd-preview, html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-edit-mainbar] .wmd-preview {\n  position: fixed !important;\n  top: 50px;\n  background-color: white;\n  z-index: 1001;\n  height: calc(100% - 50px);\n  padding: 15px;\n  overflow-y: auto; }\n\nhtml[data-cpuserscript-three-columns-layout-open] #mainbar, html[data-cpuserscript-three-columns-layout-open] #post-form[action=\"/questions/ask/submit\"] {\n  left: 0;\n  width: 33%; }\n\nhtml[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root] .wmd-preview, html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-edit-mainbar] .wmd-preview {\n  left: 67%;\n  width: 33%; }\n\nhtml[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-edit-mainbar] #revisions-list, html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-edit-mainbar] .original-question {\n  width: unset !important; }\n\nhtml[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root] {\n  left: 33%;\n  width: 34%;\n  display: flex;\n  flex-direction: column; }\n  html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root].answer [id^=\"post-editor\"],\n  html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root].question [id^=\"post-editor\"] {\n    height: 70vh; }\n  html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root]#post-form > .space {\n    display: none; }\n  html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root]#post-form > #post-editor {\n    flex-grow: 1; }\n  html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root].deleted-answer pre,\n  html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root].deleted-answer pre > code {\n    background-color: #eff0f1; }\n  html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root] .grippie {\n    display: none; }\n  html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root] textarea.wmd-input {\n    resize: none; }\n\nhtml[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root] [id^=\"post-editor\"], html[data-cpuserscript-three-columns-layout-open] #question-form .post-editor[data-cpuserscript-three-columns-post-root] {\n  display: flex;\n  flex-direction: column;\n  /* A rule to show the community option without breaking the rest of the structure could be put here,\r\n         * but it takes up precious vertical space, and is rarely used, so it'll be hidden entirely instead.\r\n         * User can close the 3-col layout before posting if they want it\r\n         */\n  margin-top: 0; }\n  html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root] [id^=\"post-editor\"] > .ps-relative .wmd-button-bar,\n  html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container .wmd-button-bar, html[data-cpuserscript-three-columns-layout-open] #question-form .post-editor[data-cpuserscript-three-columns-post-root] > .ps-relative .wmd-button-bar,\n  html[data-cpuserscript-three-columns-layout-open] #question-form .post-editor[data-cpuserscript-three-columns-post-root] > .ps-relative > .wmd-container .wmd-button-bar {\n    margin-top: 0; }\n  html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root] [id^=\"post-editor\"] > .ps-relative,\n  html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root] [id^=\"post-editor\"] > .ps-relative > .js-stacks-validation,\n  html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container,\n  html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .js-stacks-validation, html[data-cpuserscript-three-columns-layout-open] #question-form .post-editor[data-cpuserscript-three-columns-post-root] > .ps-relative,\n  html[data-cpuserscript-three-columns-layout-open] #question-form .post-editor[data-cpuserscript-three-columns-post-root] > .ps-relative > .js-stacks-validation,\n  html[data-cpuserscript-three-columns-layout-open] #question-form .post-editor[data-cpuserscript-three-columns-post-root] > .ps-relative > .wmd-container,\n  html[data-cpuserscript-three-columns-layout-open] #question-form .post-editor[data-cpuserscript-three-columns-post-root] > .ps-relative > .wmd-container > .js-stacks-validation {\n    display: flex;\n    flex-direction: column; }\n    html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root] [id^=\"post-editor\"] > .ps-relative,\n    html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root] [id^=\"post-editor\"] > .ps-relative > .ps-relative,\n    html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root] [id^=\"post-editor\"] > .ps-relative > .js-stacks-validation,\n    html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root] [id^=\"post-editor\"] > .ps-relative > .js-stacks-validation > .ps-relative,\n    html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container,\n    html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .ps-relative,\n    html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .js-stacks-validation,\n    html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .js-stacks-validation > .ps-relative, html[data-cpuserscript-three-columns-layout-open] #question-form .post-editor[data-cpuserscript-three-columns-post-root] > .ps-relative,\n    html[data-cpuserscript-three-columns-layout-open] #question-form .post-editor[data-cpuserscript-three-columns-post-root] > .ps-relative > .ps-relative,\n    html[data-cpuserscript-three-columns-layout-open] #question-form .post-editor[data-cpuserscript-three-columns-post-root] > .ps-relative > .js-stacks-validation,\n    html[data-cpuserscript-three-columns-layout-open] #question-form .post-editor[data-cpuserscript-three-columns-post-root] > .ps-relative > .js-stacks-validation > .ps-relative,\n    html[data-cpuserscript-three-columns-layout-open] #question-form .post-editor[data-cpuserscript-three-columns-post-root] > .ps-relative > .wmd-container,\n    html[data-cpuserscript-three-columns-layout-open] #question-form .post-editor[data-cpuserscript-three-columns-post-root] > .ps-relative > .wmd-container > .ps-relative,\n    html[data-cpuserscript-three-columns-layout-open] #question-form .post-editor[data-cpuserscript-three-columns-post-root] > .ps-relative > .wmd-container > .js-stacks-validation,\n    html[data-cpuserscript-three-columns-layout-open] #question-form .post-editor[data-cpuserscript-three-columns-post-root] > .ps-relative > .wmd-container > .js-stacks-validation > .ps-relative {\n      flex-grow: 1; }\n      html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-input,\n      html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root] [id^=\"post-editor\"] > .ps-relative > .ps-relative > .wmd-input,\n      html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root] [id^=\"post-editor\"] > .ps-relative > .js-stacks-validation > .wmd-input,\n      html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root] [id^=\"post-editor\"] > .ps-relative > .js-stacks-validation > .ps-relative > .wmd-input,\n      html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .wmd-input,\n      html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .ps-relative > .wmd-input,\n      html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .js-stacks-validation > .wmd-input,\n      html[data-cpuserscript-three-columns-layout-open] [data-cpuserscript-three-columns-post-root] [id^=\"post-editor\"] > .ps-relative > .wmd-container > .js-stacks-validation > .ps-relative > .wmd-input, html[data-cpuserscript-three-columns-layout-open] #question-form .post-editor[data-cpuserscript-three-columns-post-root] > .ps-relative > .wmd-input,\n      html[data-cpuserscript-three-columns-layout-open] #question-form .post-editor[data-cpuserscript-three-columns-post-root] > .ps-relative > .ps-relative > .wmd-input,\n      html[data-cpuserscript-three-columns-layout-open] #question-form .post-editor[data-cpuserscript-three-columns-post-root] > .ps-relative > .js-stacks-validation > .wmd-input,\n      html[data-cpuserscript-three-columns-layout-open] #question-form .post-editor[data-cpuserscript-three-columns-post-root] > .ps-relative > .js-stacks-validation > .ps-relative > .wmd-input,\n      html[data-cpuserscript-three-columns-layout-open] #question-form .post-editor[data-cpuserscript-three-columns-post-root] > .ps-relative > .wmd-container > .wmd-input,\n      html[data-cpuserscript-three-columns-layout-open] #question-form .post-editor[data-cpuserscript-three-columns-post-root] > .ps-relative > .wmd-container > .ps-relative > .wmd-input,\n      html[data-cpuserscript-three-columns-layout-open] #question-form .post-editor[data-cpuserscript-three-columns-post-root] > .ps-relative > .wmd-container > .js-stacks-validation > .wmd-input,\n      html[data-cpuserscript-three-columns-layout-open] #question-form .post-editor[data-cpuserscript-three-columns-post-root] > .ps-relative > .wmd-container > .js-stacks-validation > .ps-relative > .wmd-input {\n        height: 100% !important; }\n\nhtml[data-cpuserscript-three-columns-layout-open] .ps-relative[data-cpuserscript-three-columns-post-root] .wmd-button-bar,\nhtml[data-cpuserscript-three-columns-layout-open] .ps-relative[data-cpuserscript-three-columns-post-root] > .wmd-container .wmd-button-bar {\n  margin-top: 0; }\n\nhtml[data-cpuserscript-three-columns-layout-open] .ps-relative[data-cpuserscript-three-columns-post-root],\nhtml[data-cpuserscript-three-columns-layout-open] .ps-relative[data-cpuserscript-three-columns-post-root] > .js-stacks-validation,\nhtml[data-cpuserscript-three-columns-layout-open] .ps-relative[data-cpuserscript-three-columns-post-root] > .wmd-container,\nhtml[data-cpuserscript-three-columns-layout-open] .ps-relative[data-cpuserscript-three-columns-post-root] > .wmd-container > .js-stacks-validation {\n  display: flex;\n  flex-direction: column; }\n  html[data-cpuserscript-three-columns-layout-open] .ps-relative[data-cpuserscript-three-columns-post-root],\n  html[data-cpuserscript-three-columns-layout-open] .ps-relative[data-cpuserscript-three-columns-post-root] > .ps-relative,\n  html[data-cpuserscript-three-columns-layout-open] .ps-relative[data-cpuserscript-three-columns-post-root] > .js-stacks-validation,\n  html[data-cpuserscript-three-columns-layout-open] .ps-relative[data-cpuserscript-three-columns-post-root] > .js-stacks-validation > .ps-relative,\n  html[data-cpuserscript-three-columns-layout-open] .ps-relative[data-cpuserscript-three-columns-post-root] > .wmd-container,\n  html[data-cpuserscript-three-columns-layout-open] .ps-relative[data-cpuserscript-three-columns-post-root] > .wmd-container > .ps-relative,\n  html[data-cpuserscript-three-columns-layout-open] .ps-relative[data-cpuserscript-three-columns-post-root] > .wmd-container > .js-stacks-validation,\n  html[data-cpuserscript-three-columns-layout-open] .ps-relative[data-cpuserscript-three-columns-post-root] > .wmd-container > .js-stacks-validation > .ps-relative {\n    flex-grow: 1; }\n    html[data-cpuserscript-three-columns-layout-open] .ps-relative[data-cpuserscript-three-columns-post-root] > .wmd-input,\n    html[data-cpuserscript-three-columns-layout-open] .ps-relative[data-cpuserscript-three-columns-post-root] > .ps-relative > .wmd-input,\n    html[data-cpuserscript-three-columns-layout-open] .ps-relative[data-cpuserscript-three-columns-post-root] > .js-stacks-validation > .wmd-input,\n    html[data-cpuserscript-three-columns-layout-open] .ps-relative[data-cpuserscript-three-columns-post-root] > .js-stacks-validation > .ps-relative > .wmd-input,\n    html[data-cpuserscript-three-columns-layout-open] .ps-relative[data-cpuserscript-three-columns-post-root] > .wmd-container > .wmd-input,\n    html[data-cpuserscript-three-columns-layout-open] .ps-relative[data-cpuserscript-three-columns-post-root] > .wmd-container > .ps-relative > .wmd-input,\n    html[data-cpuserscript-three-columns-layout-open] .ps-relative[data-cpuserscript-three-columns-post-root] > .wmd-container > .js-stacks-validation > .wmd-input,\n    html[data-cpuserscript-three-columns-layout-open] .ps-relative[data-cpuserscript-three-columns-post-root] > .wmd-container > .js-stacks-validation > .ps-relative > .wmd-input {\n      height: 100% !important; }\n\nbutton[data-cpuserscript-three-columns-toggle] {\n  /* Want to put the button on the right of the postBottomContainer (see createToggleButton.ts),\r\n     * but postBottomContainer may or may not have display: flex\r\n     * margin-left: auto is effective when flex is being used - otherwise, float: right does it\r\n     */\n  float: right;\n  margin-left: auto;\n  /* On /ask, because the button is floating and there's nothing to the left of it,\r\n     * the z-index allows the lower part of the button to remain clickable, rather than being in the shadow of the Tags container\r\n     */\n  z-index: 1; }\n");
 
 /***/ }),
 
@@ -208,7 +208,7 @@ exports.closeLayoutOnPostEditorClose = (thisPostRoot) => {
     // When exiting editing via clicking "Cancel" button:
     thisPostRoot.addEventListener('click', (e) => {
         const target = e.target;
-        if (target.closest('[data-three-columns-userscript-post-root]') && target.matches('.cancel-edit')) {
+        if (target.closest('[data-cpuserscript-three-columns-post-root]') && target.matches('.cancel-edit')) {
             closeLayoutIfEditCancelSucceeds_1.closeLayoutIfEditCancelSucceeds(target);
         }
     });
@@ -219,7 +219,7 @@ exports.closeLayoutOnPostEditorClose = (thisPostRoot) => {
         }
         const inputsThatTryToExitEditingWhenEscPressed = '#title, .wmd-input, #tagnames, .edit-comment';
         const target = e.target;
-        if (target.matches(inputsThatTryToExitEditingWhenEscPressed) && target.closest('[data-three-columns-userscript-post-root]')) {
+        if (target.matches(inputsThatTryToExitEditingWhenEscPressed) && target.closest('[data-cpuserscript-three-columns-post-root]')) {
             closeLayoutIfEditCancelSucceeds_1.closeLayoutIfEditCancelSucceeds(target);
         }
     };
@@ -246,7 +246,7 @@ const closeLayout_1 = __webpack_require__(/*! ../closeLayout */ "./src/closeLayo
  */
 exports.closeLayoutWhenPostRefreshed = (newPostRoot) => {
     const clickHandler = (e) => {
-        if (e.target.matches('[data-three-columns-userscript-post-root] .new-post-activity > a')) {
+        if (e.target.matches('[data-cpuserscript-three-columns-post-root] .new-post-activity > a')) {
             closeLayout_1.closeLayout();
         }
     };
@@ -272,17 +272,11 @@ const closeLayout_1 = __webpack_require__(/*! ../closeLayout */ "./src/closeLayo
 const postRootState = __webpack_require__(/*! ./postRootState */ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/postRootState.ts");
 exports.createToggleButton = (postRootOfButton, openLayout) => {
     // Get a reference to the container that either has "Save Edits" or "Post Your Answer" button:
-    const postButtomContainerSelector = postRootOfButton.matches('#post-form') ? '.form-submit' : '.post-editor ~ .grid.ai-center';
-    const postBottomContainer = postRootOfButton.querySelector(postButtomContainerSelector);
+    const postBottomContainer = postRootOfButton.querySelector('.form-submit, .post-editor ~ .grid.ai-center') || postRootOfButton;
     const toggleButton = postBottomContainer.appendChild(document.createElement('button'));
-    toggleButton.setAttribute('data-three-columns-userscript-toggle', '');
-    // This function will always be called just before entering the 3-column layout:
+    toggleButton.setAttribute('data-cpuserscript-three-columns-toggle', '');
     toggleButton.textContent = 'Close 3-column layout';
-    /* Want to put the button on the right of the postBottomContainer,
-     * but postBottomContainer may or may not have display: flex
-     * margin-left: auto is effective when flex is being used - otherwise, float: right does it
-     */
-    toggleButton.style.cssText = 'float: right; margin-left: auto;';
+    // This function will always be called just before entering the 3-column layout:
     toggleButton.addEventListener('click', (e) => {
         // Don't submit the surrounding form:
         e.preventDefault();
@@ -299,6 +293,7 @@ exports.createToggleButton = (postRootOfButton, openLayout) => {
             openLayout(postRootOfButton);
         }
         else {
+            // Nothing is currently open:
             openLayout(postRootOfButton);
         }
     });
@@ -331,24 +326,29 @@ exports.attachListenersAndOpen3ColLayoutOnTextareaFocus = () => {
         if (currentPostRoot || !target.matches('.wmd-input')) {
             return;
         }
-        const newPostRoot = target.closest('#post-form, .answer, .question');
+        const { href } = window.location;
+        const newPostRoot = target.closest(href.endsWith('/ask')
+            ? '.post-editor'
+            : '#post-form, .answer, .question, #client-revision-guid ~ .post-editor .ps-relative');
         if (!newPostRoot) {
             // This should not happen
             console.error(target);
             throw new Error('Stack Three Columns: No containing post root found, but .wmd-input was just focused!');
         }
-        const validatedNewPostRoot = newPostRoot;
+        if (href.endsWith('/edit')) {
+            document.querySelector('#mainbar').setAttribute('data-cpuserscript-three-columns-edit-mainbar', '');
+        }
         // If this was a post root previously, but it was closed, do not proceed:
-        const postHasBeenHandledBefore = Boolean(validatedNewPostRoot.querySelector('button[data-three-columns-userscript-toggle]'));
+        const postHasBeenHandledBefore = Boolean(newPostRoot.querySelector('button[data-cpuserscript-three-columns-toggle]'));
         if (postHasBeenHandledBefore) {
             return;
         }
-        const isEdit = !validatedNewPostRoot.matches('#post-form');
-        if (isEdit) {
-            closeLayoutOnPostEditorClose_1.closeLayoutOnPostEditorClose(validatedNewPostRoot);
-            closeLayoutWhenPostRefreshed_1.closeLayoutWhenPostRefreshed(validatedNewPostRoot);
+        const isInlineEdit = newPostRoot.matches('.question, .answer');
+        if (isInlineEdit) {
+            closeLayoutOnPostEditorClose_1.closeLayoutOnPostEditorClose(newPostRoot);
+            closeLayoutWhenPostRefreshed_1.closeLayoutWhenPostRefreshed(newPostRoot);
         }
-        openLayout_1.openLayout(validatedNewPostRoot);
+        openLayout_1.openLayout(newPostRoot);
     };
     window.addEventListener('focusin', focusinHandler);
 };
@@ -374,15 +374,15 @@ exports.openLayout = (newPostRoot) => {
     textarea.removeAttribute('rows');
     // If "Enter 3-column layout" was just pressed, the textarea won't be focused, so focus it:
     textarea.focus();
-    newPostRoot.setAttribute('data-three-columns-userscript-post-root', '');
-    const toggleButton = newPostRoot.querySelector('button[data-three-columns-userscript-toggle]');
+    newPostRoot.setAttribute('data-cpuserscript-three-columns-post-root', '');
+    const toggleButton = newPostRoot.querySelector('button[data-cpuserscript-three-columns-toggle]');
     if (!toggleButton) {
         createToggleButton_1.createToggleButton(newPostRoot, exports.openLayout);
     }
     else {
         toggleButton.textContent = 'Close 3-column layout';
     }
-    document.documentElement.setAttribute('data-three-columns-userscript', '');
+    document.documentElement.setAttribute('data-cpuserscript-three-columns-layout-open', '');
     postRootState.set(newPostRoot);
 };
 
@@ -400,9 +400,9 @@ exports.openLayout = (newPostRoot) => {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
- * This variable will hold the element with [data-three-columns-userscript-post-root], while it's being displayed in 3 columns.
- * When not in 3-column layout, will be null (and no element will match [data-three-columns-userscript-post-root])
- * The currentPostRoot will match one of: #post-form, .answer, .question
+ * This variable will hold the element with [data-cpuserscript-three-columns-post-root] while it's being displayed in 3 columns.
+ * When not in 3-column layout, will be null (and no element will match [data-cpuserscript-three-columns-post-root])
+ * The currentPostRoot will match one of: #post-form, .answer, .question, .ps-relative
  */
 let currentPostRoot;
 exports.get = () => currentPostRoot;
@@ -432,9 +432,12 @@ exports.closeLayout = (scrollImmediately = false) => {
     }
     // Restore the rows attribute to its default value (which was removed when the layout was opened):
     oldPostRoot.querySelector('textarea.wmd-input').rows = 15;
-    oldPostRoot.querySelector('button[data-three-columns-userscript-toggle]').textContent = 'Open 3-column layout';
-    oldPostRoot.removeAttribute('data-three-columns-userscript-post-root');
-    document.documentElement.removeAttribute('data-three-columns-userscript');
+    oldPostRoot.querySelector('button[data-cpuserscript-three-columns-toggle]').textContent = 'Open 3-column layout';
+    oldPostRoot.removeAttribute('data-cpuserscript-three-columns-post-root');
+    if (window.location.href.endsWith('/edit')) {
+        document.querySelector('#mainbar').removeAttribute('data-cpuserscript-three-columns-edit-mainbar');
+    }
+    document.documentElement.removeAttribute('data-cpuserscript-three-columns-layout-open');
     window.$('html, body').animate({ scrollTop: $(oldPostRoot).offset().top - 55 }, scrollImmediately ? 0 : 200);
     postRootState.set(null);
 };

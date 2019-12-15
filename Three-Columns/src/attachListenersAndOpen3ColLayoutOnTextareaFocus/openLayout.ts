@@ -7,13 +7,13 @@ export const openLayout = (newPostRoot: HTMLElement) => {
     textarea.removeAttribute('rows');
     // If "Enter 3-column layout" was just pressed, the textarea won't be focused, so focus it:
     textarea.focus();
-    newPostRoot.setAttribute('data-three-columns-userscript-post-root', '');
-    const toggleButton = newPostRoot.querySelector('button[data-three-columns-userscript-toggle]');
+    newPostRoot.setAttribute('data-cpuserscript-three-columns-post-root', '');
+    const toggleButton = newPostRoot.querySelector('button[data-cpuserscript-three-columns-toggle]');
     if (!toggleButton) {
         createToggleButton(newPostRoot, openLayout);
     } else {
         toggleButton.textContent = 'Close 3-column layout';
     }
-    document.documentElement.setAttribute('data-three-columns-userscript', '');
+    document.documentElement.setAttribute('data-cpuserscript-three-columns-layout-open', '');
     postRootState.set(newPostRoot);
 };

@@ -5,7 +5,7 @@ import { closeLayout } from '../closeLayout';
  */
 export const closeLayoutWhenPostRefreshed = (newPostRoot: HTMLElement) => {
     const clickHandler = (e: MouseEvent) => {
-        if ((e.target as HTMLElement).matches('[data-three-columns-userscript-post-root] .new-post-activity > a')) {
+        if ((e.target as HTMLElement).matches('[data-cpuserscript-three-columns-post-root] .new-post-activity > a')) {
             closeLayout();
         }
     };

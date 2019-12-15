@@ -4,7 +4,7 @@ Allows those with reasonably wide monitors to make the most of their screen real
 
 ![screenshot](https://raw.githubusercontent.com/CertainPerformance/Stack-Exchange-Userscripts/master/Three-Columns/userscript-screenshot.png)
 
-Whenever you start composing an answer or inline-editing a post for the first time, if the 3-column layout is not already active, it's created automatically. You can close and open the layout by pressing the script-created button at the bottom of the post. No matter what post you're editing, or if you're posting a new answer, the rest of the page will remain visible in the left column.
+Whenever you start composing an answer, a question, or start editing a post, if the 3-column layout is not already active, it's created automatically. You can close and open the layout by pressing the script-created button at the bottom of the post. The rest of the page will remain visible in the left column.
 
 Almost all of the changes the script makes are through CSS only - the actual DOM is not rearranged, so everything else on the page, including other userscripts, should continue to behave normally, for the most part.
 

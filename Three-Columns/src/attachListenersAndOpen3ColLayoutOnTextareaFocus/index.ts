@@ -13,24 +13,31 @@ export const attachListenersAndOpen3ColLayoutOnTextareaFocus = () => {
         if (currentPostRoot || !target.matches('.wmd-input')) {
             return;
         }
-        const newPostRoot = target.closest('#post-form, .answer, .question');
+        const { href } = window.location;
+        const newPostRoot = target.closest<HTMLElement>(
+            href.endsWith('/ask')
+                ? '.post-editor'
+                : '#post-form, .answer, .question, #client-revision-guid ~ .post-editor .ps-relative',
+        );
         if (!newPostRoot) {
             // This should not happen
             console.error(target);
             throw new Error('Stack Three Columns: No containing post root found, but .wmd-input was just focused!');
         }
-        const validatedNewPostRoot = newPostRoot as HTMLElement;
+        if (href.endsWith('/edit')) {
+            document.querySelector('#mainbar')!.setAttribute('data-cpuserscript-three-columns-edit-mainbar', '');
+        }
         // If this was a post root previously, but it was closed, do not proceed:
-        const postHasBeenHandledBefore = Boolean(validatedNewPostRoot.querySelector('button[data-three-columns-userscript-toggle]'));
+        const postHasBeenHandledBefore = Boolean(newPostRoot.querySelector('button[data-cpuserscript-three-columns-toggle]'));
         if (postHasBeenHandledBefore) {
             return;
         }
-        const isEdit = !validatedNewPostRoot.matches('#post-form');
-        if (isEdit) {
-            closeLayoutOnPostEditorClose(validatedNewPostRoot);
-            closeLayoutWhenPostRefreshed(validatedNewPostRoot);
+        const isInlineEdit = newPostRoot.matches('.question, .answer');
+        if (isInlineEdit) {
+            closeLayoutOnPostEditorClose(newPostRoot);
+            closeLayoutWhenPostRefreshed(newPostRoot);
         }
-        openLayout(validatedNewPostRoot);
+        openLayout(newPostRoot);
     };
     window.addEventListener('focusin', focusinHandler);
 };

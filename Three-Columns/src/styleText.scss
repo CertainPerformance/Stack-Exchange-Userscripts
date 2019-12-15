@@ -1,19 +1,29 @@
-// There are only CSS changes while the user is in the 3-column = layout
+// Use data attributes to reduce chance of selector collisions
+
+// For the most part, there are only CSS changes while the user is in the 3-column layout
 // which is toggled via an attribute on the <html>:
-html[data-three-columns-userscript] {
+html[data-cpuserscript-three-columns-layout-open] {
+
+    .hide-preview, // Hide the option to hide the preview while in 3-column layout
+    .bottom-share-links, // Hide the useless links at the bottom of the answer list (only noise, and saves vertical space)
+    .bottom-notice, // Same as above
+    .community-option // Hide the "community wiki" section
+    {
+        display: none;
+    }
+
     // Hide main scrollbar, since all main page content other than those in the columns are hidden while in 3-column layout
     body {
         overflow-y: hidden;
     }
 
-    $first-column: "#mainbar";
-    $second-column: "[data-three-columns-userscript-post-root]";
-    $third-column: "[data-three-columns-userscript-post-root] .wmd-preview";
-
+    $first-column: '#mainbar, #post-form[action="/questions/ask/submit"]';
+    $second-column: "[data-cpuserscript-three-columns-post-root]";
+    $third-column: "[data-cpuserscript-three-columns-post-root] .wmd-preview, [data-cpuserscript-three-columns-edit-mainbar] .wmd-preview";
     #{$first-column},
     #{$second-column},
     #{$third-column} {
-        position: fixed;
+        position: fixed !important; // For 2nd column, need to override SE's CSS rule of .ps-relative { position: relative !important; }
         top: 50px;
         background-color: white;
         z-index: 1001; // .left-sidebar has a z-index of 1000
@@ -30,16 +40,26 @@ html[data-three-columns-userscript] {
         left: 67%;
         width: 33%;
     }
+    // The below attribute applies to part of the first column, but the attribute is set only on the standalone /edit page,
+    // whose structure makes using *only* the [data-cpuserscript-three-columns-post-root] (the second column) to apply rules impossible
+    // So, apply a different attribute to a parent element
+    [data-cpuserscript-three-columns-edit-mainbar] {
+        #revisions-list, .original-question {
+            // Default CSS has some width, resulting in horizontal overflow and undesirable x-scrolling on 1st column
+            // Need to use !important to override the default style, which has the width set directly on the #revisions-list via JS
+            width: unset !important;
+        }
+    }
+    @mixin verticalContainer {
+        display: flex;
+        flex-direction: column;
+    }
+    @mixin onlyVerticalChild {
+        flex-grow: 1;
+    }
     #{$second-column} {
         left: 33%;
         width: 34%;
-        @mixin verticalContainer {
-            display: flex;
-            flex-direction: column;
-        }
-        @mixin onlyVerticalChild {
-            flex-grow: 1;
-        }
         @include verticalContainer;
         &.answer [id^="post-editor"],
         &.question [id^="post-editor"] {
@@ -56,41 +76,7 @@ html[data-three-columns-userscript] {
                 @include onlyVerticalChild;
             }
         }
-        // Make the .wmd-input expand to the full height of the #post-editor* (is there a better way?):
-        [id^="post-editor"] {
-            @include verticalContainer;
-            /*
-            This isn't needed, the community option will be hidden entirely
-            It takes up precious vertical space, and is rarely used
-            User can close the 3-col layout before posting if they want it
-
-            [data-three-columns-userscript-post-root] [id^="post-editor"] > .community-option {
-                flex-grow: 0;
-                margin-left: auto;
-            }
-            */
-            margin-top: 0;
-            > .ps-relative {
-                &,
-                > .wmd-container {
-                    .wmd-button-bar {
-                        margin-top: 0;
-                    }
-                    &,
-                    > .js-stacks-validation {
-                        @include verticalContainer;
-                        &,
-                        > .ps-relative {
-                            @include onlyVerticalChild;
-                            > .wmd-input {
-                                height: 100% !important; // Need to override built-in high specificity
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        &.deleted-answer[data-three-columns-userscript-post-root] pre {
+        &.deleted-answer pre {
             &,
             > code {
                 background-color: #eff0f1;
@@ -103,12 +89,58 @@ html[data-three-columns-userscript] {
         textarea.wmd-input {
             resize: none;
         }
+    } // End of #{$second-column}
+    // Still need some conditional rules that apply only inside the second column, though:
+
+    // Make the .wmd-input expand to the full height of the #post-editor* parent
+    // Is there a better way than the below code? Setting vertical flex display of every ancestor seems ugly
+    @mixin psRelativeTextareaContainer {
+        &,
+        > .wmd-container {
+            .wmd-button-bar {
+                margin-top: 0;
+            }
+            &,
+            > .js-stacks-validation {
+                @include verticalContainer;
+                &,
+                > .ps-relative {
+                    @include onlyVerticalChild;
+                    > .wmd-input {
+                        height: 100% !important; // Need to override built-in high specificity
+                    }
+                }
+            }
+        }
     }
 
-    .hide-preview, // Hide the option to hide the preview while in 3-column layout
-    .bottom-share-links, // Hide the useless links at the bottom of the answer list
-    .bottom-notice,
-    .community-option { // Hide the "community wiki" section
-        display: none;
+    // Matches inline editor and new answer editor, or matches editor on new question page
+    [data-cpuserscript-three-columns-post-root] [id^="post-editor"], #question-form .post-editor[data-cpuserscript-three-columns-post-root] {
+        @include verticalContainer;
+        /* A rule to show the community option without breaking the rest of the structure could be put here,
+         * but it takes up precious vertical space, and is rarely used, so it'll be hidden entirely instead.
+         * User can close the 3-col layout before posting if they want it
+         */
+        margin-top: 0;
+        > .ps-relative {
+            @include psRelativeTextareaContainer;
+        }
     }
+    // Matches edit box on standalone edit page
+    .ps-relative[data-cpuserscript-three-columns-post-root] {
+        @include psRelativeTextareaContainer;
+    }
+}
+
+button[data-cpuserscript-three-columns-toggle] {
+    /* Want to put the button on the right of the postBottomContainer (see createToggleButton.ts),
+     * but postBottomContainer may or may not have display: flex
+     * margin-left: auto is effective when flex is being used - otherwise, float: right does it
+     */
+    float: right;
+    margin-left: auto;
+    /* On /ask, because the button is floating and there's nothing to the left of it,
+     * the z-index allows the lower part of the button to remain clickable, rather than being in the shadow of the Tags container
+     */
+    z-index: 1;
 }

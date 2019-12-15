@@ -16,7 +16,7 @@ export const closeLayoutOnPostEditorClose = (thisPostRoot: HTMLElement) => {
     // When exiting editing via clicking "Cancel" button:
     thisPostRoot.addEventListener('click', (e) => {
         const target = e.target as HTMLElement;
-        if (target.closest('[data-three-columns-userscript-post-root]') && target.matches('.cancel-edit')) {
+        if (target.closest('[data-cpuserscript-three-columns-post-root]') && target.matches('.cancel-edit')) {
             closeLayoutIfEditCancelSucceeds(target);
         }
     });
@@ -27,7 +27,7 @@ export const closeLayoutOnPostEditorClose = (thisPostRoot: HTMLElement) => {
         }
         const inputsThatTryToExitEditingWhenEscPressed = '#title, .wmd-input, #tagnames, .edit-comment';
         const target = e.target as HTMLElement;
-        if (target.matches(inputsThatTryToExitEditingWhenEscPressed) && target.closest('[data-three-columns-userscript-post-root]')) {
+        if (target.matches(inputsThatTryToExitEditingWhenEscPressed) && target.closest('[data-cpuserscript-three-columns-post-root]')) {
             closeLayoutIfEditCancelSucceeds(target);
         }
     };

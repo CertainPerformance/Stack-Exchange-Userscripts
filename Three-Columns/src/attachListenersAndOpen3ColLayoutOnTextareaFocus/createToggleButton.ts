@@ -3,17 +3,11 @@ import * as postRootState from './postRootState';
 
 export const createToggleButton = (postRootOfButton: HTMLElement, openLayout: (newPostRoot: HTMLElement) => void) => {
     // Get a reference to the container that either has "Save Edits" or "Post Your Answer" button:
-    const postButtomContainerSelector = postRootOfButton.matches('#post-form') ? '.form-submit' : '.post-editor ~ .grid.ai-center';
-    const postBottomContainer = postRootOfButton.querySelector(postButtomContainerSelector)!;
+    const postBottomContainer = postRootOfButton.querySelector('.form-submit, .post-editor ~ .grid.ai-center') || postRootOfButton;
     const toggleButton = postBottomContainer.appendChild(document.createElement('button'));
-    toggleButton.setAttribute('data-three-columns-userscript-toggle', '');
-    // This function will always be called just before entering the 3-column layout:
+    toggleButton.setAttribute('data-cpuserscript-three-columns-toggle', '');
     toggleButton.textContent = 'Close 3-column layout';
-    /* Want to put the button on the right of the postBottomContainer,
-     * but postBottomContainer may or may not have display: flex
-     * margin-left: auto is effective when flex is being used - otherwise, float: right does it
-     */
-    toggleButton.style.cssText = 'float: right; margin-left: auto;';
+    // This function will always be called just before entering the 3-column layout:
     toggleButton.addEventListener('click', (e) => {
         // Don't submit the surrounding form:
         e.preventDefault();
@@ -28,6 +22,7 @@ export const createToggleButton = (postRootOfButton: HTMLElement, openLayout: (n
             closeLayout();
             openLayout(postRootOfButton);
         } else {
+            // Nothing is currently open:
             openLayout(postRootOfButton);
         }
     });
