@@ -23,8 +23,8 @@ module.exports = ({ liveDev = false } = {}) => {
             filename,
             path: path.join(cwd, liveDev ? '' : '/dist')
         },
-        devtool: 'none',
-        mode: 'development',
+        devtool: 'none', // Keep the generated .js readable
+        mode: 'development', // Never minify. Completely different from liveDev
         plugins: [
             // Only prepend the metadata block to the generated .js when the dist-ready .js is created
             // (With live dev, the local .js is being `@require`d by Tampermonkey, so the metadata block serves no purpose)
