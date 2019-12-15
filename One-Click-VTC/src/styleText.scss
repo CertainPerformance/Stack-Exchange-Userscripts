@@ -1,0 +1,65 @@
+// Use data attributes to reduce chance of selector collisions
+
+[data-cpuserscript-one-click-vtc] {
+    position: absolute;
+    margin-top: 24px;
+    left: -250px;
+    width: 240px;
+
+    [data-close-reason-id] {
+        margin-bottom: 10px;
+        padding: 5px;
+        &:hover {
+            background-color: yellow;
+        }
+    }
+    div:hover + [data-close-reason-id] {
+        background-color: #7bff00;
+    }
+    > :nth-child(4) {
+        padding: 5px;
+    }
+    // Select all close texts and OK buttons:
+    > :nth-child(2),
+    > :nth-child(3),
+    > :nth-child(5) > *,
+    > :nth-child(5) ~ *:not(:last-child) {
+        cursor: pointer;
+    }
+    > :nth-child(5) {
+        margin-left: 20px;
+    }
+    @mixin okButton($emSize) {
+        border: 1px solid black;
+        float: right;
+        visibility: hidden;
+        width: calc(#{$emSize}em + 15px);
+        height: calc(#{$emSize}em + 15px);
+        text-align: center;
+        vertical-align: middle;
+        line-height: calc(#{$emSize}em + 15px);
+    }
+    > div:not(:last-child) > div:nth-child(odd) {
+        @include okButton(0.75);
+    }
+    > div:nth-child(even):not(:last-child) {
+        @include okButton(1);
+    }
+
+    > div:last-child {
+        visibility: hidden;
+        text-align: center;
+        > div {
+            display: flex;
+            justify-content: space-around;
+            > div {
+                padding: 0 5px;
+                border: 1px solid black;
+                &:hover {
+                    background-color: yellow;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
