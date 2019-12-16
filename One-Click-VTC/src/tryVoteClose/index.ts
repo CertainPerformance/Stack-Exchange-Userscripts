@@ -17,7 +17,7 @@ export const tryVoteClose = (event: Event) => {
     const voteIsDuplicate = closeReasonId === 'Duplicate';
     // localStorage will definitely be populated by this point; it's done on the top level of listenForAutoVoteChanges
     const downvoteCondition = localStorage.cpUserscriptOneClickVTCDownvoteWhenVotingToClose;
-    const downvoteButton = document.querySelector('.question .js-vote-down-btn') as HTMLElement;
+    const downvoteButton = document.querySelector<HTMLElement>('.question .js-vote-down-btn')!;
     if (
         !okButtonWasClicked &&
         !haveVotedOnQuestion() &&

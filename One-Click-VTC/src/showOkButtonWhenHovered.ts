@@ -11,7 +11,7 @@ const tryShowButton = (textContainer: HTMLElement, okButton: HTMLElement) => {
 };
 
 export const showOkButtonWhenHovered = (vtcContainer: Element) => {
-    const downvoteButton = document.querySelector('.question .js-vote-down-btn') as HTMLElement;
+    const downvoteButton = document.querySelector<HTMLElement>('.question .js-vote-down-btn')!;
     const showImminentDownvote = () => {
         if (!haveVotedOnQuestion()) {
             downvoteButton.style.backgroundColor = 'yellow';
