@@ -5,7 +5,7 @@ import { postLinkToIds } from './postLinkToIds';
 export const populateTRs = () => {
     const { questionsByQuestionId, answersByAnswerId } = getPostsState();
     document.querySelectorAll('.history-table tbody tr[data-postid]').forEach((tr) => {
-        const { questionId, answerId } = postLinkToIds((tr.querySelector('a[href]') as HTMLAnchorElement).href);
+        const { questionId, answerId } = postLinkToIds(tr.querySelector<HTMLAnchorElement>('a[href]')!.href);
         const question = questionsByQuestionId.get(questionId);
         const rowstatsContainer = tr.children[1].appendChild(document.createElement('span'));
         rowstatsContainer.setAttribute('data-cpuserscript-rowstats', '');

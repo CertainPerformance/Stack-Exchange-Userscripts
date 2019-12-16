@@ -9,8 +9,8 @@ export const addRowstats = () => {
     if (!tableExists) {
         return;
     }
-    const anchors = [...document.querySelectorAll('.history-table a[href]')];
-    const questionIds = dedupe(anchors.map(a => postLinkToIds((a as HTMLAnchorElement).href).questionId));
+    const anchors = [...document.querySelectorAll<HTMLAnchorElement>('.history-table a[href]')];
+    const questionIds = dedupe(anchors.map(a => postLinkToIds(a.href).questionId));
     getPostInfo(questionIds)
         .catch((error) => {
             console.error(error);
