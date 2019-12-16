@@ -7,7 +7,7 @@ export const watchForCommentTab = () => {
     // When user navigates to another tab under All Actions (they'll still be on the same page), remove the style tag if it's appended
     const mainBarFull = document.querySelector('#mainbar-full')!;
     const onMutation = () => {
-        const commentTabHighlighted = (document.querySelector('#user-tab-activity .youarehere') as HTMLAnchorElement).href.endsWith('&sort=comments');
+        const commentTabHighlighted = document.querySelector<HTMLAnchorElement>('#user-tab-activity .youarehere')!.href.endsWith('&sort=comments');
         if (!commentTabHighlighted) {
             styleTag.remove();
             return;

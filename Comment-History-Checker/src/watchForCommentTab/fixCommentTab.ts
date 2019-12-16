@@ -6,11 +6,11 @@ import { makeRowstatsContainers } from './makeRowstatsContainers';
 import { processApiResponse } from './processApiResponse';
 
 const selectorToUserId = (selector: string) => {
-    const anchor = document.querySelector(selector);
+    const anchor = document.querySelector<HTMLAnchorElement>(selector);
     if (!anchor) {
         return null;
     }
-    return (anchor as HTMLAnchorElement).href.match(/\d+/)![0];
+    return anchor.href.match(/\d+/)![0];
 };
 export const fixCommentTab = async () => {
     const savedComments = await getDB();

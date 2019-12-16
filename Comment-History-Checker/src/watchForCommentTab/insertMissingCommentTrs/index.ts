@@ -3,8 +3,8 @@ import { makeTr } from './makeTr';
 
 // Make sure to only select trs with data-postids;
 // Old comments have year-indicator TRs show up in the table, eg <tr><th>2018</th></tr>, which we don't want to select
-const getTrs = () => [...document.querySelectorAll('.history-table > tbody tr[data-postid]')] as HTMLTableRowElement[];
-const trToIds = (tr: HTMLTableRowElement) => commentHrefToIds((tr.querySelector('a[href^="/questions"]') as HTMLAnchorElement).href);
+const getTrs = () => [...document.querySelectorAll<HTMLTableRowElement>('.history-table > tbody tr[data-postid]')];
+const trToIds = (tr: HTMLTableRowElement) => commentHrefToIds(tr.querySelector<HTMLAnchorElement>('a[href^="/questions"]')!.href);
 
 /**
  * Finds and inserts comments that, given the date range, are in the database and should exist in the table, but don't

@@ -5,7 +5,7 @@ import { commentHrefToIds } from '../commentHrefToIds';
  * @returns True if the database was changed, otherwise false
  */
 export const saveComment = (userCommentAnchor: HTMLAnchorElement, savedComments: SavedComments) => {
-    const dateElm = userCommentAnchor.nextElementSibling!.querySelector('.relativetime-clean') as HTMLElement;
+    const dateElm = userCommentAnchor.nextElementSibling!.querySelector<HTMLElement>('.relativetime-clean')!;
     const timestamp = new Date(dateElm.title).getTime();
     const commentHTML = userCommentAnchor.closest('.comment-body')!.children[0].innerHTML;
     const questionAnchor = document.querySelector('#question-header > h1 > a');

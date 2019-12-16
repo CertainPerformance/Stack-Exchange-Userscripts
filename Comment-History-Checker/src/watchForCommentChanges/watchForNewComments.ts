@@ -1,12 +1,12 @@
 import { makeSaveAllVisibleComments } from './makeSaveAllVisibleComments';
 
 export const watchForNewComments = async () => {
-    const myProfile = document.querySelector('a.my-profile');
+    const myProfile = document.querySelector<HTMLAnchorElement>('a.my-profile');
     if (!myProfile) {
         // not logged in
         return;
     }
-    const userHref = (myProfile as HTMLAnchorElement).href;
+    const userHref = myProfile.href;
     const saveAllVisibleComments = makeSaveAllVisibleComments(userHref);
     await saveAllVisibleComments();
 
@@ -23,7 +23,7 @@ export const watchForNewComments = async () => {
     };
     const attachObserverToAllULs = () => {
         // tslint:disable-next-line: no-unnecessary-type-assertion
-        (document.querySelectorAll('ul.comments-list') as NodeListOf<HTMLUListElement>).forEach(attachObserverToUL);
+        document.querySelectorAll<HTMLUListElement>('ul.comments-list').forEach(attachObserverToUL);
     };
     attachObserverToAllULs();
     window.$(document).ajaxComplete(attachObserverToAllULs);
