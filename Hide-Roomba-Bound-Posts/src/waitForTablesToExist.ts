@@ -8,7 +8,7 @@ export const waitForTablesToExist = () => {
     }
     new MutationObserver((_, observer) => {
         const deleteTables = ['topDelete', 'recentDelete']
-            .map(dataMode => document.querySelector(`div[data-mode="${dataMode}"] > table`));
+            .map(dataMode => document.querySelector<HTMLTableElement>(`div[data-mode="${dataMode}"] > table`));
         if (deleteTables.some(table => !table)) {
             return;
         }
