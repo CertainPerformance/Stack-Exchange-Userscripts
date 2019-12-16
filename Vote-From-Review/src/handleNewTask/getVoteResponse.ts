@@ -6,7 +6,7 @@ export const getVoteResponse = (voteParam: string) => {
     formData.append('fkey', fkey);
     const initOptions = {
         body: formData,
-        credentials: 'same-origin' as 'same-origin',
+        credentials: 'same-origin' as const,
         method: 'POST',
     };
     const url = `${window.location.origin}/posts/${getPostId()}/vote/${voteParam}`;
