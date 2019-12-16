@@ -15,7 +15,7 @@ export const createToggleButton = (postRootOfButton: HTMLElement, openLayout: (n
         const columnsLayoutOpen = Boolean(currentPostRoot);
         const thisPostRootOpen = currentPostRoot === postRootOfButton;
         if (thisPostRootOpen) {
-            (postRootOfButton.querySelector('.wmd-input') as HTMLTextAreaElement).focus();
+            postRootOfButton.querySelector<HTMLTextAreaElement>('.wmd-input')!.focus();
             closeLayout();
         } else if (columnsLayoutOpen) {
             // A different post root is currently open, so close that other one and open this one:
