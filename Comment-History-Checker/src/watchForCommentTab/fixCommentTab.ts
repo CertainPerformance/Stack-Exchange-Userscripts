@@ -20,7 +20,12 @@ export const fixCommentTab = async () => {
     if (thisProfileIsLoggedIn) {
         insertMissingCommentTrs(savedComments);
     }
-    insertTh(thisProfileIsLoggedIn);
+    const table = document.querySelector('.history-table');
+    if (!table) {
+        // User hasn't made any comments yet
+        return;
+    }
+    insertTh(table, thisProfileIsLoggedIn);
     const rowstatsContainersByIds = makeRowstatsContainers();
     const apiData = await Promise.all([
         getApi('questions', [...rowstatsContainersByIds.byQuestion.keys()]),

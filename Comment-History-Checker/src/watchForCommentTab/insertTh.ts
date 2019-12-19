@@ -1,5 +1,4 @@
-export const insertTh = (thisProfileIsLoggedIn: boolean) => {
-    const table = document.querySelector('.history-table')!;
+export const insertTh = (table: Element, thisProfileIsLoggedIn: boolean) => {
     const thead = table.insertBefore(document.createElement('thead'), table.children[0]);
     // Limitation: Below only makes sense on English sites
     thead.innerHTML = `

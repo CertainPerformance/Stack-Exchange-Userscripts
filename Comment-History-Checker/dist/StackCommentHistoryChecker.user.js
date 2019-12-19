@@ -3,7 +3,7 @@
 // @description      Review the status and reception of your comments and their parent posts
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.3
+// @version          1.0.4
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/(?:users/.*\?tab=activity|questions/\d|review/[^/]+(?:/\d+|$))/
 // @grant            none
 // ==/UserScript==
@@ -512,7 +512,12 @@ exports.fixCommentTab = async () => {
     if (thisProfileIsLoggedIn) {
         insertMissingCommentTrs_1.insertMissingCommentTrs(savedComments);
     }
-    insertTh_1.insertTh(thisProfileIsLoggedIn);
+    const table = document.querySelector('.history-table');
+    if (!table) {
+        // User hasn't made any comments yet
+        return;
+    }
+    insertTh_1.insertTh(table, thisProfileIsLoggedIn);
     const rowstatsContainersByIds = makeRowstatsContainers_1.makeRowstatsContainers();
     const apiData = await Promise.all([
         getApi_1.getApi('questions', [...rowstatsContainersByIds.byQuestion.keys()]),
@@ -821,8 +826,7 @@ exports.timestampToTimeAgoStr = (timestamp) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.insertTh = (thisProfileIsLoggedIn) => {
-    const table = document.querySelector('.history-table');
+exports.insertTh = (table, thisProfileIsLoggedIn) => {
     const thead = table.insertBefore(document.createElement('thead'), table.children[0]);
     // Limitation: Below only makes sense on English sites
     thead.innerHTML = `
