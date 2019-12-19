@@ -3,7 +3,7 @@
 // @description      Allows voting to close with a single click
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.1.0
+// @version          1.1.1
 // @include          /^https://stackoverflow\.com/questions/\d+/
 // @grant            none
 // ==/UserScript==
@@ -535,8 +535,8 @@ exports.vtcContainerHTML = `
     <div>OK</div><div data-close-reason-id="OffTopic" data-close-as-off-topic-reason-id="13">No MCVE</div>
     <div>OK</div><div data-close-reason-id="OffTopic" data-close-as-off-topic-reason-id="11">Caused by typo</div>
 </div>
-<div>OK</div><h3 data-close-reason-id="Unclear">Unclear</h3>
-<div>OK</div><h3 data-close-reason-id="TooBroad">Too Broad</h3>
+<div>OK</div><h3 data-close-reason-id="NeedsDetailsOrClarity">Unclear</h3>
+<div>OK</div><h3 data-close-reason-id="NeedMoreFocus">Too Broad</h3>
 <div>OK</div><h3 data-close-reason-id="OpinionBased">Opinion-Based</h3>
 <div>
     <h4>Downvote when voting to close:</h4>
