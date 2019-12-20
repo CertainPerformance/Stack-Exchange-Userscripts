@@ -8,7 +8,8 @@ import { closeLayout } from './closeLayout';
 export const closeLayoutWhenClickOnCloseOrPendingEdit = () => {
     const clickHandler = (e: MouseEvent) => {
         const target = e.target as HTMLElement;
-        if (!target.closest('html[data-three-columns-userscript]') || !target.closest('.close-question-link, a[id^="edit-pending"]')) {
+        // Continue main body of function only if layout is open *and* one of (.close-question-link or a[id^="edit-pending"]) is clicked
+        if (!target.closest('html[data-cpuserscript-three-columns-layout-open]') || !target.closest('.close-question-link, a[id^="edit-pending"]')) {
             return;
         }
         // Do not trigger SE's listeners for clicks on Edit / Close:

@@ -21,3 +21,7 @@ Almost all of the changes the script makes are through CSS only - the actual DOM
 Caveat: The Community Wiki option is hidden in the 3-column layout, because (at least in my experience) it's rarely used, and takes up precious vertical space that could be utilized by the textarea. To make a post Community Wiki, exit the 3-column layout first.
 
 Recommended to be used in combination with [Preview Antifocus](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/tree/master/Preview-Antifocus), to prevent the textarea from stealing focus when clicking on the post preview.
+
+## Column resizing
+
+If you want to be able to adjust the column widths yourself ([screenshot](https://raw.githubusercontent.com/CertainPerformance/Stack-Exchange-Userscripts/master/Three-Columns/userscript-resize-screenshot.png)), you can do so by installing [this version](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/raw/master/Three-Columns/dist/StackThreeColumnsAdjustable.user.js) of the userscript instead. (Actually, the code is exactly the same, the only change is the userscript name in the metadata block.) This isn't enabled by default because if you're happy with the default 33% column widths, the resizer lines are just unnecessary noise.

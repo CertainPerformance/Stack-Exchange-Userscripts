@@ -5,9 +5,14 @@ import styleTextCss from 'raw-loader!../build/styleText.css';
 /* Most of the display changes are done through CSS alone. The only DOM modifications made by the userscript are:
  * Injected stylesheet
  * data- attributes on a few elements
- * buttons to open/close the layout
+ * Buttons to open/close the layout
+ * Column resizer lines
  */
+let styleTag: HTMLStyleElement;
 export const insertStyle = () => {
-    const styleTag = document.body.appendChild(document.createElement('style'));
+    styleTag = document.body.appendChild(document.createElement('style'));
     styleTag.textContent = styleTextCss as string;
+};
+export const changeStyle = (newStyleText: string) => {
+    styleTag.textContent = newStyleText;
 };

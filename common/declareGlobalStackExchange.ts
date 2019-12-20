@@ -34,4 +34,9 @@ declare global {
     interface Window {
         StackExchange: StackExchange;
     }
+    const GM_info: undefined | {
+        script: {
+            name: string;
+        }
+    };
 }

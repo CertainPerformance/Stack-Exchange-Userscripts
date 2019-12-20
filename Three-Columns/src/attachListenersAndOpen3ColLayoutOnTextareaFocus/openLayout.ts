@@ -1,3 +1,4 @@
+import { isAdjustable } from '../isAdjustable';
 import { createToggleButton } from './createToggleButton';
 import * as postRootState from './postRootState';
 
@@ -13,6 +14,9 @@ export const openLayout = (newPostRoot: HTMLElement) => {
         createToggleButton(newPostRoot, openLayout);
     } else {
         toggleButton.textContent = 'Close 3-column layout';
+    }
+    if (isAdjustable) {
+        newPostRoot.insertAdjacentHTML('beforeend', '<div data-resizer></div><div data-resizer></div>');
     }
     document.documentElement.setAttribute('data-cpuserscript-three-columns-layout-open', '');
     postRootState.set(newPostRoot);

@@ -1,5 +1,8 @@
 // Use data attributes to reduce chance of selector collisions
 
+// There are a few lines which contain something like `/* replace-col1-width */`.
+// These lines may be targeted and dynamically adjusted via JS.
+
 // For the most part, there are only CSS changes while the user is in the 3-column layout
 // which is toggled via an attribute on the <html>:
 html[data-cpuserscript-three-columns-layout-open] {
@@ -17,9 +20,27 @@ html[data-cpuserscript-three-columns-layout-open] {
         overflow-y: hidden;
     }
 
+    $resizer: "[data-cpuserscript-three-columns-post-root] [data-resizer]";
     $first-column: '#mainbar, #post-form[action="/questions/ask/submit"]';
     $second-column: "[data-cpuserscript-three-columns-post-root]";
     $third-column: "[data-cpuserscript-three-columns-post-root] .wmd-preview, [data-cpuserscript-three-columns-edit-mainbar] .wmd-preview";
+    #{$resizer} {
+        position: fixed;
+        height: 100%;
+        z-index: 1002; // on top of everything
+        // 2px to make sure the border is visible regardless of zoom level, *and* isn't near-invisible due to a possible adjacent scrollbar
+        border-left: 2px solid black;
+        user-select: none; // otherwise, resizes will result in undesirable text selection
+        cursor: col-resize;
+        &:nth-last-child(2) {
+            left: calc(100% / 3);
+            /* replace-resizer1-left */
+        }
+        &:last-child {
+            left: calc(200% / 3);
+            /* replace-resizer2-left */
+        }
+    }
     #{$first-column},
     #{$second-column},
     #{$third-column} {
@@ -33,12 +54,15 @@ html[data-cpuserscript-three-columns-layout-open] {
         overflow-y: auto;
     }
     #{$first-column} {
-        left: 0;
-        width: 33%;
+        left: 0%;
+        width: calc(100% / 3);
+        /* replace-col1-width */
     }
     #{$third-column} {
-        left: 67%;
-        width: 33%;
+        left: calc(200% / 3);
+        /* replace-col3-left */
+        width: calc(100% / 3);
+        /* replace-col3-width */
     }
     // The below attribute applies to part of the first column, but the attribute is set only on the standalone /edit page,
     // whose structure makes using *only* the [data-cpuserscript-three-columns-post-root] (the second column) to apply rules impossible
@@ -58,8 +82,10 @@ html[data-cpuserscript-three-columns-layout-open] {
         flex-grow: 1;
     }
     #{$second-column} {
-        left: 33%;
-        width: 34%;
+        left: calc(100% / 3);
+        /* replace-col2-left */
+        width: calc(100% / 3);
+        /* replace-col2-width */
         @include verticalContainer;
         &.answer [id^="post-editor"],
         &.question [id^="post-editor"] {
@@ -128,6 +154,7 @@ html[data-cpuserscript-three-columns-layout-open] {
     }
     // Matches edit box on standalone edit page
     .ps-relative[data-cpuserscript-three-columns-post-root] {
+        z-index: 1002; // Needed to make the second resizer selectable
         @include psRelativeTextareaContainer;
     }
 }

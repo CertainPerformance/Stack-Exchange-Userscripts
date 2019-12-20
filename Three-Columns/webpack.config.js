@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
+const { exec } = require('child_process');
 
 module.exports = ({ liveDev = false } = {}) => {
     const cwd = process.cwd();
@@ -31,7 +32,22 @@ module.exports = ({ liveDev = false } = {}) => {
             !liveDev && new webpack.BannerPlugin({
                 banner: fs.readFileSync('./src/userscript-metadata-block.js', 'utf-8'),
                 raw: true
-            })
+            }),
+            !liveDev && {
+                apply: (compiler) => {
+                    compiler.hooks.afterEmit.tap('AfterEmitPlugin', (compilation) => {
+                        const distTextContent = fs.readFileSync('./dist/StackThreeColumns.user.js', 'utf-8');
+                        // Only change the metadata block:
+                        fs.writeFileSync('./dist/StackThreeColumnsAdjustable.user.js', distTextContent.replace('Three Columns', 'Three Columns Adjustable'));
+                        /*
+                        exec('<path to your post-build script here>', (err, stdout, stderr) => {
+                            if (stdout) process.stdout.write(stdout);
+                            if (stderr) process.stderr.write(stderr);
+                        });
+                        */
+                    });
+                }
+            }
         ].filter(Boolean),
         stats: liveDev ? 'minimal' : 'normal',
     };

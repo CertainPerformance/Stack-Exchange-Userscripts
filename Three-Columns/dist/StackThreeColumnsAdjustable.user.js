@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name             Stack Three Columns
+// @name             Stack Three Columns Adjustable
 // @description      When answering, editing, or asking, displays the question page, post textarea, and post preview in side-by-side columns
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
