@@ -1,11 +1,11 @@
-type Settings = {
+type Settings = Readonly<{
     enabled: boolean,
     showPostsWithReopenVotes: boolean,
-};
+}>;
 type ApiAnswer = {
-    score: number;
+    readonly score: number;
 };
-type ApiQuestion = {
+type ApiQuestion = Readonly<{
     accepted_answer_id?: number;
     answers: ApiAnswer[];
     closed_reason?: string;
@@ -19,12 +19,12 @@ type ApiQuestion = {
     reopen_vote_count: number;
     score: number;
     view_count: number;
-};
-type ApiQuestionsResponse = {
+}>;
+type ApiQuestionsResponse = Readonly<{
     items: ApiQuestion[];
     error_id?: number;
-};
+}>;
 
 type TrsByQuestionId = {
-    [questionId: string]: HTMLTableRowElement[];
+    readonly [questionId: string]: HTMLTableRowElement[];
 };
