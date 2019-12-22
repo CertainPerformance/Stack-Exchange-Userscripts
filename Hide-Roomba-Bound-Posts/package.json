@@ -2,7 +2,8 @@
     "name": "hide-roomba-bound-posts",
     "scripts": {
         "build": "tslint src/**/*.ts && node-sass src -o build && webpack",
-        "watch": "onchange --await-write-finish 200 -i ./src/**/* -- \"node-sass src -o build && (webpack --env.liveDev || echo Build failed) && echo =================================\"",
+        "watch": "onchange --await-write-finish 200 -i ./src/**/* -- npm run watch-build",
+        "watch-build": "((node-sass src -o build && webpack --env.liveDev) || echo Build failed) && echo =================================",
         "lint": "tslint src/**/*.ts",
         "node-sass": "node-sass src -o build",
         "graph": "madge ./src/index.ts --ts-config=tsconfig.json -i ./madge-dependency-graph.png"
