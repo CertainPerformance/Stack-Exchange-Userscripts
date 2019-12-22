@@ -39,12 +39,6 @@ module.exports = ({ liveDev = false } = {}) => {
                         const distTextContent = fs.readFileSync('./dist/StackThreeColumns.user.js', 'utf-8');
                         // Only change the metadata block:
                         fs.writeFileSync('./dist/StackThreeColumnsAdjustable.user.js', distTextContent.replace('Three Columns', 'Three Columns Adjustable'));
-                        /*
-                        exec('<path to your post-build script here>', (err, stdout, stderr) => {
-                            if (stdout) process.stdout.write(stdout);
-                            if (stderr) process.stderr.write(stderr);
-                        });
-                        */
                     });
                 }
             }
