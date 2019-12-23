@@ -3,7 +3,7 @@
 // @description      Allows voting to close with a single click
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.1.1
+// @version          1.1.2
 // @include          /^https://stackoverflow\.com/questions/\d+/
 // @grant            none
 // ==/UserScript==
@@ -407,7 +407,7 @@ exports.tryVoteClose = (event) => {
         openDuplicateModal_1.openDuplicateModal();
         return;
     }
-    submitCloseVote_1.submitCloseVote(closeReasonId, closeAsOffTopicReasonId, target);
+    submitCloseVote_1.submitCloseVote(closeReasonId, closeAsOffTopicReasonId);
 };
 
 
@@ -424,7 +424,7 @@ exports.tryVoteClose = (event) => {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const showToast_1 = __webpack_require__(/*! ../../../common/showToast */ "../common/showToast.ts");
-exports.makeHandleCloseVoteResponse = (target, setCanSendRequestToTrue) => (result) => {
+exports.makeHandleCloseVoteResponse = (setCanSendRequestToTrue) => (result) => {
     if (result.ResultChangedState) {
         // Question successfully closed
         window.location.href = window.location.href;
@@ -435,8 +435,33 @@ exports.makeHandleCloseVoteResponse = (target, setCanSendRequestToTrue) => (resu
         showToast_1.showToastError(result.Message);
         return;
     }
-    target.closest('[data-cpuserscript-one-click-vtc]').remove();
-    window.StackExchange.vote_closingAndFlagging.updateCloseLinkCount(result, $('.close-question-link'));
+    const oneClickVTCContainer = document.querySelector('[data-cpuserscript-one-click-vtc]');
+    oneClickVTCContainer.remove();
+    updateCloseVoteCount(result);
+};
+const updateCloseVoteCount = (result) => {
+    const { updateCloseLinkCount } = window.StackExchange.vote_closingAndFlagging;
+    const haveSEUpdateCloseLinkCount = () => {
+        updateCloseLinkCount(result, $('.close-question-link'));
+    };
+    // If the question had an edit notice, and the downvote button was .click()ed, the post will be refreshed,
+    // likely overwriting the newly updated updated close vote count (eg "close (2)").
+    // If the request already came back, the post will be replaced after 150ms (see replaceIndividualPostContents in full.en.js)
+    setTimeout(haveSEUpdateCloseLinkCount, 100);
+    // The post-update response might not have come back yet, so for the next 1 second,
+    // if an ajaxComplete resolves with a URL that results in a post update, call haveSEUpdateCloseLinkCount 200ms afterwards:
+    // tslint:disable-next-line: variable-name
+    const handler = (_event, _jqXHR, { url }) => {
+        if (!url.startsWith('/posts/ajax-load-realtime/')) {
+            return;
+        }
+        setTimeout(haveSEUpdateCloseLinkCount, 200);
+        window.$(document).off('ajaxComplete', handler);
+    };
+    window.$(document).on('ajaxComplete', handler);
+    setTimeout(() => {
+        window.$(document).off('ajaxComplete', handler);
+    }, 1000);
 };
 
 
@@ -485,7 +510,7 @@ exports.getCanSendRequest = () => canSendRequest;
 const setCanSendRequestToTrue = () => {
     canSendRequest = true;
 };
-exports.submitCloseVote = (closeReasonId, closeAsOffTopicReasonId, target) => {
+exports.submitCloseVote = (closeReasonId, closeAsOffTopicReasonId) => {
     const formData = new FormData();
     formData.append('fkey', window.StackExchange.options.user.fkey);
     formData.append('closeReasonId', closeReasonId);
@@ -502,7 +527,7 @@ exports.submitCloseVote = (closeReasonId, closeAsOffTopicReasonId, target) => {
     canSendRequest = false;
     fetch(url, initOptions)
         .then(res => res.json())
-        .then(makeHandleCloseVoteResponse_1.makeHandleCloseVoteResponse(target, setCanSendRequestToTrue))
+        .then(makeHandleCloseVoteResponse_1.makeHandleCloseVoteResponse(setCanSendRequestToTrue))
         .catch((error) => {
         canSendRequest = true;
         console.error(error);

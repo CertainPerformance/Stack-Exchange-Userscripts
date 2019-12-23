@@ -30,5 +30,5 @@ export const tryVoteClose = (event: Event) => {
         openDuplicateModal();
         return;
     }
-    submitCloseVote(closeReasonId!, closeAsOffTopicReasonId, target);
+    submitCloseVote(closeReasonId!, closeAsOffTopicReasonId);
 };

@@ -6,7 +6,7 @@ const setCanSendRequestToTrue = () => {
     canSendRequest = true;
 };
 
-export const submitCloseVote = (closeReasonId: string, closeAsOffTopicReasonId: string | undefined, target: HTMLElement) => {
+export const submitCloseVote = (closeReasonId: string, closeAsOffTopicReasonId: string | undefined) => {
     const formData = new FormData();
     formData.append('fkey', window.StackExchange.options.user.fkey);
     formData.append('closeReasonId', closeReasonId);
@@ -23,7 +23,7 @@ export const submitCloseVote = (closeReasonId: string, closeAsOffTopicReasonId: 
     canSendRequest = false;
     fetch(url, initOptions)
         .then(res => res.json())
-        .then(makeHandleCloseVoteResponse(target, setCanSendRequestToTrue))
+        .then(makeHandleCloseVoteResponse(setCanSendRequestToTrue))
         .catch((error) => {
             canSendRequest = true;
             console.error(error);
