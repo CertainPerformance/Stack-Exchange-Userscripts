@@ -91,68 +91,169 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./build/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/index.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./build/checkTable.js":
-/*!*****************************!*\
-  !*** ./build/checkTable.js ***!
-  \*****************************/
+/***/ "../common/declareGlobalStackExchange.ts":
+/*!***********************************************!*\
+  !*** ../common/declareGlobalStackExchange.ts ***!
+  \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const getApi_1 = __webpack_require__(/*! ./getApi */ "./build/getApi.js");
-const processApiResponse_1 = __webpack_require__(/*! ./processApiResponse */ "./build/processApiResponse.js");
-const settingsStore = __webpack_require__(/*! ./settingsStore */ "./build/settingsStore.js");
-const showToastError_1 = __webpack_require__(/*! ./showToastError */ "./build/showToastError.js");
-const checkedTables = new Set();
-exports.checkTable = (table) => {
-    if (!settingsStore.get().enabled || checkedTables.has(table)) {
+
+
+/***/ }),
+
+/***/ "../common/showToast.ts":
+/*!******************************!*\
+  !*** ../common/showToast.ts ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+__webpack_require__(/*! ./declareGlobalStackExchange */ "../common/declareGlobalStackExchange.ts");
+exports.showToastError = (message) => {
+    window.StackExchange.helpers.showToast(message, { transient: false, type: 'danger' });
+};
+exports.showToastInfo = (message) => {
+    const transientTimeout = window.StackExchange.helpers.suggestedTransientTimeout(message, true);
+    window.StackExchange.helpers.showToast(message, { transientTimeout, transient: true, type: 'info' });
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/dist/cjs.js!./build/styleText.css":
+/*!*******************************************************************!*\
+  !*** ./node_modules/raw-loader/dist/cjs.js!./build/styleText.css ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("[data-cpuserscript-hide-roomba-bound-posts-settings] {\n  margin: 0.5em auto;\n  height: 3em;\n  display: flex;\n  align-items: center; }\n  [data-cpuserscript-hide-roomba-bound-posts-settings] > * {\n    display: flex;\n    align-items: center;\n    justify-content: center; }\n  [data-cpuserscript-hide-roomba-bound-posts-settings] > label {\n    height: 2em;\n    cursor: pointer;\n    user-select: none; }\n    [data-cpuserscript-hide-roomba-bound-posts-settings] > label > * {\n      cursor: pointer; }\n    [data-cpuserscript-hide-roomba-bound-posts-settings] > label:nth-child(2) {\n      margin-left: 70px;\n      margin-right: 40px; }\n  [data-cpuserscript-hide-roomba-bound-posts-settings] input {\n    margin: 0 0 0 10px !important; }\n\n[data-cpuserscript-hide-roomba-bound-posts-settings][data-enabled] ~ .island [data-cpuserscript-roomba-bound],\n[data-cpuserscript-hide-roomba-bound-posts-settings][data-enabled][data-hide-posts-with-reopen-votes] ~ .island [data-cpuserscript-roomba-bound-but-reopen-votes] {\n  display: none; }\n");
+
+/***/ }),
+
+/***/ "./src/index.ts":
+/*!**********************!*\
+  !*** ./src/index.ts ***!
+  \**********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+__webpack_require__(/*! ../../common/declareGlobalStackExchange */ "../common/declareGlobalStackExchange.ts");
+const insertStyle_1 = __webpack_require__(/*! ./insertStyle */ "./src/insertStyle.ts");
+const waitForTablesToExist_1 = __webpack_require__(/*! ./waitForTablesToExist */ "./src/waitForTablesToExist.ts");
+const youarehere = document.querySelector('.youarehere');
+if (youarehere && youarehere.dataset.value === 'delete') {
+    insertStyle_1.insertStyle();
+    waitForTablesToExist_1.waitForTablesToExist();
+}
+
+
+/***/ }),
+
+/***/ "./src/insertStyle.ts":
+/*!****************************!*\
+  !*** ./src/insertStyle.ts ***!
+  \****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+// @ts-ignore
+// tslint:disable-next-line: no-implicit-dependencies
+const styleText_css_1 = __webpack_require__(/*! raw-loader!../build/styleText.css */ "./node_modules/raw-loader/dist/cjs.js!./build/styleText.css");
+exports.insertStyle = () => {
+    const styleTag = document.body.appendChild(document.createElement('style'));
+    styleTag.textContent = styleText_css_1.default;
+};
+
+
+/***/ }),
+
+/***/ "./src/waitForTablesToExist.ts":
+/*!*************************************!*\
+  !*** ./src/waitForTablesToExist.ts ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const watchForClicksOnTables_1 = __webpack_require__(/*! ./watchForClicksOnTables */ "./src/watchForClicksOnTables/index.ts");
+exports.waitForTablesToExist = () => {
+    // Wait for both delete tables to be created from the multiple ajax request done by the page
+    const containerForAllTables = document.querySelector('.subheader + div');
+    if (!containerForAllTables) {
+        // Not logged in, or not enough reputation:
         return;
     }
-    checkedTables.add(table);
-    const trs = [...table.querySelectorAll('tr')];
-    const trsByQuestionId = trs.reduce((a, tr) => {
-        const questionId = Number(tr.querySelector('a').href.match(/\d+/)[0]);
-        if (!a[questionId]) {
-            a[questionId] = [];
+    new MutationObserver((_, observer) => {
+        const deleteTables = ['topDelete', 'recentDelete']
+            .map(dataMode => document.querySelector(`div[data-mode="${dataMode}"] > table`));
+        if (deleteTables.some(table => !table)) {
+            return;
         }
-        a[questionId].push(tr);
-        return a;
-    }, {});
-    const questionIdsStr = Object.keys(trsByQuestionId).join(';');
-    table.style.backgroundColor = '#fffee3';
-    getApi_1.getApi(questionIdsStr)
-        .then((apiResponse) => {
-        table.removeAttribute('style');
-        processApiResponse_1.processApiResponse(apiResponse, trsByQuestionId, trs);
+        observer.disconnect();
+        watchForClicksOnTables_1.watchForClicksOnTables(deleteTables);
     })
-        .catch((error) => {
-        table.removeAttribute('style');
-        console.error(error);
-        showToastError_1.showToastError('Stack Hide Roomba Bound Posts: An error occurred, see console for details');
+        .observe(containerForAllTables, { childList: true, subtree: true });
+};
+
+
+/***/ }),
+
+/***/ "./src/watchForClicksOnTables/checkOpenTables.ts":
+/*!*******************************************************!*\
+  !*** ./src/watchForClicksOnTables/checkOpenTables.ts ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.checkOpenTables = (deleteTables, processTable) => {
+    deleteTables.forEach((table) => {
+        // Only process the tables that are open:
+        if (!table.classList.contains('collapsed')) {
+            processTable(table);
+        }
     });
 };
 
 
 /***/ }),
 
-/***/ "./build/createSettingsInterface.js":
-/*!******************************************!*\
-  !*** ./build/createSettingsInterface.js ***!
-  \******************************************/
+/***/ "./src/watchForClicksOnTables/createSettingsInterface.ts":
+/*!***************************************************************!*\
+  !*** ./src/watchForClicksOnTables/createSettingsInterface.ts ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const settingsStore = __webpack_require__(/*! ./settingsStore */ "./build/settingsStore.js");
+const settingsStore = __webpack_require__(/*! ./settingsStore */ "./src/watchForClicksOnTables/settingsStore.ts");
 const setSettingsDivAttributes = (settings, settingsDiv) => {
     if (settings.enabled) {
         settingsDiv.setAttribute('data-enabled', '');
@@ -198,10 +299,10 @@ exports.createSettingsInterface = (checkOpenTables) => {
 
 /***/ }),
 
-/***/ "./build/getApi.js":
-/*!*************************!*\
-  !*** ./build/getApi.js ***!
-  \*************************/
+/***/ "./src/watchForClicksOnTables/getApi.ts":
+/*!**********************************************!*\
+  !*** ./src/watchForClicksOnTables/getApi.ts ***!
+  \**********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -257,88 +358,60 @@ exports.getApi = (questionIdsStr) => {
 
 /***/ }),
 
-/***/ "./build/index.js":
-/*!************************!*\
-  !*** ./build/index.js ***!
-  \************************/
+/***/ "./src/watchForClicksOnTables/index.ts":
+/*!*********************************************!*\
+  !*** ./src/watchForClicksOnTables/index.ts ***!
+  \*********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const insertStyle_1 = __webpack_require__(/*! ./insertStyle */ "./build/insertStyle.js");
-const waitForTablesToExist_1 = __webpack_require__(/*! ./waitForTablesToExist */ "./build/waitForTablesToExist.js");
-const youarehere = document.querySelector('.youarehere');
-if (youarehere && youarehere.dataset.value === 'delete') {
-    insertStyle_1.insertStyle();
-    waitForTablesToExist_1.waitForTablesToExist();
-}
-
-
-/***/ }),
-
-/***/ "./build/insertStyle.js":
-/*!******************************!*\
-  !*** ./build/insertStyle.js ***!
-  \******************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-// @ts-ignore
-// tslint:disable-next-line: no-implicit-dependencies
-const styleText_css_1 = __webpack_require__(/*! raw-loader!./styleText.css */ "./node_modules/raw-loader/dist/cjs.js!./build/styleText.css");
-exports.insertStyle = () => {
-    const styleTag = document.body.appendChild(document.createElement('style'));
-    styleTag.textContent = styleText_css_1.default;
-};
-
-
-/***/ }),
-
-/***/ "./build/makeCheckOpenTables.js":
-/*!**************************************!*\
-  !*** ./build/makeCheckOpenTables.js ***!
-  \**************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.makeCheckOpenTables = (deleteTables, checkTable) => () => {
-    deleteTables.forEach((table) => {
-        if (!table.classList.contains('collapsed')) {
-            checkTable(table);
-        }
+const checkOpenTables_1 = __webpack_require__(/*! ./checkOpenTables */ "./src/watchForClicksOnTables/checkOpenTables.ts");
+const createSettingsInterface_1 = __webpack_require__(/*! ./createSettingsInterface */ "./src/watchForClicksOnTables/createSettingsInterface.ts");
+const processTable_1 = __webpack_require__(/*! ./processTable */ "./src/watchForClicksOnTables/processTable.ts");
+exports.watchForClicksOnTables = (deleteTables) => {
+    const checkOpenTablesBound = () => {
+        checkOpenTables_1.checkOpenTables(deleteTables, processTable_1.processTable);
+    };
+    // Process all open tables when settings get enabled:
+    createSettingsInterface_1.createSettingsInterface(checkOpenTablesBound);
+    // and soon after pageload, in case user has clicked on a table island
+    // before the SE XHR table response has come back
+    checkOpenTablesBound();
+    // Process a table when it's opened:
+    deleteTables.forEach((deleteTable) => {
+        const h3 = deleteTable.closest('.island').querySelector('h3');
+        h3.addEventListener('click', () => {
+            processTable_1.processTable(deleteTable);
+        });
     });
 };
 
 
 /***/ }),
 
-/***/ "./build/processApiResponse.js":
-/*!*************************************!*\
-  !*** ./build/processApiResponse.js ***!
-  \*************************************/
+/***/ "./src/watchForClicksOnTables/processApiResponse.ts":
+/*!**********************************************************!*\
+  !*** ./src/watchForClicksOnTables/processApiResponse.ts ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const showToastError_1 = __webpack_require__(/*! ./showToastError */ "./build/showToastError.js");
-const willQuestionRoomba_1 = __webpack_require__(/*! ./willQuestionRoomba */ "./build/willQuestionRoomba.js");
+const showToast_1 = __webpack_require__(/*! ../../../common/showToast */ "../common/showToast.ts");
+const willQuestionRoomba_1 = __webpack_require__(/*! ./willQuestionRoomba */ "./src/watchForClicksOnTables/willQuestionRoomba.ts");
 exports.processApiResponse = ({ error_id, items }, trsByQuestionId, trs) => {
     if (error_id) {
-        showToastError_1.showToastError(`Stack Hide Roomba Bound Posts Error: Stack Exchange API response code ${error_id}`);
+        showToast_1.showToastError(`Stack Hide Roomba Bound Posts Error: Stack Exchange API response code ${error_id}`);
         return;
     }
     const trsToBeProcessed = new Set(trs);
     items.forEach((questionObj) => {
+        // Roomba only applies to questions. If a TR links to an answer, that TR's roomba status will be the same as the parent question's roomba status
         const willRoomba = willQuestionRoomba_1.willQuestionRoomba(questionObj);
         trsByQuestionId[questionObj.question_id].forEach((tr) => {
             if (willRoomba === 'willRoombaIfReopenAgesAway') {
@@ -363,10 +436,61 @@ exports.processApiResponse = ({ error_id, items }, trsByQuestionId, trs) => {
 
 /***/ }),
 
-/***/ "./build/settingsStore.js":
-/*!********************************!*\
-  !*** ./build/settingsStore.js ***!
-  \********************************/
+/***/ "./src/watchForClicksOnTables/processTable.ts":
+/*!****************************************************!*\
+  !*** ./src/watchForClicksOnTables/processTable.ts ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const showToast_1 = __webpack_require__(/*! ../../../common/showToast */ "../common/showToast.ts");
+const getApi_1 = __webpack_require__(/*! ./getApi */ "./src/watchForClicksOnTables/getApi.ts");
+const processApiResponse_1 = __webpack_require__(/*! ./processApiResponse */ "./src/watchForClicksOnTables/processApiResponse.ts");
+const settingsStore = __webpack_require__(/*! ./settingsStore */ "./src/watchForClicksOnTables/settingsStore.ts");
+const processedTables = new Set();
+/**
+ * If the table hasn't been processed yet,
+ * make an API request and give attributes to the table's TRs,
+ * based on whether the post the TR is for will roomba or not
+ */
+exports.processTable = (table) => {
+    if (!settingsStore.get().enabled || processedTables.has(table)) {
+        return;
+    }
+    processedTables.add(table);
+    const trs = [...table.querySelectorAll('tr')];
+    const trsByQuestionId = trs.reduce((a, tr) => {
+        const questionId = Number(tr.querySelector('a').href.match(/\d+/)[0]);
+        if (!a[questionId]) {
+            a[questionId] = [];
+        }
+        a[questionId].push(tr);
+        return a;
+    }, {});
+    const questionIdsStr = Object.keys(trsByQuestionId).join(';');
+    table.style.backgroundColor = '#fffee3';
+    getApi_1.getApi(questionIdsStr)
+        .then((apiResponse) => {
+        table.removeAttribute('style');
+        processApiResponse_1.processApiResponse(apiResponse, trsByQuestionId, trs);
+    })
+        .catch((error) => {
+        table.removeAttribute('style');
+        console.error(error);
+        showToast_1.showToastError('Stack Hide Roomba Bound Posts: An error occurred, see console for details');
+    });
+};
+
+
+/***/ }),
+
+/***/ "./src/watchForClicksOnTables/settingsStore.ts":
+/*!*****************************************************!*\
+  !*** ./src/watchForClicksOnTables/settingsStore.ts ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -374,107 +498,29 @@ exports.processApiResponse = ({ error_id, items }, trsByQuestionId, trs) => {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 let settings;
-if (!localStorage.hideRoombaBoundPostsSettings) {
-    localStorage.hideRoombaBoundPostsSettings = JSON.stringify({
+if (!localStorage.cpUserscriptHideRoombaBoundPostsSettings) {
+    localStorage.cpUserscriptHideRoombaBoundPostsSettings = JSON.stringify({
         enabled: true,
-        showPostsWithReopenVotes: true,
+        showPostsWithReopenVotes: false,
     });
 }
 // In the unlikely event that the object in memory conflicts with the object in localStorage,
 // the object in memory takes priority
 exports.get = () => {
-    return settings || JSON.parse(localStorage.hideRoombaBoundPostsSettings);
+    return settings || JSON.parse(localStorage.cpUserscriptHideRoombaBoundPostsSettings);
 };
 exports.set = (newSettings) => {
     settings = newSettings;
-    localStorage.hideRoombaBoundPostsSettings = JSON.stringify(newSettings);
+    localStorage.cpUserscriptHideRoombaBoundPostsSettings = JSON.stringify(newSettings);
 };
 
 
 /***/ }),
 
-/***/ "./build/showToastError.js":
-/*!*********************************!*\
-  !*** ./build/showToastError.js ***!
-  \*********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.showToastError = (message) => {
-    window.StackExchange.helpers.showToast(message, { transient: false, type: 'danger' });
-};
-
-
-/***/ }),
-
-/***/ "./build/waitForTablesToExist.js":
-/*!***************************************!*\
-  !*** ./build/waitForTablesToExist.js ***!
-  \***************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const watchForClicksOnTables_1 = __webpack_require__(/*! ./watchForClicksOnTables */ "./build/watchForClicksOnTables.js");
-exports.waitForTablesToExist = () => {
-    // Wait for both delete tables to be created from the multiple ajax request done by the page
-    const containerForAllTables = document.querySelector('.subheader + div');
-    if (!containerForAllTables) {
-        // Not logged in, or not enough reputation:
-        return;
-    }
-    new MutationObserver((_, observer) => {
-        const deleteTables = ['topDelete', 'recentDelete']
-            .map(dataMode => document.querySelector(`div[data-mode="${dataMode}"] > table`));
-        if (deleteTables.some(table => !table)) {
-            return;
-        }
-        observer.disconnect();
-        watchForClicksOnTables_1.watchForClicksOnTables(deleteTables);
-    })
-        .observe(containerForAllTables, { childList: true, subtree: true });
-};
-
-
-/***/ }),
-
-/***/ "./build/watchForClicksOnTables.js":
-/*!*****************************************!*\
-  !*** ./build/watchForClicksOnTables.js ***!
-  \*****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const checkTable_1 = __webpack_require__(/*! ./checkTable */ "./build/checkTable.js");
-const createSettingsInterface_1 = __webpack_require__(/*! ./createSettingsInterface */ "./build/createSettingsInterface.js");
-const makeCheckOpenTables_1 = __webpack_require__(/*! ./makeCheckOpenTables */ "./build/makeCheckOpenTables.js");
-exports.watchForClicksOnTables = (deleteTables) => {
-    const checkOpenTables = makeCheckOpenTables_1.makeCheckOpenTables(deleteTables, checkTable_1.checkTable);
-    createSettingsInterface_1.createSettingsInterface(checkOpenTables);
-    checkOpenTables();
-    deleteTables.forEach((deleteTable) => {
-        const h3 = deleteTable.closest('.island').querySelector('h3');
-        h3.addEventListener('click', () => {
-            checkTable_1.checkTable(deleteTable);
-        });
-    });
-};
-
-
-/***/ }),
-
-/***/ "./build/willQuestionRoomba.js":
-/*!*************************************!*\
-  !*** ./build/willQuestionRoomba.js ***!
-  \*************************************/
+/***/ "./src/watchForClicksOnTables/willQuestionRoomba.ts":
+/*!**********************************************************!*\
+  !*** ./src/watchForClicksOnTables/willQuestionRoomba.ts ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -534,19 +580,6 @@ exports.willQuestionRoomba = (questionObj) => {
     return false;
 };
 
-
-/***/ }),
-
-/***/ "./node_modules/raw-loader/dist/cjs.js!./build/styleText.css":
-/*!*******************************************************************!*\
-  !*** ./node_modules/raw-loader/dist/cjs.js!./build/styleText.css ***!
-  \*******************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("[data-cpuserscript-hide-roomba-bound-posts-settings] {\n  margin: 0.5em auto;\n  height: 3em;\n  display: flex;\n  align-items: center; }\n  [data-cpuserscript-hide-roomba-bound-posts-settings] > * {\n    display: flex;\n    align-items: center;\n    justify-content: center; }\n  [data-cpuserscript-hide-roomba-bound-posts-settings] > label {\n    height: 2em;\n    cursor: pointer;\n    user-select: none; }\n    [data-cpuserscript-hide-roomba-bound-posts-settings] > label > * {\n      cursor: pointer; }\n    [data-cpuserscript-hide-roomba-bound-posts-settings] > label:nth-child(2) {\n      margin-left: 70px;\n      margin-right: 40px; }\n  [data-cpuserscript-hide-roomba-bound-posts-settings] input {\n    margin: 0 0 0 10px !important; }\n\n[data-cpuserscript-hide-roomba-bound-posts-settings][data-enabled] ~ .island [data-cpuserscript-roomba-bound],\n[data-cpuserscript-hide-roomba-bound-posts-settings][data-enabled][data-hide-posts-with-reopen-votes] ~ .island [data-cpuserscript-roomba-bound-but-reopen-votes] {\n  display: none; }\n");
 
 /***/ })
 
