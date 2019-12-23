@@ -26,5 +26,5 @@ type ApiQuestionsResponse = Readonly<{
 }>;
 
 type TrsByQuestionId = {
-    readonly [questionId: string]: HTMLTableRowElement[];
+    [questionId: string]: HTMLTableRowElement[];
 };
