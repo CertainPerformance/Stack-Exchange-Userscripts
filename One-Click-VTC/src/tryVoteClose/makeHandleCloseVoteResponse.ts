@@ -33,23 +33,23 @@ const updateCloseVoteCount = (result: CloseVoteResponse) => {
     const haveSEUpdateCloseLinkCount = () => {
         updateCloseLinkCount(result, $('.close-question-link'));
     };
-    // If the question had an edit notice, and the downvote button was .click()ed, the post will be refreshed,
+    haveSEUpdateCloseLinkCount();
+    // If the question had an edit notice, and the downvote button was .click()ed, the postcell will be refreshed,
     // likely overwriting the newly updated updated close vote count (eg "close (2)").
-    // If the request already came back, the post will be replaced after 150ms (see replaceIndividualPostContents in full.en.js)
-    setTimeout(haveSEUpdateCloseLinkCount, 100);
-
-    // The post-update response might not have come back yet, so for the next 1 second,
-    // if an ajaxComplete resolves with a URL that results in a post update, call haveSEUpdateCloseLinkCount 200ms afterwards:
-    // tslint:disable-next-line: variable-name
-    const handler = (_event: unknown, _jqXHR: unknown, { url }: { url: string }) => {
-        if (!url.startsWith('/posts/ajax-load-realtime/')) {
-            return;
+    // Watch to see if the post gets replaced in the near future, and if it does, update the link count:
+    const postcell = document.querySelector('.question .postcell')!;
+    const outerObserver = new MutationObserver((mutations, observer) => {
+        for (const { removedNodes } of mutations) {
+            if ([...removedNodes].includes(postcell)) {
+                // This will run in a microtask after replacement is finished
+                haveSEUpdateCloseLinkCount();
+                observer.disconnect();
+                return;
+            }
         }
-        setTimeout(haveSEUpdateCloseLinkCount, 200);
-        window.$(document).off('ajaxComplete', handler);
-    };
-    window.$(document).on('ajaxComplete', handler);
+    });
+    outerObserver.observe(postcell.parentElement!, { childList: true });
     setTimeout(() => {
-        window.$(document).off('ajaxComplete', handler);
+        outerObserver.disconnect();
     }, 1000);
 };
