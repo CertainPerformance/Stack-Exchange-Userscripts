@@ -3,7 +3,7 @@
 // @description      Allows voting to close with a single click
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.1.3
+// @version          1.1.4
 // @include          /^https://stackoverflow\.com/questions/\d+/
 // @grant            none
 // ==/UserScript==
@@ -481,15 +481,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.openDuplicateModal = () => {
     document.querySelector('.close-question-link').click();
     const handler = () => {
-        window.$(document).off('ajaxComplete', handler);
         const duplicateRadio = document.querySelector('input[type="radio"][name="close-reason"][value="Duplicate"]');
         if (duplicateRadio) {
             // If there's an error, or user has already voted to close, duplicateRadio will not exist
             // That's fine - keep the newly opened modal or error box open, so user can see what the problem was
             duplicateRadio.click();
+            window.$(document).off('ajaxComplete', handler);
         }
     };
     window.$(document).on('ajaxComplete', handler);
+    setTimeout(() => {
+        window.$(document).off('ajaxComplete', handler);
+    }, 1000);
 };
 
 
