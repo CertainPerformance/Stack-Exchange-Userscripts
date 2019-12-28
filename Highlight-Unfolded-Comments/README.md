@@ -1,0 +1,3 @@
+# Highlight Unfolded Comments (&#8202;[install](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/raw/master/Highlight-Unfolded-Comments/StackHighlightUnfoldedComments.user.js)&#8202;)
+
+When there are long comment threads, especially on Meta, you may read over the higher-voted visible comments before opening the rest of them. By default, the newly loaded comments will flash orange for a moment, but then they'll go back to the default background, making them indistinguishable from comments you've already read at a glance. This userscript gives the newly-unfolded comments a more permanent background color.
