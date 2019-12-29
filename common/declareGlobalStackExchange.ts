@@ -16,8 +16,8 @@ type ToastSettings = {
 export type StackExchange = {
     ready: (callback: () => void) => void;
     helpers: {
-        suggestedTransientTimeout(message: string, isToast: boolean): number;
-        showToast(message: string, settings: ToastSettings): void;
+        suggestedTransientTimeout: (message: string, isToast: boolean) => number;
+        showToast: (message: string, settings: ToastSettings) => void;
     };
     options: {
         serverTimeOffsetSec: number;
@@ -26,6 +26,9 @@ export type StackExchange = {
             rep: number;
         };
     };
+    realtime: {
+        updateRelativeDates: () => void;
+    }
     topbar: {
         hideAll: () => void;
     };

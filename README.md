@@ -10,6 +10,7 @@ Feel free to [report issues](https://github.com/CertainPerformance/Stack-Exchang
 
 ## Userscript index
 
+- [Ask Dates Everywhere](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/tree/master/Ask-Dates-Everywhere) - Puts ask dates next to questions in question lists
 - [Audit Detector](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/tree/master/Audit-Detector) - Detects audits in review queues
 - [Comment History Checker](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/tree/master/Comment-History-Checker) - Review the status and reception of your comments and their parent posts ([screenshot](https://raw.githubusercontent.com/CertainPerformance/Stack-Exchange-Userscripts/master/Comment-History-Checker/userscript-screenshot.png))
 - [Hide Roomba Bound Posts](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/tree/master/Hide-Roomba-Bound-Posts) - In Moderator Tools Delete Votes, creates an option to hide posts that will be roombad without intervention
