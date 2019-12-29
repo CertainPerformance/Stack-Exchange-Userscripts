@@ -142,7 +142,9 @@ html[data-cpuserscript-three-columns-layout-open] {
     }
 
     // Matches inline editor and new answer editor, or matches editor on new question page
-    [data-cpuserscript-three-columns-post-root] [id^="post-editor"], #question-form .post-editor[data-cpuserscript-three-columns-post-root] {
+    [data-cpuserscript-three-columns-post-root] [id^="post-editor"],
+    #question-form .post-editor[data-cpuserscript-three-columns-post-root],
+    #question-answer-section .post-editor[data-cpuserscript-three-columns-post-root] { // Targets the self-answer area on sites other than Stack Overflow
         @include verticalContainer;
         /* A rule to show the community option without breaking the rest of the structure could be put here,
          * but it takes up precious vertical space, and is rarely used, so it'll be hidden entirely instead.
