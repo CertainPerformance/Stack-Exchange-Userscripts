@@ -1,9 +1,9 @@
 {
     "name": "ask-dates-everywhere",
     "scripts": {
-        "build": "tslint src/**/*.ts && webpack",
+        "build": "npm run lint && webpack",
         "watch": "webpack --watch --env.liveDev",
-        "lint": "tslint src/**/*.ts",
+        "lint": "tslint src/**/*.ts -p ./tsconfig.json",
         "graph": "madge ./src/index.ts --ts-config=tsconfig.json -i ./madge-dependency-graph.png"
     },
     "author": "CertainPerformance",
