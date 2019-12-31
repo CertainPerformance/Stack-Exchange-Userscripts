@@ -49,7 +49,7 @@ const updateCloseVoteCount = (result: CloseVoteResponse) => {
         }
     });
     outerObserver.observe(postcell.parentElement!, { childList: true });
-    setTimeout(() => {
+    window.setTimeout(() => {
         outerObserver.disconnect();
     }, 1000);
 };

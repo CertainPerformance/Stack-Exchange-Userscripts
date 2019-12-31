@@ -1,3 +1,5 @@
+'use strict';
+
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
@@ -12,16 +14,16 @@ module.exports = ({ liveDev = false } = {}) => {
                 {
                     test: /\.ts$/,
                     use: 'ts-loader',
-                    exclude: /node_modules/
-                }
-            ]
+                    exclude: /node_modules/,
+                },
+            ],
         },
         resolve: {
-            extensions: ['.ts']
+            extensions: ['.ts'],
         },
         output: {
             filename,
-            path: path.join(cwd, liveDev ? '' : '/dist')
+            path: path.join(cwd, liveDev ? '' : '/dist'),
         },
         devtool: 'none', // Keep the generated .js readable
         mode: 'development', // Never minify. Completely different from liveDev
@@ -30,8 +32,8 @@ module.exports = ({ liveDev = false } = {}) => {
             // (With live dev, the local .js is being `@require`d by Tampermonkey, so the metadata block serves no purpose)
             !liveDev && new webpack.BannerPlugin({
                 banner: fs.readFileSync('./src/userscript-metadata-block.js', 'utf-8'),
-                raw: true
-            })
+                raw: true,
+            }),
         ].filter(Boolean),
         stats: liveDev ? 'minimal' : 'normal',
     };

@@ -4,6 +4,6 @@ import { watchForSelfDeletedComments } from './watchForSelfDeletedComments';
 export const watchForCommentChanges = () => {
     watchForSelfDeletedComments();
     window.StackExchange.ready(() => {
-        setTimeout(watchForNewComments);
+        window.setTimeout(watchForNewComments);
     });
 };

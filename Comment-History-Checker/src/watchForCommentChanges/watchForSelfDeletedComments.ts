@@ -19,7 +19,7 @@ export const watchForSelfDeletedComments = () => {
         if (responseJSONHasSuccessProp(responseJSON) && responseJSON.Success === true) {
             // The comment was deleted successfully
             // wait for all SE handlers to finish, and wait for the MutationObserver (watching the <UL>) in watchForNewComments to finish too
-            setTimeout(saveDeletedComment, 0, deletedCommentId);
+            window.setTimeout(saveDeletedComment, 0, deletedCommentId);
         }
     });
 };

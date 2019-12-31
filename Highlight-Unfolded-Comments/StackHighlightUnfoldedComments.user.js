@@ -3,7 +3,7 @@
 // @description      Keeps newly-unfolded comments highlighted, to easily distinguish them from higher-scoring comments you've already read
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.0
+// @version          1.0.1
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/(?:questions/\d|review)/
 // @grant            none
 // ==/UserScript==
@@ -32,8 +32,10 @@ const observeContainer = (commentsContainer) => {
     new MutationObserver(() => {
         ul.querySelectorAll('.js-comment').forEach((comment) => {
             if (!seenCommentIds.has(comment.dataset.commentId)) {
-                setTimeout(() => {
+                window.setTimeout(() => {
+                    // eslint-disable-next-line no-param-reassign
                     comment.children[0].style.backgroundColor = '#fff2e0';
+                    // eslint-disable-next-line no-param-reassign
                     comment.children[1].style.backgroundColor = '#fff2e0';
                     // The built-in transition lasts for 2000ms. Assign the lighter style at 1500ms for display consistency
                 }, 1500);

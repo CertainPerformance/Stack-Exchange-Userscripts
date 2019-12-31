@@ -12,7 +12,7 @@ export const closeLayoutIfEditCancelSucceeds = (child: HTMLElement) => {
      */
     const $editPost = window.$(child.closest('.post-layout')!.querySelector('.edit-post')!);
     // Give Stack Exchange's JS time to see the event, then see if the editor is still open:
-    setTimeout(() => {
+    window.setTimeout(() => {
         if ($editPost.data('handling-event') !== 1) {
             // User is no longer editing this post:
             closeLayout();

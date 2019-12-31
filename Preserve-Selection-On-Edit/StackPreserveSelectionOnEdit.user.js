@@ -8,6 +8,8 @@
 // @grant            none
 // ==/UserScript==
 
+'use strict';
+
 window.addEventListener(
     'click',
     (e) => {
@@ -27,5 +29,5 @@ window.addEventListener(
             e.stopPropagation();
         }
     },
-    true
+    true,
 );

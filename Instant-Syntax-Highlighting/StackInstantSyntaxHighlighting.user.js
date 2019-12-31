@@ -17,10 +17,15 @@
 
 const watched = new WeakSet();
 window.addEventListener('focusin', ({ target }) => {
-  if (!target.matches('[id^="wmd-input"]') || watched.has(target)) {
-    return;
-  }
-  watched.add(target);
-  const jWmd = window.$(target);
-  jWmd.typeWatch({ highlight: false, wait: 200, captureLength: 5, callback: window.styleCode });
+    if (!target.matches('[id^="wmd-input"]') || watched.has(target)) {
+        return;
+    }
+    watched.add(target);
+    const jWmd = window.$(target);
+    jWmd.typeWatch({
+        highlight: false,
+        wait: 200,
+        captureLength: 5,
+        callback: window.styleCode,
+    });
 });

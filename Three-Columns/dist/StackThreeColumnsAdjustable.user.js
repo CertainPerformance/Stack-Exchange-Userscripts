@@ -3,7 +3,7 @@
 // @description      When answering, editing, or asking, displays the question page, post textarea, and post preview in side-by-side columns
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.3.2
+// @version          1.3.3
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/(?:posts/\d+/edit|questions/(?:\d+|ask))/
 // @grant            none
 // ==/UserScript==
@@ -172,7 +172,7 @@ exports.closeLayoutIfEditCancelSucceeds = (child) => {
      */
     const $editPost = window.$(child.closest('.post-layout').querySelector('.edit-post'));
     // Give Stack Exchange's JS time to see the event, then see if the editor is still open:
-    setTimeout(() => {
+    window.setTimeout(() => {
         if ($editPost.data('handling-event') !== 1) {
             // User is no longer editing this post:
             closeLayout_1.closeLayout();

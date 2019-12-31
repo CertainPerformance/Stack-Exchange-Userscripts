@@ -3,7 +3,7 @@
 // @description      Allows voting to close with a single click
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.1.4
+// @version          1.1.5
 // @include          /^https://stackoverflow\.com/questions/\d+/
 // @grant            none
 // ==/UserScript==
@@ -460,7 +460,7 @@ const updateCloseVoteCount = (result) => {
         }
     });
     outerObserver.observe(postcell.parentElement, { childList: true });
-    setTimeout(() => {
+    window.setTimeout(() => {
         outerObserver.disconnect();
     }, 1000);
 };
@@ -490,7 +490,7 @@ exports.openDuplicateModal = () => {
         }
     };
     window.$(document).on('ajaxComplete', handler);
-    setTimeout(() => {
+    window.setTimeout(() => {
         window.$(document).off('ajaxComplete', handler);
     }, 1000);
 };

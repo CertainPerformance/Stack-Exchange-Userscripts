@@ -23,10 +23,10 @@
  */
 
 document.querySelectorAll('[id^="post-form"] .wmd-preview').forEach((preview) => {
-  preview.addEventListener('click', (e) => {
-    // "Edit the above snippet" listener needs to see event so that snippet editor interface can pop up
-    if (!e.target.matches('.edit-snippet')) {
-      e.stopImmediatePropagation()
-    }
-  });
+    preview.addEventListener('click', (e) => {
+        // "Edit the above snippet" listener needs to see event so that snippet editor interface can pop up
+        if (!e.target.matches('.edit-snippet')) {
+            e.stopImmediatePropagation();
+        }
+    });
 });

@@ -8,6 +8,8 @@
 // @grant            none
 // ==/UserScript==
 
+'use strict';
+
 const shortMonthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 /**
  * Transform an almost-ISO date string, eg

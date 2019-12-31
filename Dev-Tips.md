@@ -14,12 +14,13 @@ It's handy to be able to see the effects of your changes to the Typescript sourc
 ```
 // ==UserScript==
 // @name             Stack Comment History Checker
+// @description      Review the status and reception of your comments and their parent posts
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @description      Review the status and reception of your comments and their parent posts
+// @version          1.0.0
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/(?:users/.*\?tab=activity|questions/\d|review/[^/]+(?:/\d+|$))/
-// @grant            none
 // @require          file://D:/Javascript/Stack-Exchange-Userscripts/Comment-History-Checker/StackCommentHistoryCheckerLiveDev.user.js
+// @grant            none
 // ==/UserScript==
 ```
 

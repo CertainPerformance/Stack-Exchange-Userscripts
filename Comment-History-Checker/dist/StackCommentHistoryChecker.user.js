@@ -3,7 +3,7 @@
 // @description      Review the status and reception of your comments and their parent posts
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.4
+// @version          1.0.5
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/(?:users/.*\?tab=activity|questions/\d|review/[^/]+(?:/\d+|$))/
 // @grant            none
 // ==/UserScript==
@@ -291,7 +291,7 @@ const watchForSelfDeletedComments_1 = __webpack_require__(/*! ./watchForSelfDele
 exports.watchForCommentChanges = () => {
     watchForSelfDeletedComments_1.watchForSelfDeletedComments();
     window.StackExchange.ready(() => {
-        setTimeout(watchForNewComments_1.watchForNewComments);
+        window.setTimeout(watchForNewComments_1.watchForNewComments);
     });
 };
 
@@ -473,7 +473,7 @@ exports.watchForSelfDeletedComments = () => {
         if (responseJSONHasSuccessProp(responseJSON) && responseJSON.Success === true) {
             // The comment was deleted successfully
             // wait for all SE handlers to finish, and wait for the MutationObserver (watching the <UL>) in watchForNewComments to finish too
-            setTimeout(saveDeletedComment_1.saveDeletedComment, 0, deletedCommentId);
+            window.setTimeout(saveDeletedComment_1.saveDeletedComment, 0, deletedCommentId);
         }
     });
 };
