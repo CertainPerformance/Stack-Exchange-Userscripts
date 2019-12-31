@@ -1,0 +1,20 @@
+{
+    "name": "lint-all",
+    "scripts": {
+        "lint": "tslint src/**/*.ts -p ./tsconfig.json",
+        "start": "ts-node src/index.ts"
+    },
+    "author": "CertainPerformance",
+    "license": "MIT",
+    "private": true,
+    "dependencies": {
+        "eslint": "^6.8.0",
+        "eslint-config-airbnb-base": "^14.0.0",
+        "eslint-plugin-import": "^2.19.1",
+        "@types/node": "^13.1.1",
+        "ts-node": "^8.5.4",
+        "tslint": "^5.20.0",
+        "tslint-config-airbnb": "^5.11.2",
+        "typescript": "^3.6.3"
+    }
+}

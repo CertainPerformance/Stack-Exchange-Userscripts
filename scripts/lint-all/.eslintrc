@@ -1,0 +1,34 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "extends": [
+        "airbnb-base"
+    ],
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parserOptions": {
+        "ecmaVersion": 2017, // Do not permit syntax past ES2017 (yet)
+        "sourceType": "script"
+    },
+    "rules": {
+        "strict": ["error", "global"],
+        "indent": ["error", 4],
+        "max-len": "off",
+        "linebreak-style": "off", // git will trim it off anyway
+        "no-restricted-syntax": [
+            "error",
+            "SwitchStatement",
+            "WithStatement"
+        ],
+        "operator-linebreak": "off",
+        "consistent-return": "off",
+        "no-use-before-define": "off",
+        "arrow-parens": ["error", "as-needed", { "requireForBlockBody": true }],
+        "func-names": "off",
+        "no-continue": "off"
+    }
+}
