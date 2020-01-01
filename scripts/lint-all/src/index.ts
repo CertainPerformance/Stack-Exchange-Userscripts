@@ -1,3 +1,4 @@
+// tslint:disable: no-console
 import { exec } from 'child_process';
 import { promisify } from 'util';
 import { customLintFile } from './customLintFile';
@@ -30,6 +31,7 @@ const makeLogError: MakeLogError = path => (message, line) => {
     for (const pathToCustomLint of pathsToCustomLint) {
         await customLintFile(pathToCustomLint, makeLogError);
     }
+    console.log('custom linting done');
     for (const directory of packageJSONDirectoriesToTSLint) {
         await execPromAndLogStdOut('npm run lint', { cwd: directory });
         console.log(`tslinted ${directory}`);

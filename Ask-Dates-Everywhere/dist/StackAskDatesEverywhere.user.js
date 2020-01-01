@@ -211,7 +211,6 @@ exports.getApi = async (questionIdsToFetch) => {
     if (questionIdsToFetch.length === 0) {
         return { items: [] };
     }
-    console.log('API request for', questionIdsToFetch.length, 'questions');
     const url = `https://api.stackexchange.com/2.2/questions/${questionIdsToFetch.join(';')}${paramsString}`;
     const response = await fetch(url);
     const responseObj = await response.json();
@@ -473,6 +472,7 @@ exports.observeQuestionsContainer = (questionsContainer) => {
             addResultsToQuestionList_1.addResultsToQuestionList(startedsToFixByQuestionId, questionData, questionsContainer.matches('#question-mini-list'));
         })
             .catch((error) => {
+            // tslint:disable-next-line: no-console
             console.error(error);
             showToast_1.showToastError('Stack Ask Dates Everywhere: An error occurred, see console for details');
         });

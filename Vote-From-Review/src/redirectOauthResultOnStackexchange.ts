@@ -4,6 +4,7 @@ export const redirectOauthResultOnStackexchange = () => {
     const originURL = params.get('state');
     if (!accessToken || !originURL) {
         // Unlikely to occur unless user manually navigates to the non-existent page https://stackexchange.com/oauth-vote-from-review
+        // tslint:disable-next-line: no-console
         console.error('Stack Vote From Review: Required parameters missing from URL hash');
         return;
     }

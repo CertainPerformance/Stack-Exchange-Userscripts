@@ -239,6 +239,7 @@ exports.getVoteResponse = (voteParam) => {
 Object.defineProperty(exports, "__esModule", { value: true });
 const showToast_1 = __webpack_require__(/*! ../../../common/showToast */ "../common/showToast.ts");
 exports.handleError = (error) => {
+    // tslint:disable-next-line: no-console
     console.error(error);
     showToast_1.showToastError('Stack Vote From Review: An error occurred, see console for details');
 };
@@ -272,6 +273,7 @@ exports.highlightVoteButtonIfVotedHere = (votingContainer, accessTokenWasJustSav
                 if (accessTokenWasJustSaved) {
                     // In case there's an issue with the SE API or in this userscript, make sure not to enter an endless redirecting loop
                     // This may also occur if user stays on a /review page for more than 24 hours, but that's rare and not worth bothering with
+                    // tslint:disable-next-line: no-console
                     console.error('Stack Vote From Review: Access token was just saved, but API gave an error ID of 403');
                 }
                 else {
@@ -569,6 +571,7 @@ exports.redirectOauthResultOnStackexchange = () => {
     const originURL = params.get('state');
     if (!accessToken || !originURL) {
         // Unlikely to occur unless user manually navigates to the non-existent page https://stackexchange.com/oauth-vote-from-review
+        // tslint:disable-next-line: no-console
         console.error('Stack Vote From Review: Required parameters missing from URL hash');
         return;
     }

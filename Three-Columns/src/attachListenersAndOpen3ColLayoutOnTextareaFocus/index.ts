@@ -21,6 +21,7 @@ export const attachListenersAndOpen3ColLayoutOnTextareaFocus = () => {
         );
         if (!newPostRoot) {
             // This should not happen
+            // tslint:disable-next-line: no-console
             console.error(target);
             throw new Error('Stack Three Columns: No containing post root found, but .wmd-input was just focused!');
         }

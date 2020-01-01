@@ -33,6 +33,7 @@ export const observeQuestionsContainer = (questionsContainer: HTMLElement) => {
                 addResultsToQuestionList(startedsToFixByQuestionId, questionData, questionsContainer.matches('#question-mini-list'));
             })
             .catch((error) => {
+                // tslint:disable-next-line: no-console
                 console.error(error);
                 showToastError('Stack Ask Dates Everywhere: An error occurred, see console for details');
             });

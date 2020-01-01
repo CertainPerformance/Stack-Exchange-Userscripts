@@ -592,6 +592,7 @@ exports.watchForCommentTab = () => {
         document.body.appendChild(styleTag_1.styleTag);
         fixCommentTab_1.fixCommentTab()
             .catch((error) => {
+            // tslint:disable-next-line: no-console
             console.error(error);
             showToast_1.showToastError('Stack Comment History Checker: An error occurred, see console for details');
         });

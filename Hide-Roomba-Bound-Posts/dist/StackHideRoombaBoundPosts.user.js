@@ -479,6 +479,7 @@ exports.processTable = (table) => {
     })
         .catch((error) => {
         table.removeAttribute('style');
+        // tslint:disable-next-line: no-console
         console.error(error);
         showToast_1.showToastError('Stack Hide Roomba Bound Posts: An error occurred, see console for details');
     });

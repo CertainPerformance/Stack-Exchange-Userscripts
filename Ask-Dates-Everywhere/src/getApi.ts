@@ -20,7 +20,6 @@ export const getApi = async (questionIdsToFetch: number[]) => {
     if (questionIdsToFetch.length === 0) {
         return { items: [] };
     }
-    console.log('API request for', questionIdsToFetch.length, 'questions');
     const url = `https://api.stackexchange.com/2.2/questions/${questionIdsToFetch.join(';')}${paramsString}`;
     const response = await fetch(url);
     const responseObj = await response.json();

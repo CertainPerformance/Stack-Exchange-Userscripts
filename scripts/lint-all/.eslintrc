@@ -15,20 +15,21 @@
         "sourceType": "script"
     },
     "rules": {
-        "strict": ["error", "global"],
+        "arrow-parens": ["error", "as-needed", { "requireForBlockBody": true }],
+        "consistent-return": "off",
+        "func-names": "off",
         "indent": ["error", 4],
-        "max-len": "off",
         "linebreak-style": "off", // git will trim it off anyway
+        "max-len": "off",
+        "no-console": "error",
+        "no-continue": "off",
         "no-restricted-syntax": [
             "error",
             "SwitchStatement",
             "WithStatement"
         ],
-        "operator-linebreak": "off",
-        "consistent-return": "off",
         "no-use-before-define": "off",
-        "arrow-parens": ["error", "as-needed", { "requireForBlockBody": true }],
-        "func-names": "off",
-        "no-continue": "off"
+        "operator-linebreak": "off",
+        "strict": ["error", "global"]
     }
 }

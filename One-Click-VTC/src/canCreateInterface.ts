@@ -7,6 +7,7 @@ export const canCreateInterface = () => {
     const myProfileLink = myProfile.href;
     const { rep } = window.StackExchange.options.user;
     if (rep < 3000) {
+        // tslint:disable-next-line: no-console
         console.error(`Stack One Click VTC: Need 3000 rep to VTC, but you only have ${rep}`);
         return;
     }
@@ -20,8 +21,10 @@ export const canCreateInterface = () => {
     // So, only create interface if there's at least 250px between (centered) container and viewport edge:
     const containerWidth = document.querySelector<HTMLElement>('.container')!.offsetWidth;
     if (containerWidth + 500 > viewportWidth) {
+        // tslint:disable-next-line: no-console
         console.warn('Not enough space to put Stack One Click VTC interface to left of main content');
         if (document.querySelector('#left-sidebar')) {
+            // tslint:disable-next-line: no-console
             console.warn('Consider disabling the left sidebar at https://stackoverflow.com/users/preferences/');
         }
         return;

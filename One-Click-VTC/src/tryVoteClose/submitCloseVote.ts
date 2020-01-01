@@ -26,6 +26,7 @@ export const submitCloseVote = (closeReasonId: string, closeAsOffTopicReasonId: 
         .then(makeHandleCloseVoteResponse(setCanSendRequestToTrue))
         .catch((error) => {
             canSendRequest = true;
+            // tslint:disable-next-line: no-console
             console.error(error);
             const msg = 'Stack One Click VTC: An error occurred, see console for details';
             window.StackExchange.helpers.showToast(msg, { transient: false, type: 'danger' });

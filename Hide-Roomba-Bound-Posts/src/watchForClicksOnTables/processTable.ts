@@ -33,6 +33,7 @@ export const processTable = (table: HTMLTableElement) => {
         })
         .catch((error) => {
             table.removeAttribute('style');
+            // tslint:disable-next-line: no-console
             console.error(error);
             showToastError('Stack Hide Roomba Bound Posts: An error occurred, see console for details');
         });
