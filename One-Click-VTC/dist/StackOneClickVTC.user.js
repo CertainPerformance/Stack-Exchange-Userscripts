@@ -3,7 +3,7 @@
 // @description      Allows voting to close with a single click
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.1.5
+// @version          1.1.6
 // @include          /^https://stackoverflow\.com/questions/\d+/
 // @grant            none
 // ==/UserScript==
@@ -191,6 +191,10 @@ exports.canCreateInterface = () => {
         // Probably only occurs with locked posts
         // or with deleted posts user does not have the privilege to see
         // or 404 pages
+        return;
+    }
+    if (document.querySelector('#question.deleted-answer')) {
+        // Question is deleted. Yes, deleted questions have the deleted-answer class
         return;
     }
     if (closeQuestionLink.textContent === 'reopen' || closeQuestionLink.title.includes('You voted')) {

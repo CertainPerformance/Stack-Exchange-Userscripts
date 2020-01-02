@@ -36,6 +36,10 @@ export const canCreateInterface = () => {
         // or 404 pages
         return;
     }
+    if (document.querySelector('#question.deleted-answer')) {
+        // Question is deleted. Yes, deleted questions have the deleted-answer class
+        return;
+    }
     if (closeQuestionLink.textContent === 'reopen' || closeQuestionLink.title.includes('You voted')) {
         return;
     }
