@@ -3,8 +3,8 @@
 // @description      Detects audits in review queues
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.1
-// @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/review/[^/]+(?:/\d+|/?$)/
+// @version          1.0.2
+// @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/review/\w+\b(?!/stats|/history)/
 // @grant            none
 // ==/UserScript==
 
