@@ -3,7 +3,7 @@
 // @description      When answering, editing, or asking, displays the question page, post textarea, and post preview in side-by-side columns
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.3.3
+// @version          1.3.4
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/(?:posts/\d+/edit|questions/(?:\d+|ask))/
 // @grant            none
 // ==/UserScript==
@@ -326,6 +326,10 @@ exports.attachListenersAndOpen3ColLayoutOnTextareaFocus = () => {
         // the user clicks on the Answer textarea,
         // or when the user clicks Edit, has the inline editing privilege, and the site's built-in JS focuses the newly created textarea
         if (currentPostRoot || !target.matches('.wmd-input')) {
+            return;
+        }
+        if (target.closest('.review-content')) {
+            // Don't do anything for "Improve Edit" or "Reject and Edit" interfaces
             return;
         }
         const { href } = window.location;

@@ -13,6 +13,10 @@ export const attachListenersAndOpen3ColLayoutOnTextareaFocus = () => {
         if (currentPostRoot || !target.matches('.wmd-input')) {
             return;
         }
+        if (target.closest('.review-content')) {
+            // Don't do anything for "Improve Edit" or "Reject and Edit" interfaces
+            return;
+        }
         const { href } = window.location;
         const newPostRoot = target.closest<HTMLElement>(
             href.endsWith('/ask')
