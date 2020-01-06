@@ -18,7 +18,7 @@ export const customLintFile = async (
     path: string,
     makeLogError: (path: string) => LogError,
 ) => {
-    if (path.endsWith('.png')) {
+    if (path.endsWith('.png') || path.endsWith('.gif')) {
         return;
     }
     const text = await readFileProm(path, 'utf-8');
