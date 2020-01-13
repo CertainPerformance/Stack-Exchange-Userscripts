@@ -162,6 +162,12 @@ html[data-cpuserscript-three-columns-layout-open] {
     }
 }
 
+.realtime-post-deleted-notification + [data-cpuserscript-three-columns-post-root] {
+    // If a post is deleted while you're editing it, don't blank out the whole interface
+    opacity: 1 !important; // Override the `opacity: 0.1` set directly on the element via SE's JS
+    background-color: #f4eaea !important;
+}
+
 button[data-cpuserscript-three-columns-toggle] {
     /* Want to put the button on the right of the postBottomContainer (see createToggleButton.ts),
      * but postBottomContainer may or may not have display: flex
