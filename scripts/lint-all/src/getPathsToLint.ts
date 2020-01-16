@@ -1,10 +1,6 @@
 // tslint:disable: no-console
 import fs from 'fs';
 import { resolve as pathResolve } from 'path';
-import { promisify } from 'util';
-
-const readdirProm = promisify(fs.readdir);
-const statProm = promisify(fs.stat);
 
 const excludeDirectories = new Set(['node_modules', '.git']);
 
@@ -17,12 +13,12 @@ const pathsToReturn = {
 };
 
 const readDirectoryRecursive = async (path: string) => {
-    for (const dirOrFolderName of await readdirProm(path)) {
+    for (const dirOrFolderName of await fs.promises.readdir(path)) {
         if (excludeDirectories.has(dirOrFolderName)) {
             continue;
         }
         const combinedPath = `${path}/${dirOrFolderName}`;
-        const stats = await statProm(combinedPath);
+        const stats = await fs.promises.stat(combinedPath);
         if (stats.isDirectory()) {
             await readDirectoryRecursive(combinedPath);
             continue;

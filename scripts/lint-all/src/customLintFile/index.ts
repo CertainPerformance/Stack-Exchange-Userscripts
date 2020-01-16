@@ -1,12 +1,10 @@
 import fs from 'fs';
-import { promisify } from 'util';
 import { LogError } from '../types';
 import { verifyMetadataBlock } from './verifyMetadataBlock';
 import { verifyNewlineAtEnd } from './verifyNewlineAtEnd';
 import { verifyNoObjectSpread } from './verifyNoObjectSpread';
 import { verifySetTimeoutInterval } from './verifySetTimeoutInterval';
 
-const readFileProm = promisify(fs.readFile);
 const verifiers = [
     verifyMetadataBlock,
     verifyNewlineAtEnd,
@@ -21,7 +19,7 @@ export const customLintFile = async (
     if (path.endsWith('.png') || path.endsWith('.gif')) {
         return;
     }
-    const text = await readFileProm(path, 'utf-8');
+    const text = await fs.promises.readFile(path, 'utf-8');
     const logError = makeLogError(path);
     for (const verifier of verifiers) {
         verifier({ text, path, logError });
