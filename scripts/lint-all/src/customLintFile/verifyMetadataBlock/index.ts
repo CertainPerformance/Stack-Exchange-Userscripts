@@ -7,6 +7,7 @@ const directiveNamesWithExactlyOneLine = [
     'version',
 ];
 
+// tslint:disable-next-line: cyclomatic-complexity
 export const verifyMetadataBlock: Verifier = ({ text, logError }) => {
     const metadataBlockMatch = text.match(/\/\/ ==UserScript==[\r\n]+(.*?)[\r\n]+\/\/ ==\/UserScript==/s);
     if (!metadataBlockMatch) {
@@ -50,6 +51,10 @@ export const verifyMetadataBlock: Verifier = ({ text, logError }) => {
     for (const includeContent of directivesObj.include) {
         if (!includeContent.startsWith('/^') || !includeContent.endsWith('/')) {
             logError('@include must start with /^ and end with /', includeContent);
+        }
+        const unnecessarilyEscapedForwardSlashMatch = includeContent.match(/^\/\^(?:\\.|.)*?\\\//);
+        if (unnecessarilyEscapedForwardSlashMatch) {
+            logError('Unnecessarily escaped forward slash in @include', unnecessarilyEscapedForwardSlashMatch[0]);
         }
     }
 
