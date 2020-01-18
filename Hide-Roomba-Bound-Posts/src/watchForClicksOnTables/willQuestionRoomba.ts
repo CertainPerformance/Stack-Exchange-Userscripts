@@ -45,14 +45,14 @@ export const willQuestionRoomba = (questionObj: ApiQuestion) => {
     }
 
     /* RemoveAbandonedClosed: If the question was closed more than 9 days ago, and ...
-         not closed as a duplicate
-         has a score of 0 or less
-         is not locked
-         has no answers with a score > 0
-         has no accepted answer
-         has no pending reopen votes
-         has not been edited in the past 9 days
-    */
+     *   not closed as a duplicate
+     *   has a score of 0 or less
+     *   is not locked
+     *   has no answers with a score > 0
+     *   has no accepted answer
+     *   has no pending reopen votes
+     *   has not been edited in the past 9 days
+     */
     if (
         closed_reason !== 'duplicate' &&
         questionScore <= 0 &&
