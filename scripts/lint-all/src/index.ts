@@ -37,7 +37,8 @@ const makeLogError: MakeLogError = path => (message, line) => {
         console.log(`tslinted ${directory}`);
     }
     for (const javascriptFilePath of javascriptPathsToESLint) {
-        await execPromAndLogStdOut(`npx eslint ${javascriptFilePath} -c ./.eslintrc`);
+        const possibleFlag = javascriptFilePath.endsWith('.user.js') ? '' : ' --parser-options {"ecmaVersion":"2020"}';
+        await execPromAndLogStdOut(`npx eslint ${javascriptFilePath} -c ./.eslintrc${possibleFlag}`);
         console.log(`eslinted ${javascriptFilePath}`);
     }
     if (!anyErrors) {
