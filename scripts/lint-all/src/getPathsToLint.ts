@@ -32,14 +32,13 @@ const readDirectoryRecursive = async (path: string) => {
                 pathsToReturn.packageJSONDirectoriesToTSLint.push(path);
             }
         }
-        if (
-            dirOrFolderName.endsWith('.js') && (
-                !dirOrFolderName.match(/^Stack.*\.user\.js$/) || (
-                    fs.existsSync(`${path}/README.md`) &&
-                    !fs.existsSync(`${path}/src`)
-                )
-            )
-        ) {
+        if (!dirOrFolderName.endsWith('.js')) {
+            continue;
+        }
+        if (!dirOrFolderName.match(/^Stack.*\.user\.js$/) || (
+            fs.existsSync(`${path}/README.md`) &&
+            !fs.existsSync(`${path}/src`)
+        )) {
             // Then this is a .user.js for distribution which was not created from Typescript,
             // or it is a .js which is not a .user.js
             pathsToReturn.javascriptPathsToESLint.push(combinedPath);
