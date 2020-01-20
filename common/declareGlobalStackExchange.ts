@@ -32,6 +32,7 @@ export type StackExchange = {
     topbar: {
         hideAll: () => void;
     };
+    using: (moduleName: string, callback: () => void) => void;
 };
 declare global {
     interface Window {
