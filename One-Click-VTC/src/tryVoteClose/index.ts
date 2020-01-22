@@ -7,7 +7,7 @@ export const tryVoteClose = (event: Event) => {
         return;
     }
     const target = event.target as HTMLElement;
-    const closeTextElement = target.matches('[data-close-reason-id]') ? target : target.previousElementSibling;
+    const closeTextElement = target.matches('[data-close-reason-id]') ? target : target.nextElementSibling;
     if (!closeTextElement || !closeTextElement.matches('[data-close-reason-id]')) {
         // All of the elements that are intended to be clickable have this:
         return;

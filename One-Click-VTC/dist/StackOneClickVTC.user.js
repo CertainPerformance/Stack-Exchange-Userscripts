@@ -3,7 +3,7 @@
 // @description      Allows voting to close with a single click
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.1.6
+// @version          1.1.7
 // @include          /^https://stackoverflow\.com/questions/\d+/
 // @grant            none
 // ==/UserScript==
@@ -393,7 +393,7 @@ exports.tryVoteClose = (event) => {
         return;
     }
     const target = event.target;
-    const closeTextElement = target.matches('[data-close-reason-id]') ? target : target.previousElementSibling;
+    const closeTextElement = target.matches('[data-close-reason-id]') ? target : target.nextElementSibling;
     if (!closeTextElement || !closeTextElement.matches('[data-close-reason-id]')) {
         // All of the elements that are intended to be clickable have this:
         return;
