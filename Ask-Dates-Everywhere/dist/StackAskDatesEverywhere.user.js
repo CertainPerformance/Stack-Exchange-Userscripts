@@ -3,7 +3,7 @@
 // @description      Puts ask dates next to questions in question lists
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.0
+// @version          1.0.1
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net(?:/(?:questions|tab).*)?$/
 // @grant            none
 // ==/UserScript==
@@ -193,9 +193,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* Filter is constructed from:
  * wrapper -> { items }
  * question -> { creation_date, owner }
- * shallow_user -> { display_name, profile_image, reputation, user_id }
+ * shallow_user -> { display_name, profile_image, reputation, user_id, user_type }
  */
-const filter = '!iC9uiwvH_LqbtozkhMOnK_';
+const filter = '!iCA6(zQJbylNesjF799NMC';
 const thisSite = window.location.hostname
     .replace(/\.\w+$/, '') // Remove the TLD (.com, .net, ...)
     .replace(/\.stackexchange$/, ''); // The API does not need the ".stackexchange" suffix
@@ -382,7 +382,7 @@ exports.makeStartedHTMLForFullList = ({ owner, creation_date, question_id }) => 
                     </a>
                 </div>
                 <div class="user-details">
-                    <a href="/users/${owner.user_id}">${owner.display_name}</a>
+                    <a href="/users/${owner.user_id}">${owner.display_name}</a>${owner.user_type === 'moderator' ? '<span class="mod-flair" title="moderator">♦</span>' : ''}
                     <div class="-flair">
                         <span class="reputation-score" title="reputation score ${addThousandsSeparators_1.addThousandsSeparators(reputation)}" dir="ltr">${getShortRep_1.getShortRep(reputation)}</span>
                     </div>
@@ -420,7 +420,7 @@ exports.makeStartedHTMLForMiniList = ({ owner, creation_date, question_id }) => 
                     class="relativetime"
                 >${prettyAbsoluteDate_1.prettyAbsoluteDate(dateTitle) /* Newer dates will be immediately replaced by updateRelativeDates */}</span>
             </a>
-            <a href="/users/${owner.user_id}">${owner.display_name /* Yes, these are already HTML-escaped */}</a>
+            <a href="/users/${owner.user_id}">${owner.display_name /* Yes, these are already HTML-escaped */}</a>${owner.user_type === 'moderator' ? '<span class="mod-flair" title="moderator">♦</span>' : ''}
             <span class="reputation-score" title="reputation score ${addThousandsSeparators_1.addThousandsSeparators(reputation)}" dir="ltr">${getShortRep_1.getShortRep(reputation)}</span>
         </div>
     `;

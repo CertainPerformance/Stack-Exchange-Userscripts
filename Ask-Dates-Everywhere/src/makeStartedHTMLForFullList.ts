@@ -24,7 +24,8 @@ export const makeStartedHTMLForFullList = ({ owner, creation_date, question_id }
                     </a>
                 </div>
                 <div class="user-details">
-                    <a href="/users/${owner.user_id}">${owner.display_name}</a>
+                    <a href="/users/${owner.user_id}">${owner.display_name}</a>${
+                    owner.user_type === 'moderator' ? '<span class="mod-flair" title="moderator">♦</span>' : ''}
                     <div class="-flair">
                         <span class="reputation-score" title="reputation score ${addThousandsSeparators(reputation)}" dir="ltr">${getShortRep(reputation)}</span>
                     </div>

@@ -14,7 +14,8 @@ export const makeStartedHTMLForMiniList = ({ owner, creation_date, question_id }
                     class="relativetime"
                 >${prettyAbsoluteDate(dateTitle) /* Newer dates will be immediately replaced by updateRelativeDates */}</span>
             </a>
-            <a href="/users/${owner.user_id}">${owner.display_name /* Yes, these are already HTML-escaped */}</a>
+            <a href="/users/${owner.user_id}">${owner.display_name /* Yes, these are already HTML-escaped */}</a>${
+            owner.user_type === 'moderator' ? '<span class="mod-flair" title="moderator">♦</span>' : ''}
             <span class="reputation-score" title="reputation score ${addThousandsSeparators(reputation)}" dir="ltr">${getShortRep(reputation)}</span>
         </div>
     `;

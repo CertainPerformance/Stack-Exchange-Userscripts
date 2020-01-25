@@ -1,9 +1,9 @@
 /* Filter is constructed from:
  * wrapper -> { items }
  * question -> { creation_date, owner }
- * shallow_user -> { display_name, profile_image, reputation, user_id }
+ * shallow_user -> { display_name, profile_image, reputation, user_id, user_type }
  */
-const filter = '!iC9uiwvH_LqbtozkhMOnK_';
+const filter = '!iCA6(zQJbylNesjF799NMC';
 const thisSite = window.location.hostname
     .replace(/\.\w+$/, '') // Remove the TLD (.com, .net, ...)
     .replace(/\.stackexchange$/, ''); // The API does not need the ".stackexchange" suffix
