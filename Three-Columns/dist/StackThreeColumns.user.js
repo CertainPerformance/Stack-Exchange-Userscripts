@@ -3,7 +3,7 @@
 // @description      When answering, editing, or asking, displays the question page, post textarea, and post preview in side-by-side columns
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.3.5
+// @version          1.3.6
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/(?:posts/\d+/edit|questions/(?:\d+|ask))/
 // @grant            none
 // ==/UserScript==
@@ -201,8 +201,11 @@ const postRootState = __webpack_require__(/*! ./postRootState */ "./src/attachLi
  * close the layout
  */
 exports.closeLayoutOnPostEditorClose = (thisPostRoot) => {
-    // When edit is submitted:
-    thisPostRoot.querySelector('form').addEventListener('submit', () => {
+    // Close layout when edit is submitted
+    // This must be done through jQuery, because SE's JS sometimes submits the form by calling `div.find('form').submit()`
+    // which does not trigger native DOM submit event listeners
+    const form = thisPostRoot.querySelector('form');
+    $(form).on('submit', () => {
         if (postRootState.get() === thisPostRoot) {
             closeLayout_1.closeLayout();
         }

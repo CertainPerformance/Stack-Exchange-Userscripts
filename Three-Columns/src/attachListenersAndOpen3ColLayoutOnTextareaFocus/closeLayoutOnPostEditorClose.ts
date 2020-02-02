@@ -7,8 +7,11 @@ import * as postRootState from './postRootState';
  * close the layout
  */
 export const closeLayoutOnPostEditorClose = (thisPostRoot: HTMLElement) => {
-    // When edit is submitted:
-    thisPostRoot.querySelector('form')!.addEventListener('submit', () => {
+    // Close layout when edit is submitted
+    // This must be done through jQuery, because SE's JS sometimes submits the form by calling `div.find('form').submit()`
+    // which does not trigger native DOM submit event listeners
+    const form = thisPostRoot.querySelector('form')!;
+    $(form).on('submit', () => {
         if (postRootState.get() === thisPostRoot) {
             closeLayout();
         }
