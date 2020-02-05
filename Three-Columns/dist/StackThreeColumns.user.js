@@ -3,7 +3,7 @@
 // @description      When answering, editing, or asking, displays the question page, post textarea, and post preview in side-by-side columns
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.3.6
+// @version          1.3.7
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/(?:posts/\d+/edit|questions/(?:\d+|ask))/
 // @grant            none
 // ==/UserScript==
@@ -321,6 +321,29 @@ const closeLayoutOnPostEditorClose_1 = __webpack_require__(/*! ./closeLayoutOnPo
 const closeLayoutWhenPostRefreshed_1 = __webpack_require__(/*! ./closeLayoutWhenPostRefreshed */ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/closeLayoutWhenPostRefreshed.ts");
 const openLayout_1 = __webpack_require__(/*! ./openLayout */ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/openLayout.ts");
 const postRootState = __webpack_require__(/*! ./postRootState */ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/postRootState.ts");
+// The below is needed because, when a post needs to be updated,
+// if the user presses "Edit", the textarea will temporarily be focused before the post gets replaced.
+// Don't enter the interface in this situation.
+const postIdsAboutToBeReplaced = new Set();
+// tslint:disable-next-line: variable-name
+$(document).on('refreshEdit', (_event, postId) => {
+    if (typeof postId !== 'number') {
+        return;
+    }
+    postIdsAboutToBeReplaced.add(postId);
+});
+// tslint:disable-next-line: variable-name
+$(document).ajaxComplete((_event, _jqXHR, { url = '' }) => {
+    const match = url.match(/^\/posts\/ajax-load-realtime\/(\d+)\?/);
+    if (!match) {
+        return;
+    }
+    const postId = Number(match[1]);
+    setTimeout(() => {
+        postIdsAboutToBeReplaced.delete(postId);
+        // The post gets replaced 150ms after the ajaxComplete comes back - see replaceIndividualPostContents, in realtime-se.js, in full.en.js
+    }, 200);
+});
 exports.attachListenersAndOpen3ColLayoutOnTextareaFocus = () => {
     const focusinHandler = (e) => {
         const target = e.target;
@@ -344,6 +367,10 @@ exports.attachListenersAndOpen3ColLayoutOnTextareaFocus = () => {
             // tslint:disable-next-line: no-console
             console.error(target);
             throw new Error('Stack Three Columns: No containing post root found, but .wmd-input was just focused!');
+        }
+        const postIdMatch = target.id.match(/\d+$/);
+        if (postIdMatch && postIdsAboutToBeReplaced.has(Number(postIdMatch[0]))) {
+            return;
         }
         if (href.endsWith('/edit')) {
             document.querySelector('#mainbar').setAttribute('data-cpuserscript-three-columns-edit-mainbar', '');

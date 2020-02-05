@@ -3,6 +3,30 @@ import { closeLayoutWhenPostRefreshed } from './closeLayoutWhenPostRefreshed';
 import { openLayout } from './openLayout';
 import * as postRootState from './postRootState';
 
+// The below is needed because, when a post needs to be updated,
+// if the user presses "Edit", the textarea will temporarily be focused before the post gets replaced.
+// Don't enter the interface in this situation.
+const postIdsAboutToBeReplaced = new Set<number>();
+// tslint:disable-next-line: variable-name
+$(document).on('refreshEdit', (_event, postId) => {
+    if (typeof postId !== 'number') {
+        return;
+    }
+    postIdsAboutToBeReplaced.add(postId);
+});
+// tslint:disable-next-line: variable-name
+$(document).ajaxComplete((_event, _jqXHR, { url = '' }) => {
+    const match = url.match(/^\/posts\/ajax-load-realtime\/(\d+)\?/);
+    if (!match) {
+        return;
+    }
+    const postId = Number(match[1]);
+    setTimeout(() => {
+        postIdsAboutToBeReplaced.delete(postId);
+        // The post gets replaced 150ms after the ajaxComplete comes back - see replaceIndividualPostContents, in realtime-se.js, in full.en.js
+    }, 200);
+});
+
 export const attachListenersAndOpen3ColLayoutOnTextareaFocus = () => {
     const focusinHandler = (e: FocusEvent) => {
         const target = e.target as HTMLElement;
@@ -28,6 +52,10 @@ export const attachListenersAndOpen3ColLayoutOnTextareaFocus = () => {
             // tslint:disable-next-line: no-console
             console.error(target);
             throw new Error('Stack Three Columns: No containing post root found, but .wmd-input was just focused!');
+        }
+        const postIdMatch = target.id.match(/\d+$/);
+        if (postIdMatch && postIdsAboutToBeReplaced.has(Number(postIdMatch[0]))) {
+            return;
         }
         if (href.endsWith('/edit')) {
             document.querySelector('#mainbar')!.setAttribute('data-cpuserscript-three-columns-edit-mainbar', '');
