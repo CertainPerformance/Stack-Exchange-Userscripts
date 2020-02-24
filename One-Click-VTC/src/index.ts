@@ -3,7 +3,7 @@ import { canCreateInterface } from './canCreateInterface';
 import { insertStyle } from './insertStyle';
 import { listenForAutoVoteChanges } from './listenForAutoVoteChanges';
 import { showOkButtonWhenHovered } from './showOkButtonWhenHovered';
-import { tryVoteClose } from './tryVoteClose';
+import { tryVoteCloseWhenSEReady } from './tryVoteClose';
 import { vtcContainerHTML } from './vtcContainerHTML';
 
 declare global {
@@ -26,7 +26,7 @@ if (canCreateInterface()) {
     vtcContainer.innerHTML = vtcContainerHTML;
     showOkButtonWhenHovered(vtcContainer);
     vtcContainer.setAttribute('data-cpuserscript-one-click-vtc', '');
-    vtcContainer.addEventListener('click', tryVoteClose);
+    vtcContainer.addEventListener('click', tryVoteCloseWhenSEReady);
     listenForAutoVoteChanges(vtcContainer);
     insertStyle();
 }

@@ -2,7 +2,14 @@ import { haveVotedOnQuestion } from '../haveVotedOnQuestion';
 import { openDuplicateModal } from './openDuplicateModal';
 import { getCanSendRequest, submitCloseVote } from './submitCloseVote';
 
-export const tryVoteClose = (event: Event) => {
+// Wait until SE has attached listeners and applied personal vote classes to vote buttons
+export const tryVoteCloseWhenSEReady = (event: Event) => {
+    window.StackExchange.ready(() => {
+        tryVoteClose(event);
+    });
+};
+
+const tryVoteClose = (event: Event) => {
     if (!getCanSendRequest()) {
         return;
     }

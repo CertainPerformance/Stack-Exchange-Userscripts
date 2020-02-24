@@ -3,7 +3,7 @@
 // @description      Allows voting to close with a single click
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.1.7
+// @version          1.1.8
 // @include          /^https://stackoverflow\.com/questions/\d+/
 // @grant            none
 // ==/UserScript==
@@ -243,7 +243,7 @@ if (canCreateInterface_1.canCreateInterface()) {
     vtcContainer.innerHTML = vtcContainerHTML_1.vtcContainerHTML;
     showOkButtonWhenHovered_1.showOkButtonWhenHovered(vtcContainer);
     vtcContainer.setAttribute('data-cpuserscript-one-click-vtc', '');
-    vtcContainer.addEventListener('click', tryVoteClose_1.tryVoteClose);
+    vtcContainer.addEventListener('click', tryVoteClose_1.tryVoteCloseWhenSEReady);
     listenForAutoVoteChanges_1.listenForAutoVoteChanges(vtcContainer);
     insertStyle_1.insertStyle();
 }
@@ -388,7 +388,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const haveVotedOnQuestion_1 = __webpack_require__(/*! ../haveVotedOnQuestion */ "./src/haveVotedOnQuestion.ts");
 const openDuplicateModal_1 = __webpack_require__(/*! ./openDuplicateModal */ "./src/tryVoteClose/openDuplicateModal.ts");
 const submitCloseVote_1 = __webpack_require__(/*! ./submitCloseVote */ "./src/tryVoteClose/submitCloseVote.ts");
-exports.tryVoteClose = (event) => {
+// Wait until SE has attached listeners and applied personal vote classes to vote buttons
+exports.tryVoteCloseWhenSEReady = (event) => {
+    window.StackExchange.ready(() => {
+        tryVoteClose(event);
+    });
+};
+const tryVoteClose = (event) => {
     if (!submitCloseVote_1.getCanSendRequest()) {
         return;
     }
