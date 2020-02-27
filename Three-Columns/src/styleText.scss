@@ -10,7 +10,7 @@ html[data-cpuserscript-three-columns-layout-open] {
     .hide-preview, // Hide the option to hide the preview while in 3-column layout
     .bottom-share-links, // Hide the useless links at the bottom of the answer list (only noise, and saves vertical space)
     .bottom-notice, // Same as above
-    .community-option, // Hide the "community wiki" section
+    #draft-discarded + fieldset.mb8, // Hide the "community wiki" section
     .everyonelovesstackoverflow // Ad container - if kept, may result in x-overflow inside the post root
     {
         display: none;
