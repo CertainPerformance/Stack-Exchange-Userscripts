@@ -3,7 +3,7 @@
 // @description      Review the status and reception of your comments and their parent posts
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.5
+// @version          1.0.6
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/(?:users/.*\?tab=activity|questions/\d|review/[^/]+(?:/\d+|$))/
 // @grant            none
 // ==/UserScript==
@@ -584,7 +584,7 @@ exports.watchForCommentTab = () => {
     // When user navigates to another tab under All Actions (they'll still be on the same page), remove the style tag if it's appended
     const mainBarFull = document.querySelector('#mainbar-full');
     const onMutation = () => {
-        const commentTabHighlighted = document.querySelector('#user-tab-activity .youarehere').href.endsWith('&sort=comments');
+        const commentTabHighlighted = document.querySelector('#user-tab-activity .is-selected').href.endsWith('&sort=comments');
         if (!commentTabHighlighted) {
             styleTag_1.styleTag.remove();
             return;
