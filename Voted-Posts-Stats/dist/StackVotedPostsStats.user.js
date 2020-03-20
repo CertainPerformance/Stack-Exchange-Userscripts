@@ -302,6 +302,7 @@ exports.addRowstats = () => {
     const questionIds = dedupe(anchors.map(a => postLinkToIds_1.postLinkToIds(a.href).questionId));
     getPostInfo_1.getPostInfo(questionIds)
         .catch((error) => {
+        // tslint:disable-next-line: no-console
         console.error(error);
         showToast_1.showToastError('Stack Voted Posts Stats: An error occurred, see console for details');
     });
