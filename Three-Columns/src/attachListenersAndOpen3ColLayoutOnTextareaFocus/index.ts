@@ -21,7 +21,7 @@ $(document).ajaxComplete((_event, _jqXHR, { url = '' }) => {
         return;
     }
     const postId = Number(match[1]);
-    setTimeout(
+    window.setTimeout(
         () => {
             postIdsAboutToBeReplaced.delete(postId);
             // The post gets replaced 150ms after the ajaxComplete comes back - see replaceIndividualPostContents, in realtime-se.js, in full.en.js
