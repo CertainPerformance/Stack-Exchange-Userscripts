@@ -10,7 +10,10 @@ export const openDuplicateModal = () => {
         }
     };
     window.$(document).on('ajaxComplete', handler);
-    window.setTimeout(() => {
-        window.$(document).off('ajaxComplete', handler);
-    }, 1000);
+    window.setTimeout(
+        () => {
+            window.$(document).off('ajaxComplete', handler);
+        },
+        1000,
+    );
 };
