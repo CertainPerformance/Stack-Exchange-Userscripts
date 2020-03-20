@@ -5,9 +5,13 @@
  * Search for "// clicking anywhere else closes dialogs"
  */
 export const closeTopbarWhenClickingPreview = () => {
-    window.addEventListener('click', (e) => {
-        if ((e.target as HTMLElement).closest('.wmd-preview')) {
-            window.StackExchange.topbar.hideAll();
-        }
-    }, true);
+    window.addEventListener(
+        'click',
+        (e) => {
+            if ((e.target as HTMLElement).closest('.wmd-preview')) {
+                window.StackExchange.topbar.hideAll();
+            }
+        },
+        true,
+    );
 };
