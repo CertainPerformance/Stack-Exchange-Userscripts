@@ -9,10 +9,10 @@ export const populateRowstatsWithApiData = (questionData: ApiQuestions, commentD
      * comment score (if score > 0)
      */
     questionData.items.forEach(({ answers = [], closed_reason, question_id, score }) => {
-        const answersByAnswerId = answers.reduce<{ [answerId: number]: ApiAnswer }>((a, answer) => {
-            a[answer.answer_id] = answer;
-            return a;
-        }, {});
+        const answersByAnswerId: { [answerId: number]: ApiAnswer } = {};
+        for (const answer of answers) {
+            answersByAnswerId[answer.answer_id] = answer;
+        }
         const plusMore = answers && answers.length > 1 ? answers.length - 1 : 0;
         rowstatsContainersByIds.byQuestion.get(question_id)!.forEach((rowstatsContainer) => {
             const [questionBox, answerBox] = rowstatsContainer.children;

@@ -1021,10 +1021,10 @@ exports.populateRowstatsWithApiData = (questionData, commentData, rowstatsContai
      * comment score (if score > 0)
      */
     questionData.items.forEach(({ answers = [], closed_reason, question_id, score }) => {
-        const answersByAnswerId = answers.reduce((a, answer) => {
-            a[answer.answer_id] = answer;
-            return a;
-        }, {});
+        const answersByAnswerId = {};
+        for (const answer of answers) {
+            answersByAnswerId[answer.answer_id] = answer;
+        }
         const plusMore = answers && answers.length > 1 ? answers.length - 1 : 0;
         rowstatsContainersByIds.byQuestion.get(question_id).forEach((rowstatsContainer) => {
             const [questionBox, answerBox] = rowstatsContainer.children;
