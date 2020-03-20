@@ -15,14 +15,14 @@ export const processTable = (table: HTMLTableElement) => {
     }
     processedTables.add(table);
     const trs = [...table.querySelectorAll('tr')];
-    const trsByQuestionId = trs.reduce<TrsByQuestionId>((a, tr) => {
+    const trsByQuestionId: TrsByQuestionId = {};
+    for (const tr of trs) {
         const questionId = Number(tr.querySelector('a')!.href.match(/\d+/)![0]);
-        if (!a[questionId]) {
-            a[questionId] = [];
+        if (!trsByQuestionId[questionId]) {
+            trsByQuestionId[questionId] = [];
         }
-        a[questionId].push(tr);
-        return a;
-    }, {});
+        trsByQuestionId[questionId].push(tr);
+    }
 
     const questionIdsStr = Object.keys(trsByQuestionId).join(';');
     table.style.backgroundColor = '#fffee3';
