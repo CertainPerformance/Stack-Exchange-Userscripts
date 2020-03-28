@@ -3,7 +3,7 @@
 // @description      Keeps newly-unfolded comments highlighted, to easily distinguish them from higher-scoring comments you've already read
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.3
+// @version          1.0.4
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/(?:questions/\d|review)/
 // @grant            none
 // ==/UserScript==
@@ -40,8 +40,8 @@ const observeContainer = (commentsContainer) => {
             if (!seenCommentIds.has(comment.dataset.commentId)) {
                 newComments.push(comment);
             } else {
-                comment.children[0].removeAttribute('style');
-                comment.children[1].removeAttribute('style');
+                comment.children[0].style.removeProperty('background-color');
+                comment.children[1].style.removeProperty('background-color');
             }
         }
         const myProfile = document.querySelector('.my-profile');
