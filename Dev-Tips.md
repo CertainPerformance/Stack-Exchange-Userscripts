@@ -26,6 +26,8 @@ It's handy to be able to see the effects of your changes to the Typescript sourc
 
 (3) Run `npm run watch`. After you make a change, if the build succeeds, refreshing a page the script runs on should result in the updated script running, no copy-pasting required
 
+Warning: Using `@require file://` can [break instant script injection](https://github.com/Tampermonkey/tampermonkey/issues/721) for *any* other userscript running on the same page.
+
 ## Reading Stack Exchange's Javascript
 
 To read and debug Stack Exchange's JS, first identify the location of the code you want to trace on the site. For example, in Chrome, after clicking on an element, go to the Event Listeners tab and [click](https://raw.githubusercontent.com/CertainPerformance/Stack-Exchange-Userscripts/master/images/Trace-SE-JS-Listeners.png) on a listener link to view the [location in the minified code](https://raw.githubusercontent.com/CertainPerformance/Stack-Exchange-Userscripts/master/images/Trace-SE-JS-Minified.png) where the listener was attached. To view the unminified code, go to `dev.stackoverflow.com/content//${pathname}`, where `${pathname}` is the same pathname as the one for the minified script. For example, if the script on the page is
@@ -41,3 +43,5 @@ The same pattern can be used to view the source of `wmd.en.js`, `stub.en.js`, et
 Once you've found a location in the minified code, find unique string(s) around it and search for those strings in the unminified source, and you should be able to identify the [corresponding source location](https://raw.githubusercontent.com/CertainPerformance/Stack-Exchange-Userscripts/master/images/Trace-SE-JS-Source.png). From there, you can see the readable variable names, comments, and so on.
 
 Unfortunately, this method isn't foolproof - you may have to fiddle with the URL on dev.stackoverflow.com, or you may not be able to find the source at all.
+
+Also see [How to analyze and debug Stack Exchange's Javascript?](https://stackapps.com/q/8531) to see how debugging code can be injected into SE's JS.
