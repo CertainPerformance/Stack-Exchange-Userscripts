@@ -5,3 +5,4 @@ Stack Exchange Userscripts for Stack Snippets (which are [active on](https://met
 ## Userscript index
 
 - [Lag Fixer](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/tree/master/Stack-Snippet-Userscripts/Lag-Fixer) - Makes post previews with stack snippets re-render after a debounced delay, rather than immediately after every keypress
+- [Visible Cursor](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/tree/master/Stack-Snippet-Userscripts/Visible-Cursor) - Makes the CodeMirror text cursor always visible even when the browser is zoomed out
