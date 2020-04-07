@@ -51,10 +51,19 @@ export const verifyMetadataBlock: Verifier = ({ text, logError }) => {
     for (const includeContent of directivesObj.include) {
         if (!includeContent.startsWith('/^') || !includeContent.endsWith('/')) {
             logError('@include must start with /^ and end with /', includeContent);
+            continue;
         }
         const unnecessarilyEscapedForwardSlashMatch = includeContent.match(/^\/\^(?:\\.|.)*?\\\//);
         if (unnecessarilyEscapedForwardSlashMatch) {
             logError('Unnecessarily escaped forward slash in @include', unnecessarilyEscapedForwardSlashMatch[0]);
+            continue;
+        }
+        try {
+            const patternContent = includeContent.slice(1, includeContent.length - 1);
+            // tslint:disable-next-line: no-unused-expression
+            new RegExp(patternContent);
+        } catch (e) {
+            logError('Invalid regular expression in @include', includeContent);
         }
     }
 
