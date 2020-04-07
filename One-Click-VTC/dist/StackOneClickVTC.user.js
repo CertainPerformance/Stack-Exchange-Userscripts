@@ -3,7 +3,7 @@
 // @description      Allows voting to close with a single click
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.1.8
+// @version          1.1.9
 // @include          /^https://stackoverflow\.com/questions/\d+/
 // @grant            none
 // ==/UserScript==
@@ -173,14 +173,13 @@ exports.canCreateInterface = () => {
     if (stillVisibleAnswerAuthorAnchors.some(a => a.href === myProfileLink)) {
         return;
     }
-    const viewportWidth = document.documentElement.clientWidth;
-    // Interface will be ~250px wide, and will be placed 250px to the right of the .container
-    // So, only create interface if there's at least 250px between (centered) container and viewport edge:
-    const containerWidth = document.querySelector('.container').offsetWidth;
-    if (containerWidth + 500 > viewportWidth) {
+    // Interface will be ~250px wide
+    // So, only create interface if there's at least 250px between container and viewport edge:
+    const emptySpaceToLeftOfContainer = document.querySelector('.container').getBoundingClientRect().left;
+    if (emptySpaceToLeftOfContainer < 250) {
         // tslint:disable-next-line: no-console
         console.warn('Not enough space to put Stack One Click VTC interface to left of main content');
-        if (document.querySelector('#left-sidebar')) {
+        if (document.querySelector('#left-sidebar').offsetParent !== null) {
             // tslint:disable-next-line: no-console
             console.warn('Consider disabling the left sidebar at https://stackoverflow.com/users/preferences/');
         }
