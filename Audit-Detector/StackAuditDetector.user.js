@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name             Stack Audit detector
+// @name             Stack Audit Detector
 // @description      Detects audits in review queues
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
