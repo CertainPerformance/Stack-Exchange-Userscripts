@@ -21,6 +21,9 @@ export type StackExchange = {
     };
     options: {
         serverTimeOffsetSec: number;
+        site: {
+            name: string;
+        };
         user: {
             fkey: string;
             rep: number;
@@ -28,7 +31,7 @@ export type StackExchange = {
     };
     realtime: {
         updateRelativeDates: () => void;
-    }
+    };
     topbar: {
         hideAll: () => void;
     };
