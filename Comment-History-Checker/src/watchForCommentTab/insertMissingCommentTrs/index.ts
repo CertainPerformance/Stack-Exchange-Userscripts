@@ -23,13 +23,13 @@ export const insertMissingCommentTrs = (savedComments: SavedComments) => {
         .map((tr) => {
             const commentIdToFind = trToIds(tr).commentId;
             // In saved comments, find first commentId which is equal to (likely) or earlier than the commentId of this tr
-            // (that is, a theoretical TR created from the found commentId should be the same, or come right below this `tr` being iterated over
+            // (that is, a theoretical TR created from the found commentId should be the same, or come right below this `tr` being iterated over)
             return savedCommentsArrLatestFirst.findIndex(({ commentHref }) => (
                 commentHrefToIds(commentHref).commentId <= commentIdToFind
             ));
         });
     // This may not exist if the user has made less than a page-full of comments on this site:
-    const pageNumbersElm = document.querySelector('#user-tab-activity .page-numbers.current');
+    const pageNumbersElm = document.querySelector('#user-tab-activity .user-tab-paging .is-selected');
     const thisPageNumber = pageNumbersElm ? Number(pageNumbersElm.textContent) : 1;
     const sliceStartIndex = (startTRIndexInSavedCommentsArr === -1 || thisPageNumber === 1)
         ? 0
