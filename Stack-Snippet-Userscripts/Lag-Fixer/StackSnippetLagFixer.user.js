@@ -5,8 +5,8 @@
 // @description      https://meta.stackoverflow.com/q/346458
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.1
-// @include          /^https://(?:(?:(?:codereview|gamedev|codegolf|meta)\.(?:meta\.)?stackexchange\.com)|(\w+\.)?(?:meta\.)?stackoverflow\.com)/(?:questions/|posts/\d+/edit|review/\w+\b(?!/stats|/history))/
+// @version          1.0.2
+// @include          /^https://(?:(?:(?:codereview|gamedev|codegolf|meta)\.(?:meta\.)?stackexchange\.com)|(\w+\.)?(?:meta\.)?stackoverflow\.com)/(?:questions/|posts/\d+/edit|review/\w(?!.*/stats|.*/history))/
 // @grant            none
 // ==/UserScript==
 
