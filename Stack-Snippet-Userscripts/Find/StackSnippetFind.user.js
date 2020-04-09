@@ -3,7 +3,7 @@
 // @description      Makes control-F inside snippet editor only show results inside the editor
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.0
+// @version          1.0.1
 // @include          /^https://(?:(?:(?:codereview|gamedev|codegolf|meta)\.)(?:[^/]+\.)?stackexchange\.com|(?:[^/]+\.)?stackoverflow\.com)/(?:questions/(?:\d|ask/)|posts/\d+/edit|review/\w(?!.*/stats|.*/history))/
 // @grant            none
 // ==/UserScript==
@@ -13,7 +13,7 @@
 const style = document.createElement('style');
 style.textContent = `
 body > *:not(.snippet-modal):not(.lightbox) {
-  display: none;
+  display: none !important;
 }
 `;
 
