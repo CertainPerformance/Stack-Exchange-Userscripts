@@ -3,8 +3,8 @@
 // @description      Shows Stack Snippet buttons and does syntax highlighting when refreshing an edited post
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.1
-// @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/
+// @version          1.0.2
+// @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/(?:questions/\d+|review/\w(?!.*/stats|.*/history))/
 // @grant            none
 // ==/UserScript==
 

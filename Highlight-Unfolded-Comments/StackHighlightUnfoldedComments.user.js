@@ -3,8 +3,8 @@
 // @description      Keeps newly-unfolded comments highlighted, to easily distinguish them from higher-scoring comments you've already read
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.4
-// @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/(?:questions/\d|review)/
+// @version          1.0.5
+// @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/(?:questions/\d|review/\w(?!.*/stats|.*/history))/
 // @grant            none
 // ==/UserScript==
 
