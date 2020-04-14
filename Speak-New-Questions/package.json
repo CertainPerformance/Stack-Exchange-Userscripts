@@ -1,0 +1,21 @@
+{
+    "name": "speak-new-questions",
+    "scripts": {
+        "build": "npm run lint && webpack",
+        "watch": "webpack --watch --env.liveDev",
+        "lint": "tslint src/**/*.ts -p ./tsconfig.json",
+        "graph": "madge ./src/index.ts --ts-config=tsconfig.json -i ./madge-dependency-graph.png"
+    },
+    "author": "CertainPerformance",
+    "license": "MIT",
+    "private": true,
+    "devDependencies": {
+        "@types/jquery": "^3.3.33",
+        "ts-loader": "^6.2.1",
+        "tslint": "^6.1.0",
+        "tslint-config-airbnb": "^5.11.2",
+        "typescript": "^3.8.3",
+        "webpack": "^4.42.0",
+        "webpack-cli": "^3.3.11"
+    }
+}
