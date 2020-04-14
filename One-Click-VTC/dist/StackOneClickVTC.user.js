@@ -3,7 +3,7 @@
 // @description      Allows voting to close with a single click
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.1.10
+// @version          1.1.11
 // @include          /^https://stackoverflow\.com/questions/\d+/
 // @grant            none
 // ==/UserScript==
@@ -406,7 +406,7 @@ const tryVoteClose = (event) => {
         return;
     }
     const okButtonWasClicked = target !== closeTextElement;
-    const { closeReasonId, closeAsOffTopicReasonId } = closeTextElement.dataset;
+    const { closeReasonId, siteSpecificCloseReasonId } = closeTextElement.dataset;
     const voteIsDuplicate = closeReasonId === 'Duplicate';
     // localStorage will definitely be populated by this point; it's done on the top level of listenForAutoVoteChanges
     const downvoteCondition = localStorage.cpUserscriptOneClickVTCDownvoteWhenVotingToClose;
@@ -421,7 +421,7 @@ const tryVoteClose = (event) => {
         openDuplicateModal_1.openDuplicateModal();
         return;
     }
-    submitCloseVote_1.submitCloseVote(closeReasonId, closeAsOffTopicReasonId);
+    submitCloseVote_1.submitCloseVote(closeReasonId, siteSpecificCloseReasonId);
 };
 
 
@@ -530,12 +530,12 @@ exports.getCanSendRequest = () => canSendRequest;
 const setCanSendRequestToTrue = () => {
     canSendRequest = true;
 };
-exports.submitCloseVote = (closeReasonId, closeAsOffTopicReasonId) => {
+exports.submitCloseVote = (closeReasonId, siteSpecificCloseReasonId) => {
     const formData = new FormData();
     formData.append('fkey', window.StackExchange.options.user.fkey);
     formData.append('closeReasonId', closeReasonId);
-    if (closeAsOffTopicReasonId) {
-        formData.append('closeAsOffTopicReasonId', closeAsOffTopicReasonId);
+    if (siteSpecificCloseReasonId) {
+        formData.append('siteSpecificCloseReasonId', siteSpecificCloseReasonId);
     }
     const initOptions = {
         body: formData,
@@ -573,13 +573,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.vtcContainerHTML = `
 <h2>Vote to close as</h2>
 <div>OK</div><h3 data-close-reason-id="Duplicate">Duplicate</h3>
-<h3>Off-topic</h3>
+<h3>Site-Specific</h3>
 <div>
-    <div>OK</div><div data-close-reason-id="OffTopic" data-close-as-off-topic-reason-id="4">General computing</div>
-    <div>OK</div><div data-close-reason-id="OffTopic" data-close-as-off-topic-reason-id="7">Server / networking</div>
-    <div>OK</div><div data-close-reason-id="OffTopic" data-close-as-off-topic-reason-id="16">Off-site resource request</div>
-    <div>OK</div><div data-close-reason-id="OffTopic" data-close-as-off-topic-reason-id="13">No MCVE</div>
-    <div>OK</div><div data-close-reason-id="OffTopic" data-close-as-off-topic-reason-id="11">Caused by typo</div>
+    <div>OK</div><div data-close-reason-id="SiteSpecific" data-site-specific-close-reason-id="4">General computing</div>
+    <div>OK</div><div data-close-reason-id="SiteSpecific" data-site-specific-close-reason-id="7">Server / networking</div>
+    <div>OK</div><div data-close-reason-id="SiteSpecific" data-site-specific-close-reason-id="16">Off-site resource request</div>
+    <div>OK</div><div data-close-reason-id="SiteSpecific" data-site-specific-close-reason-id="13">No MCVE</div>
+    <div>OK</div><div data-close-reason-id="SiteSpecific" data-site-specific-close-reason-id="11">Caused by typo</div>
 </div>
 <div>OK</div><h3 data-close-reason-id="NeedsDetailsOrClarity">Unclear</h3>
 <div>OK</div><h3 data-close-reason-id="NeedMoreFocus">Too Broad</h3>

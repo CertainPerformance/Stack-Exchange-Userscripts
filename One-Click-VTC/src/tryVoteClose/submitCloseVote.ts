@@ -6,12 +6,12 @@ const setCanSendRequestToTrue = () => {
     canSendRequest = true;
 };
 
-export const submitCloseVote = (closeReasonId: string, closeAsOffTopicReasonId: string | undefined) => {
+export const submitCloseVote = (closeReasonId: string, siteSpecificCloseReasonId: string | undefined) => {
     const formData = new FormData();
     formData.append('fkey', window.StackExchange.options.user.fkey);
     formData.append('closeReasonId', closeReasonId);
-    if (closeAsOffTopicReasonId) {
-        formData.append('closeAsOffTopicReasonId', closeAsOffTopicReasonId);
+    if (siteSpecificCloseReasonId) {
+        formData.append('siteSpecificCloseReasonId', siteSpecificCloseReasonId);
     }
     const initOptions = {
         body: formData,

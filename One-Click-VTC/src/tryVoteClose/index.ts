@@ -20,7 +20,7 @@ const tryVoteClose = (event: Event) => {
         return;
     }
     const okButtonWasClicked = target !== closeTextElement;
-    const { closeReasonId, closeAsOffTopicReasonId } = (closeTextElement as HTMLElement).dataset;
+    const { closeReasonId, siteSpecificCloseReasonId } = (closeTextElement as HTMLElement).dataset;
     const voteIsDuplicate = closeReasonId === 'Duplicate';
     // localStorage will definitely be populated by this point; it's done on the top level of listenForAutoVoteChanges
     const downvoteCondition = localStorage.cpUserscriptOneClickVTCDownvoteWhenVotingToClose;
@@ -37,5 +37,5 @@ const tryVoteClose = (event: Event) => {
         openDuplicateModal();
         return;
     }
-    submitCloseVote(closeReasonId!, closeAsOffTopicReasonId);
+    submitCloseVote(closeReasonId!, siteSpecificCloseReasonId);
 };
