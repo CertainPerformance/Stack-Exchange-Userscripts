@@ -18,14 +18,16 @@ export const canCreateInterface = () => {
     }
     // Interface will be ~250px wide
     // So, only create interface if there's at least 250px between container and viewport edge:
-    const emptySpaceToLeftOfContainer = document.querySelector<HTMLElement>('.container')!.getBoundingClientRect().left;
-    if (emptySpaceToLeftOfContainer < 250) {
+    const emptySpaceToLeftOfContent = document.querySelector<HTMLElement>('.container')!.getBoundingClientRect().left;
+    if (emptySpaceToLeftOfContent < 250) {
         // tslint:disable-next-line: no-console
-        console.warn('Not enough space to put Stack One Click VTC interface to left of main content');
+        console.warn(`Not enough space to put Stack One Click VTC interface to left of main content: 250px required, ${Math.floor(emptySpaceToLeftOfContent)}px found`);
         if (document.querySelector<HTMLElement>('#left-sidebar')!.offsetParent !== null) {
             // tslint:disable-next-line: no-console
             console.warn('Consider disabling the left sidebar at https://stackoverflow.com/users/preferences/');
         }
+        // tslint:disable-next-line: no-console
+        console.warn('To acquire more space, consider installing Stack Right Content: https://github.com/CertainPerformance/Stack-Exchange-Userscripts/tree/master/Right-Content');
         return;
     }
     const closeQuestionLink = document.querySelector<HTMLAnchorElement>('.close-question-link');

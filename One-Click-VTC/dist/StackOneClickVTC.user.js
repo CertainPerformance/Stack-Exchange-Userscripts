@@ -3,7 +3,7 @@
 // @description      Allows voting to close with a single click
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.1.9
+// @version          1.1.10
 // @include          /^https://stackoverflow\.com/questions/\d+/
 // @grant            none
 // ==/UserScript==
@@ -175,14 +175,16 @@ exports.canCreateInterface = () => {
     }
     // Interface will be ~250px wide
     // So, only create interface if there's at least 250px between container and viewport edge:
-    const emptySpaceToLeftOfContainer = document.querySelector('.container').getBoundingClientRect().left;
-    if (emptySpaceToLeftOfContainer < 250) {
+    const emptySpaceToLeftOfContent = document.querySelector('.container').getBoundingClientRect().left;
+    if (emptySpaceToLeftOfContent < 250) {
         // tslint:disable-next-line: no-console
-        console.warn('Not enough space to put Stack One Click VTC interface to left of main content');
+        console.warn(`Not enough space to put Stack One Click VTC interface to left of main content: 250px required, ${Math.floor(emptySpaceToLeftOfContent)}px found`);
         if (document.querySelector('#left-sidebar').offsetParent !== null) {
             // tslint:disable-next-line: no-console
             console.warn('Consider disabling the left sidebar at https://stackoverflow.com/users/preferences/');
         }
+        // tslint:disable-next-line: no-console
+        console.warn('To acquire more space, consider installing Stack Right Content: https://github.com/CertainPerformance/Stack-Exchange-Userscripts/tree/master/Right-Content');
         return;
     }
     const closeQuestionLink = document.querySelector('.close-question-link');
@@ -493,7 +495,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.openDuplicateModal = () => {
     document.querySelector('.close-question-link').click();
     const handler = () => {
-        const duplicateRadio = document.querySelector('input[type="radio"][name="close-reason"][value="Duplicate"]');
+        // First ID selector below is new due to UI changes ~4/13/20: https://meta.stackoverflow.com/q/396592
+        // If it doesn't get reverted and makes it out of the testing phase, second selector can be removed
+        const duplicateRadio = document.querySelector('#closeReasonId-Duplicate, input[type="radio"][name="close-reason"][value="Duplicate"]');
         if (duplicateRadio) {
             // If there's an error, or user has already voted to close, duplicateRadio will not exist
             // That's fine - keep the newly opened modal or error box open, so user can see what the problem was
