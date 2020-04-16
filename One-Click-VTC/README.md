@@ -4,9 +4,9 @@ For Stack Overflow only. If you vote to close (VTC) a lot, you can use this user
 
 ![screenshot](https://raw.githubusercontent.com/CertainPerformance/Stack-Exchange-Userscripts/master/One-Click-VTC/userscript-screenshot.png)
 
-This is intended for those with reasonably wide screens. The VTC reasons are put in a container to the left of the main page content; you may also wish to [disable the left sidebar](https://stackoverflow.com/users/preferences/) to free up space.
+This is intended for those with reasonably wide screens, since the VTC reasons are put in a container to the left of the main page content. To increase space on the left, you can [disable the left sidebar](https://stackoverflow.com/users/preferences/) and/or install [Right Content](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/tree/master/Right-Content).
 
-You'll still have to manually open the pop-up interface in order to VTC with a custom reason.
+You'll still have to manually open the pop-up interface in order to VTC with a custom reason, or to vote for migration.
 
 If you wish (or don't wish) to downvote while voting to close, you can bring up the settings to do so automatically by hovering over the userscript interface for a few seconds.
 
