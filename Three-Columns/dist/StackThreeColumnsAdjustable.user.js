@@ -3,7 +3,7 @@
 // @description      When answering, editing, or asking, displays the question page, post textarea, and post preview in side-by-side columns
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.3.9
+// @version          1.3.10
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/(?:posts/\d+/edit|questions/(?:\d+|ask))/
 // @grant            none
 // ==/UserScript==
@@ -134,13 +134,13 @@ __webpack_require__.r(__webpack_exports__);
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const attachListenersAndOpen3ColLayoutOnTextareaFocus_1 = __webpack_require__(/*! ./attachListenersAndOpen3ColLayoutOnTextareaFocus */ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/index.ts");
-const closeLayoutWhenClickOnCloseOrPendingEdit_1 = __webpack_require__(/*! ./closeLayoutWhenClickOnCloseOrPendingEdit */ "./src/closeLayoutWhenClickOnCloseOrPendingEdit.ts");
+const closeLayoutWhenClickOnCloseOrFlagOrPendingEdit_1 = __webpack_require__(/*! ./closeLayoutWhenClickOnCloseOrFlagOrPendingEdit */ "./src/closeLayoutWhenClickOnCloseOrFlagOrPendingEdit.ts");
 const closeTopbarWhenClickingPreview_1 = __webpack_require__(/*! ./closeTopbarWhenClickingPreview */ "./src/closeTopbarWhenClickingPreview.ts");
 const enterInterfaceWhenCopyToAnswer_1 = __webpack_require__(/*! ./enterInterfaceWhenCopyToAnswer */ "./src/enterInterfaceWhenCopyToAnswer.ts");
 const watchForResize_1 = __webpack_require__(/*! ./watchForResize */ "./src/watchForResize/index.ts");
 exports.addListeners = () => {
     attachListenersAndOpen3ColLayoutOnTextareaFocus_1.attachListenersAndOpen3ColLayoutOnTextareaFocus();
-    closeLayoutWhenClickOnCloseOrPendingEdit_1.closeLayoutWhenClickOnCloseOrPendingEdit();
+    closeLayoutWhenClickOnCloseOrFlagOrPendingEdit_1.closeLayoutWhenClickOnCloseOrFlagOrPendingEdit();
     closeTopbarWhenClickingPreview_1.closeTopbarWhenClickingPreview();
     enterInterfaceWhenCopyToAnswer_1.enterInterfaceWhenCopyToAnswer();
     watchForResize_1.watchForResize();
@@ -495,10 +495,10 @@ exports.closeLayout = (scrollImmediately = false) => {
 
 /***/ }),
 
-/***/ "./src/closeLayoutWhenClickOnCloseOrPendingEdit.ts":
-/*!*********************************************************!*\
-  !*** ./src/closeLayoutWhenClickOnCloseOrPendingEdit.ts ***!
-  \*********************************************************/
+/***/ "./src/closeLayoutWhenClickOnCloseOrFlagOrPendingEdit.ts":
+/*!***************************************************************!*\
+  !*** ./src/closeLayoutWhenClickOnCloseOrFlagOrPendingEdit.ts ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -511,11 +511,12 @@ const closeLayout_1 = __webpack_require__(/*! ./closeLayout */ "./src/closeLayou
  * prevent the click, close the layout, and then click() what they clicked manually
  * to ensure that the close / edit approval interface appears in the middle of the screen, after the layout is back to normal
  */
-exports.closeLayoutWhenClickOnCloseOrPendingEdit = () => {
+exports.closeLayoutWhenClickOnCloseOrFlagOrPendingEdit = () => {
     const clickHandler = (e) => {
         const target = e.target;
-        // Continue main body of function only if layout is open *and* one of (.close-question-link or a[id^="edit-pending"]) is clicked
-        if (!target.closest('html[data-cpuserscript-three-columns-layout-open]') || !target.closest('.close-question-link, a[id^="edit-pending"]')) {
+        // tslint:disable-next-line: no-console
+        // Continue main body of function only if layout is open *and* one of (.close-question-link or .flag-post-link or a[id^="edit-pending"]) is clicked
+        if (!target.closest('html[data-cpuserscript-three-columns-layout-open]') || !target.closest('.close-question-link, .flag-post-link, a[id^="edit-pending"]')) {
             return;
         }
         // Do not trigger SE's listeners for clicks on Edit / Close:

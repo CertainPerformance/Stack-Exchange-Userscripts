@@ -5,11 +5,12 @@ import { closeLayout } from './closeLayout';
  * prevent the click, close the layout, and then click() what they clicked manually
  * to ensure that the close / edit approval interface appears in the middle of the screen, after the layout is back to normal
  */
-export const closeLayoutWhenClickOnCloseOrPendingEdit = () => {
+export const closeLayoutWhenClickOnCloseOrFlagOrPendingEdit = () => {
     const clickHandler = (e: MouseEvent) => {
         const target = e.target as HTMLElement;
-        // Continue main body of function only if layout is open *and* one of (.close-question-link or a[id^="edit-pending"]) is clicked
-        if (!target.closest('html[data-cpuserscript-three-columns-layout-open]') || !target.closest('.close-question-link, a[id^="edit-pending"]')) {
+        // tslint:disable-next-line: no-console
+        // Continue main body of function only if layout is open *and* one of (.close-question-link or .flag-post-link or a[id^="edit-pending"]) is clicked
+        if (!target.closest('html[data-cpuserscript-three-columns-layout-open]') || !target.closest('.close-question-link, .flag-post-link, a[id^="edit-pending"]')) {
             return;
         }
         // Do not trigger SE's listeners for clicks on Edit / Close:
