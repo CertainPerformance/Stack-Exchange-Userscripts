@@ -7,7 +7,8 @@ import { commentHrefToIds } from '../commentHrefToIds';
 export const saveComment = (userCommentAnchor: HTMLAnchorElement, savedComments: SavedComments) => {
     const dateElm = userCommentAnchor.nextElementSibling!.querySelector<HTMLElement>('.relativetime-clean')!;
     const timestamp = new Date(dateElm.title).getTime();
-    const commentHTML = userCommentAnchor.closest('.comment-body')!.children[0].innerHTML;
+    // Some sites have a MathJax preview which is the first child of the body, rather than the comment-copy being the first child
+    const commentHTML = userCommentAnchor.closest('.comment-body')!.querySelector('.comment-copy')!.innerHTML;
     const questionAnchor = document.querySelector('#question-header > h1 > a');
     if (!questionAnchor) {
         // Spam/rude question - it's likely already in the database, just don't try to update it
