@@ -1,6 +1,9 @@
 export const openDuplicateModal = () => {
     document.querySelector<HTMLAnchorElement>('.close-question-link')!.click();
-    const handler = () => {
+    const handler = (_event: unknown, _jqXHR: unknown, ajaxOptions: JQuery.AjaxSettings<unknown>) => {
+        if (!ajaxOptions.url || !/\/flags\/questions\/\d+\/close\/popup/.test(ajaxOptions.url)) {
+            return;
+        }
         // First ID selector below is new due to UI changes ~4/13/20: https://meta.stackoverflow.com/q/396592
         // If it doesn't get reverted and makes it out of the testing phase, second selector can be removed
         const duplicateRadio = document.querySelector<HTMLElement>('#closeReasonId-Duplicate, input[type="radio"][name="close-reason"][value="Duplicate"]');
@@ -12,10 +15,4 @@ export const openDuplicateModal = () => {
         }
     };
     window.$(document).on('ajaxComplete', handler);
-    window.setTimeout(
-        () => {
-            window.$(document).off('ajaxComplete', handler);
-        },
-        1000,
-    );
 };
