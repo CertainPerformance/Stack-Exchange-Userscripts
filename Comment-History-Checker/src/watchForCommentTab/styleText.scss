@@ -25,7 +25,7 @@
 
         > [data-cpuserscript-qa-box] {
             border-width: 1px;
-            border-color: #b9b9b9;
+            border-color: var(--black-200);
             text-align: center;
 
             &[data-cpuserscript-parent-post] {
@@ -37,9 +37,9 @@
             }
 
             &[data-cpuserscript-accepted] {
-                border-color: #5fba7d;
-                background: #5fba7d;
-                color: #fff;
+                border-color: var(--green-300);
+                background: var(--green-500);
+                color: var(--white);
             }
         }
 
@@ -67,15 +67,15 @@
     }
 
     [data-cpuserscript-post-removed] {
-        background-color: #f4eaea;
+        background-color: var(--red-100);
     }
     [data-cpuserscript-duplicate-removed] {
-        background-color: #d3ffc9;
+        background-color: var(--green-200);
     }
     [data-cpuserscript-self-deleted] {
-        background-color: #ffffcc;
+        background-color: var(--yellow-300);
     }
     [data-cpuserscript-comment-removed] {
-        background-color: #e58080;
+        background-color: var(--red-300);
     }
 }
