@@ -10,11 +10,12 @@
         margin-bottom: 10px;
         padding: 5px;
         &:hover {
-            background-color: yellow;
+            background-color: var(--orange-300);
+            color: var(--black);
         }
     }
     div:hover + [data-close-reason-id] {
-        background-color: #7bff00;
+        background-color: var(--green-300);
     }
     > :nth-child(4) {
         padding: 5px;
@@ -30,7 +31,7 @@
         margin-left: 20px;
     }
     @mixin okButton($emSize) {
-        border: 1px solid black;
+        border: 1px solid var(--black);
         float: right;
         visibility: hidden;
         width: calc(#{$emSize}em + 15px);
@@ -54,9 +55,10 @@
             justify-content: space-around;
             > div {
                 padding: 0 5px;
-                border: 1px solid black;
+                border: 1px solid var(--black);
                 &:hover {
-                    background-color: yellow;
+                    background-color: var(--orange-300);
+                    color: var(--black);
                     cursor: pointer;
                 }
             }
