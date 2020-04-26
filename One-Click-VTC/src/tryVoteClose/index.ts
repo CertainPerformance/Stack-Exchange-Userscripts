@@ -32,7 +32,7 @@ const tryVoteClose = (event: Event) => {
     ) {
         downvoteButton.click();
     }
-    downvoteButton.style.removeProperty('background-color');
+    downvoteButton.removeAttribute('data-cpuserscript-one-click-vtc-imminent-downvote');
     if (voteIsDuplicate) {
         openDuplicateModal();
         return;
