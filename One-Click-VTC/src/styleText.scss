@@ -1,5 +1,11 @@
 // Use data attributes to reduce chance of selector collisions
 
+@mixin imminent-choice {
+    background-color: yellow;
+    @at-root body.theme-dark #{&} {
+        background-color: chocolate;
+    }
+}
 [data-cpuserscript-one-click-vtc] {
     position: absolute;
     margin-top: 24px;
@@ -10,12 +16,15 @@
         margin-bottom: 10px;
         padding: 5px;
         &:hover {
-            background-color: var(--orange-300);
-            color: var(--black);
+            @include imminent-choice;
         }
     }
+    // When OK button is hovered, change style of its reason on the left:
     div:hover + [data-close-reason-id] {
-        background-color: var(--green-300);
+        background-color: lime;
+        @at-root body.theme-dark #{&} {
+            background-color: green;
+        }
     }
     > :nth-child(4) {
         padding: 5px;
@@ -47,6 +56,7 @@
         @include okButton(1);
     }
 
+    // Container for "Downvote when voting to close" button options:
     > div:last-child {
         visibility: hidden;
         text-align: center;
@@ -56,12 +66,23 @@
             > div {
                 padding: 0 5px;
                 border: 1px solid var(--black);
-                &:hover {
-                    background-color: var(--orange-300);
-                    color: var(--black);
-                    cursor: pointer;
+                cursor: pointer;
+                user-select: none;
+                &[data-selected-option] {
+                    // Dark blue in light theme, light blue in dark theme:
+                    background-color: var(--blue-700);
+                    // White in light theme, black in dark theme:
+                    color: var(--white);
+                }
+                &:hover:not([data-selected-option]) {
+                    @include imminent-choice;
                 }
             }
         }
     }
+}
+
+// Downvote button:
+.question .js-vote-down-btn[data-cpuserscript-one-click-vtc-imminent-downvote] {
+    @include imminent-choice;
 }

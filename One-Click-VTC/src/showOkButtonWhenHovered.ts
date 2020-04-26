@@ -14,11 +14,11 @@ export const showOkButtonWhenHovered = (vtcContainer: Element) => {
     const downvoteButton = document.querySelector<HTMLElement>('.question .js-vote-down-btn')!;
     const showImminentDownvote = () => {
         if (!haveVotedOnQuestion()) {
-            downvoteButton.style.backgroundColor = 'var(--orange-300)';
+            downvoteButton.setAttribute('data-cpuserscript-one-click-vtc-imminent-downvote', '');
         }
     };
     const noImminentDownvote = () => {
-        downvoteButton.style.removeProperty('background-color');
+        downvoteButton.removeAttribute('data-cpuserscript-one-click-vtc-imminent-downvote');
     };
     for (const textContainer of (vtcContainer.querySelectorAll<HTMLElement>('[data-close-reason-id]'))) {
         const okButton = textContainer.previousElementSibling as HTMLElement;

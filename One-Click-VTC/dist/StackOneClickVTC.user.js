@@ -3,7 +3,7 @@
 // @description      Allows voting to close with a single click
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.1.12
+// @version          1.1.13
 // @include          /^https://stackoverflow\.com/questions/\d+/
 // @grant            none
 // ==/UserScript==
@@ -141,7 +141,7 @@ exports.showToastInfo = (message) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("[data-cpuserscript-one-click-vtc] {\n  position: absolute;\n  margin-top: 24px;\n  left: -250px;\n  width: 240px; }\n  [data-cpuserscript-one-click-vtc] [data-close-reason-id] {\n    margin-bottom: 10px;\n    padding: 5px; }\n    [data-cpuserscript-one-click-vtc] [data-close-reason-id]:hover {\n      background-color: var(--orange-300);\n      color: var(--black); }\n  [data-cpuserscript-one-click-vtc] div:hover + [data-close-reason-id] {\n    background-color: var(--green-300); }\n  [data-cpuserscript-one-click-vtc] > :nth-child(4) {\n    padding: 5px; }\n  [data-cpuserscript-one-click-vtc] > :nth-child(2),\n  [data-cpuserscript-one-click-vtc] > :nth-child(3),\n  [data-cpuserscript-one-click-vtc] > :nth-child(5) > *,\n  [data-cpuserscript-one-click-vtc] > :nth-child(5) ~ *:not(:last-child) {\n    cursor: pointer; }\n  [data-cpuserscript-one-click-vtc] > :nth-child(5) {\n    margin-left: 20px; }\n  [data-cpuserscript-one-click-vtc] > div:not(:last-child) > div:nth-child(odd) {\n    border: 1px solid var(--black);\n    float: right;\n    visibility: hidden;\n    width: calc(0.75em + 15px);\n    height: calc(0.75em + 15px);\n    text-align: center;\n    vertical-align: middle;\n    line-height: calc(0.75em + 15px); }\n  [data-cpuserscript-one-click-vtc] > div:nth-child(even):not(:last-child) {\n    border: 1px solid var(--black);\n    float: right;\n    visibility: hidden;\n    width: calc(1em + 15px);\n    height: calc(1em + 15px);\n    text-align: center;\n    vertical-align: middle;\n    line-height: calc(1em + 15px); }\n  [data-cpuserscript-one-click-vtc] > div:last-child {\n    visibility: hidden;\n    text-align: center; }\n    [data-cpuserscript-one-click-vtc] > div:last-child > div {\n      display: flex;\n      justify-content: space-around; }\n      [data-cpuserscript-one-click-vtc] > div:last-child > div > div {\n        padding: 0 5px;\n        border: 1px solid var(--black); }\n        [data-cpuserscript-one-click-vtc] > div:last-child > div > div:hover {\n          background-color: var(--orange-300);\n          color: var(--black);\n          cursor: pointer; }\n");
+/* harmony default export */ __webpack_exports__["default"] = ("[data-cpuserscript-one-click-vtc] {\n  position: absolute;\n  margin-top: 24px;\n  left: -250px;\n  width: 240px; }\n  [data-cpuserscript-one-click-vtc] [data-close-reason-id] {\n    margin-bottom: 10px;\n    padding: 5px; }\n    [data-cpuserscript-one-click-vtc] [data-close-reason-id]:hover {\n      background-color: yellow; }\n      body.theme-dark [data-cpuserscript-one-click-vtc] [data-close-reason-id]:hover {\n        background-color: chocolate; }\n  [data-cpuserscript-one-click-vtc] div:hover + [data-close-reason-id] {\n    background-color: lime; }\n    body.theme-dark [data-cpuserscript-one-click-vtc] div:hover + [data-close-reason-id] {\n      background-color: green; }\n  [data-cpuserscript-one-click-vtc] > :nth-child(4) {\n    padding: 5px; }\n  [data-cpuserscript-one-click-vtc] > :nth-child(2),\n  [data-cpuserscript-one-click-vtc] > :nth-child(3),\n  [data-cpuserscript-one-click-vtc] > :nth-child(5) > *,\n  [data-cpuserscript-one-click-vtc] > :nth-child(5) ~ *:not(:last-child) {\n    cursor: pointer; }\n  [data-cpuserscript-one-click-vtc] > :nth-child(5) {\n    margin-left: 20px; }\n  [data-cpuserscript-one-click-vtc] > div:not(:last-child) > div:nth-child(odd) {\n    border: 1px solid var(--black);\n    float: right;\n    visibility: hidden;\n    width: calc(0.75em + 15px);\n    height: calc(0.75em + 15px);\n    text-align: center;\n    vertical-align: middle;\n    line-height: calc(0.75em + 15px); }\n  [data-cpuserscript-one-click-vtc] > div:nth-child(even):not(:last-child) {\n    border: 1px solid var(--black);\n    float: right;\n    visibility: hidden;\n    width: calc(1em + 15px);\n    height: calc(1em + 15px);\n    text-align: center;\n    vertical-align: middle;\n    line-height: calc(1em + 15px); }\n  [data-cpuserscript-one-click-vtc] > div:last-child {\n    visibility: hidden;\n    text-align: center; }\n    [data-cpuserscript-one-click-vtc] > div:last-child > div {\n      display: flex;\n      justify-content: space-around; }\n      [data-cpuserscript-one-click-vtc] > div:last-child > div > div {\n        padding: 0 5px;\n        border: 1px solid var(--black);\n        cursor: pointer;\n        user-select: none; }\n        [data-cpuserscript-one-click-vtc] > div:last-child > div > div[data-selected-option] {\n          background-color: var(--blue-700);\n          color: var(--white); }\n        [data-cpuserscript-one-click-vtc] > div:last-child > div > div:hover:not([data-selected-option]) {\n          background-color: yellow; }\n          body.theme-dark [data-cpuserscript-one-click-vtc] > div:last-child > div > div:hover:not([data-selected-option]) {\n            background-color: chocolate; }\n\n.question .js-vote-down-btn[data-cpuserscript-one-click-vtc-imminent-downvote] {\n  background-color: yellow; }\n  body.theme-dark .question .js-vote-down-btn[data-cpuserscript-one-click-vtc-imminent-downvote] {\n    background-color: chocolate; }\n");
 
 /***/ }),
 
@@ -290,16 +290,16 @@ const showOptionContainer = (optionContainer) => {
     optionContainer.style.visibility = 'visible';
     const buttons = [...optionContainer.children[1].children];
     const currentButton = buttons.find(button => button.textContent === localStorage.cpUserscriptOneClickVTCDownvoteWhenVotingToClose);
-    currentButton.style.backgroundColor = '#33ffe7';
+    currentButton.setAttribute('data-selected-option', '');
     optionContainer.addEventListener('click', (e) => {
         const target = e.target;
         if (!target.matches('h4 + div > div')) {
             return;
         }
         for (const button of buttons) {
-            button.removeAttribute('style');
+            button.removeAttribute('data-selected-option');
         }
-        target.style.backgroundColor = '#33ffe7';
+        target.setAttribute('data-selected-option', '');
         localStorage.cpUserscriptOneClickVTCDownvoteWhenVotingToClose = target.textContent;
     });
 };
@@ -342,11 +342,11 @@ exports.showOkButtonWhenHovered = (vtcContainer) => {
     const downvoteButton = document.querySelector('.question .js-vote-down-btn');
     const showImminentDownvote = () => {
         if (!haveVotedOnQuestion_1.haveVotedOnQuestion()) {
-            downvoteButton.style.backgroundColor = 'var(--orange-300)';
+            downvoteButton.setAttribute('data-cpuserscript-one-click-vtc-imminent-downvote', '');
         }
     };
     const noImminentDownvote = () => {
-        downvoteButton.style.removeProperty('background-color');
+        downvoteButton.removeAttribute('data-cpuserscript-one-click-vtc-imminent-downvote');
     };
     for (const textContainer of (vtcContainer.querySelectorAll('[data-close-reason-id]'))) {
         const okButton = textContainer.previousElementSibling;
@@ -416,7 +416,7 @@ const tryVoteClose = (event) => {
         (downvoteCondition === 'Always' || (downvoteCondition === 'Non-dupes only' && !voteIsDuplicate))) {
         downvoteButton.click();
     }
-    downvoteButton.style.removeProperty('background-color');
+    downvoteButton.removeAttribute('data-cpuserscript-one-click-vtc-imminent-downvote');
     if (voteIsDuplicate) {
         openDuplicateModal_1.openDuplicateModal();
         return;
