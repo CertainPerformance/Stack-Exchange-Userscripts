@@ -3,7 +3,7 @@
 // @description      Keeps newly-unfolded comments highlighted, to easily distinguish them from higher-scoring comments you've already read
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.5
+// @version          1.0.6
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/(?:questions/\d|review/\w(?!.*/stats|.*/history))/
 // @grant            none
 // ==/UserScript==
@@ -57,11 +57,15 @@ const observeContainer = (commentsContainer) => {
         }
         for (const comment of newComments) {
             window.setTimeout(() => {
+                const highlightColor = document.body.matches('.theme-dark')
+                  ? '#403d33' // Dark brown, close to default dark background
+                  : '#fff2e0'; // Pale yellow, close to default light background
                 // eslint-disable-next-line no-param-reassign
-                comment.children[0].style.backgroundColor = '#fff2e0';
+                comment.children[0].style.backgroundColor = highlightColor;
                 // eslint-disable-next-line no-param-reassign
-                comment.children[1].style.backgroundColor = '#fff2e0';
-                // The built-in transition lasts for 2000ms. Assign the lighter style at 1500ms for display consistency
+                comment.children[1].style.backgroundColor = highlightColor;
+                // The built-in transition from --yellow-100 to no background lasts for 2000ms
+                // Assign the style at 1500ms for display consistency
             }, 1500);
         }
     })

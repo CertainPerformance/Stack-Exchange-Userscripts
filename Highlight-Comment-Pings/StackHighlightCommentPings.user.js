@@ -3,7 +3,7 @@
 // @description      Highlights comment replies that have @-pinged you
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.1
+// @version          1.0.2
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/questions/\d+/
 // @grant            none
 // ==/UserScript==
@@ -40,7 +40,7 @@ const main = () => {
                  * So, use a startsWith check:
                  */
                 usernameWithoutSpaces.startsWith(nameStart.toLowerCase())
-                    ? `<span style="background-color:yellow">@${nameStart}</span>`
+                    ? `<span style="background-color:var(--yellow-300)">@${nameStart}</span>`
                     : match // change nothing
             ),
         );

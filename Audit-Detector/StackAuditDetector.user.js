@@ -3,7 +3,7 @@
 // @description      Detects audits in review queues
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.4
+// @version          1.0.5
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/review/\w(?!.*/stats|.*/history)/
 // @run-at           document-start
 // @grant            none
@@ -20,8 +20,8 @@ const main = () => {
         if ((url.startsWith('/review/next-task') || url.startsWith('/review/task-reviewed/')) && jqXHR.responseJSON.reviewTaskId) {
             const reviewBar = document.querySelector('.js-review-bar');
             reviewBar.style.backgroundColor = jqXHR.responseJSON.isAudit
-                ? 'red'
-                : 'yellow';
+                ? 'var(--red-200)' // CSS variables differ depending on whether in light or dark mode
+                : 'var(--blue-200)'; // Using these ensures reasonable contrast regardless
         }
     });
 };
