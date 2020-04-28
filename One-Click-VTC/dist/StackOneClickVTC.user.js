@@ -3,8 +3,8 @@
 // @description      Allows voting to close with a single click
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.1.13
-// @include          /^https://stackoverflow\.com/questions/\d+/
+// @version          1.2.0
+// @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/questions/\d+/
 // @grant            none
 // ==/UserScript==
 
@@ -141,7 +141,7 @@ exports.showToastInfo = (message) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("[data-cpuserscript-one-click-vtc] {\n  position: absolute;\n  margin-top: 24px;\n  left: -250px;\n  width: 240px; }\n  [data-cpuserscript-one-click-vtc] [data-close-reason-id] {\n    margin-bottom: 10px;\n    padding: 5px; }\n    [data-cpuserscript-one-click-vtc] [data-close-reason-id]:hover {\n      background-color: yellow; }\n      body.theme-dark [data-cpuserscript-one-click-vtc] [data-close-reason-id]:hover {\n        background-color: chocolate; }\n  [data-cpuserscript-one-click-vtc] div:hover + [data-close-reason-id] {\n    background-color: lime; }\n    body.theme-dark [data-cpuserscript-one-click-vtc] div:hover + [data-close-reason-id] {\n      background-color: green; }\n  [data-cpuserscript-one-click-vtc] > :nth-child(4) {\n    padding: 5px; }\n  [data-cpuserscript-one-click-vtc] > :nth-child(2),\n  [data-cpuserscript-one-click-vtc] > :nth-child(3),\n  [data-cpuserscript-one-click-vtc] > :nth-child(5) > *,\n  [data-cpuserscript-one-click-vtc] > :nth-child(5) ~ *:not(:last-child) {\n    cursor: pointer; }\n  [data-cpuserscript-one-click-vtc] > :nth-child(5) {\n    margin-left: 20px; }\n  [data-cpuserscript-one-click-vtc] > div:not(:last-child) > div:nth-child(odd) {\n    border: 1px solid var(--black);\n    float: right;\n    visibility: hidden;\n    width: calc(0.75em + 15px);\n    height: calc(0.75em + 15px);\n    text-align: center;\n    vertical-align: middle;\n    line-height: calc(0.75em + 15px); }\n  [data-cpuserscript-one-click-vtc] > div:nth-child(even):not(:last-child) {\n    border: 1px solid var(--black);\n    float: right;\n    visibility: hidden;\n    width: calc(1em + 15px);\n    height: calc(1em + 15px);\n    text-align: center;\n    vertical-align: middle;\n    line-height: calc(1em + 15px); }\n  [data-cpuserscript-one-click-vtc] > div:last-child {\n    visibility: hidden;\n    text-align: center; }\n    [data-cpuserscript-one-click-vtc] > div:last-child > div {\n      display: flex;\n      justify-content: space-around; }\n      [data-cpuserscript-one-click-vtc] > div:last-child > div > div {\n        padding: 0 5px;\n        border: 1px solid var(--black);\n        cursor: pointer;\n        user-select: none; }\n        [data-cpuserscript-one-click-vtc] > div:last-child > div > div[data-selected-option] {\n          background-color: var(--blue-700);\n          color: var(--white); }\n        [data-cpuserscript-one-click-vtc] > div:last-child > div > div:hover:not([data-selected-option]) {\n          background-color: yellow; }\n          body.theme-dark [data-cpuserscript-one-click-vtc] > div:last-child > div > div:hover:not([data-selected-option]) {\n            background-color: chocolate; }\n\n.question .js-vote-down-btn[data-cpuserscript-one-click-vtc-imminent-downvote] {\n  background-color: yellow; }\n  body.theme-dark .question .js-vote-down-btn[data-cpuserscript-one-click-vtc-imminent-downvote] {\n    background-color: chocolate; }\n");
+/* harmony default export */ __webpack_exports__["default"] = ("[data-cpuserscript-one-click-vtc] {\n  position: absolute;\n  margin-top: 24px;\n  left: -250px;\n  width: 240px; }\n  [data-cpuserscript-one-click-vtc] [data-close-reason-id] {\n    margin-bottom: 10px;\n    padding: 5px; }\n    [data-cpuserscript-one-click-vtc] [data-close-reason-id]:hover {\n      background-color: yellow; }\n      body.theme-dark [data-cpuserscript-one-click-vtc] [data-close-reason-id]:hover {\n        background-color: chocolate; }\n  [data-cpuserscript-one-click-vtc] div:hover + [data-close-reason-id] {\n    background-color: lime; }\n    body.theme-dark [data-cpuserscript-one-click-vtc] div:hover + [data-close-reason-id] {\n      background-color: green; }\n  [data-cpuserscript-one-click-vtc] > :nth-child(4) {\n    padding: 5px; }\n  [data-cpuserscript-one-click-vtc] > :nth-child(2),\n  [data-cpuserscript-one-click-vtc] > :nth-child(3),\n  [data-cpuserscript-one-click-vtc] > :nth-child(5) > *:not(input),\n  [data-cpuserscript-one-click-vtc] > :nth-child(5) ~ *:not(:last-child) {\n    cursor: pointer; }\n  [data-cpuserscript-one-click-vtc] > :nth-child(5) {\n    margin-left: 20px; }\n  [data-cpuserscript-one-click-vtc] > div:not(:last-child) > div:nth-child(odd) {\n    border: 1px solid var(--black);\n    float: right;\n    visibility: hidden;\n    width: calc(0.75em + 15px);\n    height: calc(0.75em + 15px);\n    text-align: center;\n    vertical-align: middle;\n    line-height: calc(0.75em + 15px); }\n  [data-cpuserscript-one-click-vtc] > div:nth-child(even):not(:last-child) {\n    border: 1px solid var(--black);\n    float: right;\n    visibility: hidden;\n    width: calc(1em + 15px);\n    height: calc(1em + 15px);\n    text-align: center;\n    vertical-align: middle;\n    line-height: calc(1em + 15px); }\n  [data-cpuserscript-one-click-vtc] > div:last-child {\n    visibility: hidden;\n    text-align: center; }\n    [data-cpuserscript-one-click-vtc] > div:last-child > div {\n      display: flex;\n      justify-content: space-around; }\n      [data-cpuserscript-one-click-vtc] > div:last-child > div > div {\n        padding: 0 5px;\n        border: 1px solid var(--black);\n        cursor: pointer;\n        user-select: none; }\n        [data-cpuserscript-one-click-vtc] > div:last-child > div > div[data-selected-option] {\n          background-color: var(--blue-700);\n          color: var(--white); }\n        [data-cpuserscript-one-click-vtc] > div:last-child > div > div:hover:not([data-selected-option]) {\n          background-color: yellow; }\n          body.theme-dark [data-cpuserscript-one-click-vtc] > div:last-child > div > div:hover:not([data-selected-option]) {\n            background-color: chocolate; }\n    [data-cpuserscript-one-click-vtc] > div:last-child > h5 {\n      margin: 10px; }\n\n.question .js-vote-down-btn[data-cpuserscript-one-click-vtc-imminent-downvote] {\n  background-color: yellow; }\n  body.theme-dark .question .js-vote-down-btn[data-cpuserscript-one-click-vtc-imminent-downvote] {\n    background-color: chocolate; }\n");
 
 /***/ }),
 
@@ -155,22 +155,23 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+const settings_1 = __webpack_require__(/*! ./settings */ "./src/settings.ts");
 exports.canCreateInterface = () => {
     const myProfile = document.querySelector('.my-profile');
     if (!myProfile) {
-        // Not logged in, don't do anything
+        // Not logged in, or site is down, don't do anything
         return;
     }
-    const myProfileLink = myProfile.href;
+    const myProfileLink = myProfile.getAttribute('href');
     const { rep } = window.StackExchange.options.user;
-    if (rep < 3000) {
+    if (rep < 15) {
         // tslint:disable-next-line: no-console
-        console.error(`Stack One Click VTC: Need 3000 rep to VTC, but you only have ${rep}`);
+        console.error(`Stack One Click VTC: Need 15 rep to flag and 3000 to close, but you only have ${rep}`);
         return;
     }
     // Do not display the VTC interface if you've posted a non-deleted answer:
-    const stillVisibleAnswerAuthorAnchors = [...document.querySelectorAll('.answer:not(.deleted-answer) .user-details[itemprop="author"] a[href^="/users/"]')];
-    if (stillVisibleAnswerAuthorAnchors.some(a => a.href === myProfileLink)) {
+    const stillVisiblePersonalAnswerAuthorAnchor = document.querySelector(`.answer:not(.deleted-answer) .user-details[itemprop="author"] a[href^="${myProfileLink}"]`);
+    if (stillVisiblePersonalAnswerAuthorAnchor) {
         return;
     }
     // Interface will be ~250px wide
@@ -187,8 +188,8 @@ exports.canCreateInterface = () => {
         console.warn('To acquire more space, consider installing Stack Right Content: https://github.com/CertainPerformance/Stack-Exchange-Userscripts/tree/master/Right-Content');
         return;
     }
-    const closeQuestionLink = document.querySelector('.close-question-link');
-    if (!closeQuestionLink) {
+    const flagQuestionLink = document.querySelector('.flag-post-link ');
+    if (!flagQuestionLink) {
         // Probably only occurs with locked posts
         // or with deleted posts user does not have the privilege to see
         // or 404 pages
@@ -198,10 +199,60 @@ exports.canCreateInterface = () => {
         // Question is deleted. Yes, deleted questions have the deleted-answer class
         return;
     }
-    if (closeQuestionLink.textContent === 'reopen' || closeQuestionLink.title.includes('You voted')) {
+    const questionTitle = document.querySelector('.question-hyperlink').textContent;
+    if (questionTitle.endsWith(' [closed]') || questionTitle.endsWith(' [duplicate]')) {
+        return;
+    }
+    const closeQuestionLink = document.querySelector('.close-question-link');
+    if (closeQuestionLink && closeQuestionLink.title.includes('You voted')) {
+        return;
+    }
+    const questionId = Number(window.location.href.match(/\d+/)[0]);
+    if (rep < 3000 && localStorage.cpUserscriptOneClickVTCSettings && settings_1.getSettings().raisedCloseFlags.includes(questionId)) {
         return;
     }
     return true;
+};
+
+
+/***/ }),
+
+/***/ "./src/defaultSiteSpecificShortReasons.ts":
+/*!************************************************!*\
+  !*** ./src/defaultSiteSpecificShortReasons.ts ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// tslint:disable: object-literal-sort-keys
+Object.defineProperty(exports, "__esModule", { value: true });
+// Properties below are site names, accessible by accessing StackExchange.options.site.name
+exports.defaultSiteSpecificShortReasons = {
+    'Stack Overflow': [
+        'General computing',
+        'Server / networking',
+        'Off-site resource request',
+        'No MCVE',
+        'Caused by typo',
+    ],
+    'Meta Stack Overflow': [
+        'Not about SO/SE',
+        "Doesn't seek discussion",
+        'Not reproducible',
+    ],
+    'Meta Stack Exchange': [
+        'Not about SE',
+        "Doesn't seek discussion",
+        'Not reproducible',
+        'Only applicable to subsite',
+    ],
+    'Code Review Stack Exchange': [
+        'Authorship/embedded code',
+        'Code not working',
+        'Missing review context',
+    ],
 };
 
 
@@ -235,18 +286,31 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __webpack_require__(/*! ../../common/declareGlobalStackExchange */ "../common/declareGlobalStackExchange.ts");
 const canCreateInterface_1 = __webpack_require__(/*! ./canCreateInterface */ "./src/canCreateInterface.ts");
 const insertStyle_1 = __webpack_require__(/*! ./insertStyle */ "./src/insertStyle.ts");
-const listenForAutoVoteChanges_1 = __webpack_require__(/*! ./listenForAutoVoteChanges */ "./src/listenForAutoVoteChanges.ts");
+const watchForInterfaceHover_1 = __webpack_require__(/*! ./watchForInterfaceHover */ "./src/watchForInterfaceHover.ts");
+const watchForSiteSpecificEdits_1 = __webpack_require__(/*! ./watchForSiteSpecificEdits */ "./src/watchForSiteSpecificEdits.ts");
 const showOkButtonWhenHovered_1 = __webpack_require__(/*! ./showOkButtonWhenHovered */ "./src/showOkButtonWhenHovered.ts");
 const tryVoteClose_1 = __webpack_require__(/*! ./tryVoteClose */ "./src/tryVoteClose/index.ts");
-const vtcContainerHTML_1 = __webpack_require__(/*! ./vtcContainerHTML */ "./src/vtcContainerHTML.ts");
-if (canCreateInterface_1.canCreateInterface()) {
+const makeVTCContainerHTML_1 = __webpack_require__(/*! ./makeVTCContainerHTML */ "./src/makeVTCContainerHTML.ts");
+const populateCloseReasons_1 = __webpack_require__(/*! ./populateCloseReasons */ "./src/populateCloseReasons.ts");
+const watchForReset_1 = __webpack_require__(/*! ./watchForReset */ "./src/watchForReset.ts");
+const createInterface = () => {
     const vtcContainer = document.querySelector('.container').insertAdjacentElement('afterbegin', document.createElement('div'));
-    vtcContainer.innerHTML = vtcContainerHTML_1.vtcContainerHTML;
+    vtcContainer.innerHTML = makeVTCContainerHTML_1.makeVTCContainerHTML();
     showOkButtonWhenHovered_1.showOkButtonWhenHovered(vtcContainer);
     vtcContainer.setAttribute('data-cpuserscript-one-click-vtc', '');
     vtcContainer.addEventListener('click', tryVoteClose_1.tryVoteCloseWhenSEReady);
-    listenForAutoVoteChanges_1.listenForAutoVoteChanges(vtcContainer);
+    watchForInterfaceHover_1.watchForInterfaceHover(vtcContainer);
+    watchForSiteSpecificEdits_1.watchForSiteSpecificEdits(vtcContainer);
+    watchForReset_1.watchForReset(vtcContainer);
     insertStyle_1.insertStyle();
+};
+if (canCreateInterface_1.canCreateInterface()) {
+    if (!localStorage.cpUserscriptOneClickVTCSettings) {
+        populateCloseReasons_1.populateCloseReasons(createInterface);
+    }
+    else {
+        createInterface();
+    }
 }
 
 
@@ -273,46 +337,146 @@ exports.insertStyle = () => {
 
 /***/ }),
 
-/***/ "./src/listenForAutoVoteChanges.ts":
-/*!*****************************************!*\
-  !*** ./src/listenForAutoVoteChanges.ts ***!
-  \*****************************************/
+/***/ "./src/makeVTCContainerHTML.ts":
+/*!*************************************!*\
+  !*** ./src/makeVTCContainerHTML.ts ***!
+  \*************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-if (!localStorage.cpUserscriptOneClickVTCDownvoteWhenVotingToClose) {
-    localStorage.cpUserscriptOneClickVTCDownvoteWhenVotingToClose = 'Non-dupes only';
-}
-const showOptionContainer = (optionContainer) => {
-    optionContainer.style.visibility = 'visible';
-    const buttons = [...optionContainer.children[1].children];
-    const currentButton = buttons.find(button => button.textContent === localStorage.cpUserscriptOneClickVTCDownvoteWhenVotingToClose);
-    currentButton.setAttribute('data-selected-option', '');
-    optionContainer.addEventListener('click', (e) => {
-        const target = e.target;
-        if (!target.matches('h4 + div > div')) {
-            return;
-        }
-        for (const button of buttons) {
-            button.removeAttribute('data-selected-option');
-        }
-        target.setAttribute('data-selected-option', '');
-        localStorage.cpUserscriptOneClickVTCDownvoteWhenVotingToClose = target.textContent;
+const settings_1 = __webpack_require__(/*! ./settings */ "./src/settings.ts");
+exports.makeVTCContainerHTML = () => `
+<h2>Vote to close as</h2>
+<div>OK</div><h3 data-close-reason-id="Duplicate">Duplicate</h3>
+<h3>Site-Specific</h3>
+<div>${settings_1.getSettings()
+    .siteSpecificCloseReasons
+    .map(({ siteSpecificCloseReasonId: id, reasonText, longReasonText }) => `<div>OK</div>
+            <div
+                data-close-reason-id="SiteSpecific"
+                data-site-specific-close-reason-id="${id}"
+                title="${longReasonText.replace(/"/g, '&quot;')}"
+            >${reasonText}</div>`)
+    .join('')}
+</div>
+<div>OK</div><h3 data-close-reason-id="NeedsDetailsOrClarity">Unclear</h3>
+<div>OK</div><h3 data-close-reason-id="NeedMoreFocus">Too Broad</h3>
+<div>OK</div><h3 data-close-reason-id="OpinionBased">Opinion-Based</h3>
+<div>
+    <h4>Downvote when voting to close:</h4>
+    <div>
+        <div>Always</div>
+        <div>Non-dupes only</div>
+        <div>Never</div>
+    </div>
+    <h5>Right-click a Site-Specific reason to edit displayed text</h5>
+    <button title="Click this if moderators change a site's close reasons">Reset close reasons</button>
+</div>
+`;
+
+
+/***/ }),
+
+/***/ "./src/populateCloseReasons.ts":
+/*!*************************************!*\
+  !*** ./src/populateCloseReasons.ts ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const showToast_1 = __webpack_require__(/*! ../../common/showToast */ "../common/showToast.ts");
+const settings_1 = __webpack_require__(/*! ./settings */ "./src/settings.ts");
+const defaultSiteSpecificShortReasons_1 = __webpack_require__(/*! ./defaultSiteSpecificShortReasons */ "./src/defaultSiteSpecificShortReasons.ts");
+/**
+ * Make a network request to get the site-specific interface to close the question,
+ * save the results in localStorage
+ */
+exports.populateCloseReasons = (createInterface) => {
+    const questionId = window.location.href.match(/\d+/)[0];
+    // The below will probably only log once after the userscript is installed
+    // tslint:disable-next-line: no-console
+    console.log('Stack One Click VTC: Fetching site-specific close reasons...');
+    // The site-specific interface is included in the main /close interface response
+    fetch(`${window.location.origin}/flags/questions/${questionId}/close/popup`)
+        .then(res => res.text())
+        .then((popupText) => {
+        handlePopup(popupText, createInterface);
+    })
+        .catch((error) => {
+        // tslint:disable-next-line: no-console
+        console.error(error);
+        showToast_1.showToastError('Stack One Click VTC: An error occurred while fetching site-specific close reasons, see console for details');
     });
 };
-exports.listenForAutoVoteChanges = (vtcContainer) => {
-    const optionContainer = vtcContainer.lastElementChild;
-    // Reveal the optionContainer after mouse has hovered over the vtcContainer for 5 seconds
-    let timeout;
-    vtcContainer.addEventListener('mouseenter', () => {
-        timeout = window.setTimeout(showOptionContainer, 5000, optionContainer);
+const handlePopup = (popupText, createInterface) => {
+    const doc = new DOMParser().parseFromString(popupText, 'text/html');
+    const siteSpecificRadios = doc.querySelectorAll('input[name="siteSpecificCloseReasonId"]');
+    if (!siteSpecificRadios.length) {
+        // Might occur if site is down
+        showToast_1.showToastError('Stack One Click VTC: No site-specific radio buttons found, try going to a different question');
+        return;
+    }
+    const thisSiteShortReasons = defaultSiteSpecificShortReasons_1.defaultSiteSpecificShortReasons[window.StackExchange.options.site.name] || [];
+    const siteSpecificCloseReasons = [];
+    siteSpecificRadios.forEach((radio, i) => {
+        const origLabelText = radio
+            .parentElement
+            .nextElementSibling
+            .querySelector('label')
+            .textContent;
+        // If there's both a main label and an extended description, join them by `. `:
+        const longReasonText = origLabelText
+            .split('\n')
+            .map(str => str.trim())
+            .filter(Boolean)
+            .join('. ');
+        if (longReasonText.includes('add a comment') ||
+            longReasonText.includes('another site') ||
+            longReasonText.includes('Blatantly')) {
+            return;
+        }
+        const siteSpecificCloseReasonId = Number(radio.value);
+        // The VTC container text needs to be **short**. Take no more than 30 characters, stopping right before a space.
+        // User can adjust wording themselves later.
+        const reasonText = thisSiteShortReasons[i] || longReasonText.match(/.{1,29}\S(?= |$)/)[0];
+        siteSpecificCloseReasons.push({ siteSpecificCloseReasonId, longReasonText, reasonText });
     });
-    vtcContainer.addEventListener('mouseleave', () => {
-        window.clearTimeout(timeout);
+    settings_1.saveNewSettings(siteSpecificCloseReasons);
+    createInterface();
+};
+
+
+/***/ }),
+
+/***/ "./src/settings.ts":
+/*!*************************!*\
+  !*** ./src/settings.ts ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getSettings = () => JSON.parse(localStorage.cpUserscriptOneClickVTCSettings);
+exports.saveNewSettings = (siteSpecificCloseReasons) => {
+    localStorage.cpUserscriptOneClickVTCSettings = JSON.stringify({
+        siteSpecificCloseReasons,
+        downvoteCondition: 'Non-dupes only',
+        raisedCloseFlags: [],
     });
+};
+exports.saveSettings = (partialNewSettings) => {
+    // Overwrite some properties of the existing settings:
+    const oldSettings = exports.getSettings();
+    const newSettings = Object.assign({}, oldSettings, partialNewSettings);
+    localStorage.cpUserscriptOneClickVTCSettings = JSON.stringify(newSettings);
 };
 
 
@@ -329,10 +493,11 @@ exports.listenForAutoVoteChanges = (vtcContainer) => {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const haveVotedOnQuestion_1 = __webpack_require__(/*! ./haveVotedOnQuestion */ "./src/haveVotedOnQuestion.ts");
+const settings_1 = __webpack_require__(/*! ./settings */ "./src/settings.ts");
 const tryShowButton = (textContainer, okButton) => {
     // If user never auto-votes when voting to close, showing the button only adds confusing and useless noise
-    const setting = localStorage.cpUserscriptOneClickVTCDownvoteWhenVotingToClose;
-    if (setting === 'Never' || (setting === 'Non-dupes only' && textContainer.dataset.closeReasonId === 'Duplicate')) {
+    const { downvoteCondition } = settings_1.getSettings();
+    if (downvoteCondition === 'Never' || (downvoteCondition === 'Non-dupes only' && textContainer.dataset.closeReasonId === 'Duplicate')) {
         return false;
     }
     okButton.style.visibility = 'visible';
@@ -389,6 +554,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const haveVotedOnQuestion_1 = __webpack_require__(/*! ../haveVotedOnQuestion */ "./src/haveVotedOnQuestion.ts");
 const openDuplicateModal_1 = __webpack_require__(/*! ./openDuplicateModal */ "./src/tryVoteClose/openDuplicateModal.ts");
 const submitCloseVote_1 = __webpack_require__(/*! ./submitCloseVote */ "./src/tryVoteClose/submitCloseVote.ts");
+const settings_1 = __webpack_require__(/*! ../settings */ "./src/settings.ts");
 // Wait until SE has attached listeners and applied personal vote classes to vote buttons
 exports.tryVoteCloseWhenSEReady = (event) => {
     window.StackExchange.ready(() => {
@@ -408,8 +574,7 @@ const tryVoteClose = (event) => {
     const okButtonWasClicked = target !== closeTextElement;
     const { closeReasonId, siteSpecificCloseReasonId } = closeTextElement.dataset;
     const voteIsDuplicate = closeReasonId === 'Duplicate';
-    // localStorage will definitely be populated by this point; it's done on the top level of listenForAutoVoteChanges
-    const downvoteCondition = localStorage.cpUserscriptOneClickVTCDownvoteWhenVotingToClose;
+    const { downvoteCondition } = settings_1.getSettings();
     const downvoteButton = document.querySelector('.question .js-vote-down-btn');
     if (!okButtonWasClicked &&
         !haveVotedOnQuestion_1.haveVotedOnQuestion() &&
@@ -438,7 +603,8 @@ const tryVoteClose = (event) => {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const showToast_1 = __webpack_require__(/*! ../../../common/showToast */ "../common/showToast.ts");
-exports.makeHandleCloseVoteResponse = (setCanSendRequestToTrue) => (result) => {
+const settings_1 = __webpack_require__(/*! ../settings */ "./src/settings.ts");
+exports.makeHandleCloseVoteResponse = (questionId, setCanSendRequestToTrue) => (result) => {
     if (result.ResultChangedState) {
         // Question successfully closed
         window.location.href = window.location.href;
@@ -452,6 +618,21 @@ exports.makeHandleCloseVoteResponse = (setCanSendRequestToTrue) => (result) => {
     const oneClickVTCContainer = document.querySelector('[data-cpuserscript-one-click-vtc]');
     oneClickVTCContainer.remove();
     updateCloseVoteCount(result);
+    if (window.StackExchange.options.user.rep < 3000) {
+        /* User flagged to close, but did not vote to close
+         * If someone has the VTC privilege, it's easy to determine, on pageload, if they've already VTC'd
+         * by examining the .close-question-link title
+         * Doesn't look like there's anything similar for flags without actually opening the close dialog,
+         * so save close flags in Local Storage instead
+         */
+        const { raisedCloseFlags } = settings_1.getSettings();
+        raisedCloseFlags.push(questionId);
+        // Only need to keep recent-ish raisedCloseFlags in Local Storage:
+        if (raisedCloseFlags.length > 100) {
+            settings_1.saveSettings({ raisedCloseFlags: raisedCloseFlags.slice(-100) });
+        }
+        settings_1.saveSettings({ raisedCloseFlags });
+    }
 };
 const updateCloseVoteCount = (result) => {
     const { updateCloseLinkCount } = window.StackExchange.vote_closingAndFlagging;
@@ -525,6 +706,7 @@ exports.openDuplicateModal = () => {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const makeHandleCloseVoteResponse_1 = __webpack_require__(/*! ./makeHandleCloseVoteResponse */ "./src/tryVoteClose/makeHandleCloseVoteResponse.ts");
+const showToast_1 = __webpack_require__(/*! ../../../common/showToast */ "../common/showToast.ts");
 let canSendRequest = true;
 exports.getCanSendRequest = () => canSendRequest;
 const setCanSendRequestToTrue = () => {
@@ -542,57 +724,140 @@ exports.submitCloseVote = (closeReasonId, siteSpecificCloseReasonId) => {
         credentials: 'same-origin',
         method: 'POST',
     };
-    const questionId = window.location.href.match(/\d+/)[0];
+    const questionId = Number(window.location.href.match(/\d+/)[0]);
     const url = `${window.location.origin}/flags/questions/${questionId}/close/add`;
     canSendRequest = false;
     fetch(url, initOptions)
         .then(res => res.json())
-        .then(makeHandleCloseVoteResponse_1.makeHandleCloseVoteResponse(setCanSendRequestToTrue))
+        .then(makeHandleCloseVoteResponse_1.makeHandleCloseVoteResponse(questionId, setCanSendRequestToTrue))
         .catch((error) => {
         canSendRequest = true;
         // tslint:disable-next-line: no-console
         console.error(error);
-        const msg = 'Stack One Click VTC: An error occurred, see console for details';
-        window.StackExchange.helpers.showToast(msg, { transient: false, type: 'danger' });
+        showToast_1.showToastError('Stack One Click VTC: An error occurred while trying to vote, see console for details');
     });
 };
 
 
 /***/ }),
 
-/***/ "./src/vtcContainerHTML.ts":
-/*!*********************************!*\
-  !*** ./src/vtcContainerHTML.ts ***!
-  \*********************************/
+/***/ "./src/watchForInterfaceHover.ts":
+/*!***************************************!*\
+  !*** ./src/watchForInterfaceHover.ts ***!
+  \***************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.vtcContainerHTML = `
-<h2>Vote to close as</h2>
-<div>OK</div><h3 data-close-reason-id="Duplicate">Duplicate</h3>
-<h3>Site-Specific</h3>
-<div>
-    <div>OK</div><div data-close-reason-id="SiteSpecific" data-site-specific-close-reason-id="4">General computing</div>
-    <div>OK</div><div data-close-reason-id="SiteSpecific" data-site-specific-close-reason-id="7">Server / networking</div>
-    <div>OK</div><div data-close-reason-id="SiteSpecific" data-site-specific-close-reason-id="16">Off-site resource request</div>
-    <div>OK</div><div data-close-reason-id="SiteSpecific" data-site-specific-close-reason-id="13">No MCVE</div>
-    <div>OK</div><div data-close-reason-id="SiteSpecific" data-site-specific-close-reason-id="11">Caused by typo</div>
-</div>
-<div>OK</div><h3 data-close-reason-id="NeedsDetailsOrClarity">Unclear</h3>
-<div>OK</div><h3 data-close-reason-id="NeedMoreFocus">Too Broad</h3>
-<div>OK</div><h3 data-close-reason-id="OpinionBased">Opinion-Based</h3>
-<div>
-    <h4>Downvote when voting to close:</h4>
-    <div>
-        <div>Always</div>
-        <div>Non-dupes only</div>
-        <div>Never</div>
-    </div>
-</div>
-`;
+const settings_1 = __webpack_require__(/*! ./settings */ "./src/settings.ts");
+const showOptionContainer = (optionContainer) => {
+    if (optionContainer.style.visibility === 'visible') {
+        return;
+    }
+    optionContainer.style.visibility = 'visible';
+    const buttons = [...optionContainer.children[1].children];
+    const { downvoteCondition } = settings_1.getSettings();
+    const currentButton = buttons.find(button => button.textContent === downvoteCondition);
+    currentButton.setAttribute('data-selected-option', '');
+    optionContainer.addEventListener('click', (e) => {
+        const target = e.target;
+        if (!target.matches('h4 + div > div')) {
+            return;
+        }
+        for (const button of buttons) {
+            button.removeAttribute('data-selected-option');
+        }
+        target.setAttribute('data-selected-option', '');
+        settings_1.saveSettings({ downvoteCondition: target.textContent });
+    });
+};
+exports.watchForInterfaceHover = (vtcContainer) => {
+    const optionContainer = vtcContainer.lastElementChild;
+    // Reveal the optionContainer after mouse has hovered over the vtcContainer for 5 seconds
+    let timeout;
+    vtcContainer.addEventListener('mouseenter', () => {
+        timeout = window.setTimeout(showOptionContainer, 5000, optionContainer);
+    });
+    vtcContainer.addEventListener('mouseleave', () => {
+        window.clearTimeout(timeout);
+    });
+};
+
+
+/***/ }),
+
+/***/ "./src/watchForReset.ts":
+/*!******************************!*\
+  !*** ./src/watchForReset.ts ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const showToast_1 = __webpack_require__(/*! ../../common/showToast */ "../common/showToast.ts");
+exports.watchForReset = (vtcContainer) => {
+    const button = vtcContainer.querySelector('button');
+    button.addEventListener('click', () => {
+        delete localStorage.cpUserscriptOneClickVTCSettings;
+        vtcContainer.remove();
+        showToast_1.showToastError('Cleared, refresh the page');
+    });
+};
+
+
+/***/ }),
+
+/***/ "./src/watchForSiteSpecificEdits.ts":
+/*!******************************************!*\
+  !*** ./src/watchForSiteSpecificEdits.ts ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const settings_1 = __webpack_require__(/*! ./settings */ "./src/settings.ts");
+/**
+ * When user right-clicks on a Site Specific reason, replace it with an input.
+ * When enter is pressed, save the new text for that reason in Local Storage
+ */
+exports.watchForSiteSpecificEdits = (vtcContainer) => {
+    vtcContainer.addEventListener('contextmenu', (rightClickEvent) => {
+        const originalDiv = rightClickEvent.target;
+        if (!originalDiv.matches('h3 + div > [data-close-reason-id]')) {
+            return;
+        }
+        rightClickEvent.preventDefault();
+        const input = document.createElement('input');
+        const originalText = originalDiv.textContent;
+        input.value = originalText;
+        input.maxLength = 35;
+        input.title = originalDiv.title;
+        // Hide the OK button while editing:
+        originalDiv.dispatchEvent(new Event('mouseleave'));
+        originalDiv.replaceWith(input);
+        input.focus();
+        input.addEventListener('keyup', (keyupEvent) => {
+            if (keyupEvent.key !== 'Enter') {
+                return;
+            }
+            originalDiv.textContent = input.value;
+            input.replaceWith(originalDiv);
+            const { siteSpecificCloseReasons } = settings_1.getSettings();
+            const closeObj = siteSpecificCloseReasons.find(({ reasonText }) => reasonText === originalText);
+            if (closeObj) {
+                // This should exist 99.9% of the time
+                closeObj.reasonText = input.value;
+                settings_1.saveSettings({ siteSpecificCloseReasons });
+            }
+        });
+    });
+};
 
 
 /***/ })

@@ -1,19 +1,21 @@
+import { getSettings } from './settings';
+
 export const canCreateInterface = () => {
     const myProfile = document.querySelector<HTMLAnchorElement>('.my-profile');
     if (!myProfile) {
-        // Not logged in, don't do anything
+        // Not logged in, or site is down, don't do anything
         return;
     }
-    const myProfileLink = myProfile.href;
+    const myProfileLink = myProfile.getAttribute('href');
     const { rep } = window.StackExchange.options.user;
-    if (rep < 3000) {
+    if (rep < 15) {
         // tslint:disable-next-line: no-console
-        console.error(`Stack One Click VTC: Need 3000 rep to VTC, but you only have ${rep}`);
+        console.error(`Stack One Click VTC: Need 15 rep to flag and 3000 to close, but you only have ${rep}`);
         return;
     }
     // Do not display the VTC interface if you've posted a non-deleted answer:
-    const stillVisibleAnswerAuthorAnchors = [...document.querySelectorAll<HTMLAnchorElement>('.answer:not(.deleted-answer) .user-details[itemprop="author"] a[href^="/users/"]')];
-    if (stillVisibleAnswerAuthorAnchors.some(a => a.href === myProfileLink)) {
+    const stillVisiblePersonalAnswerAuthorAnchor = document.querySelector(`.answer:not(.deleted-answer) .user-details[itemprop="author"] a[href^="${myProfileLink}"]`);
+    if (stillVisiblePersonalAnswerAuthorAnchor) {
         return;
     }
     // Interface will be ~250px wide
@@ -30,8 +32,8 @@ export const canCreateInterface = () => {
         console.warn('To acquire more space, consider installing Stack Right Content: https://github.com/CertainPerformance/Stack-Exchange-Userscripts/tree/master/Right-Content');
         return;
     }
-    const closeQuestionLink = document.querySelector<HTMLAnchorElement>('.close-question-link');
-    if (!closeQuestionLink) {
+    const flagQuestionLink = document.querySelector<HTMLAnchorElement>('.flag-post-link ');
+    if (!flagQuestionLink) {
         // Probably only occurs with locked posts
         // or with deleted posts user does not have the privilege to see
         // or 404 pages
@@ -41,7 +43,16 @@ export const canCreateInterface = () => {
         // Question is deleted. Yes, deleted questions have the deleted-answer class
         return;
     }
-    if (closeQuestionLink.textContent === 'reopen' || closeQuestionLink.title.includes('You voted')) {
+    const questionTitle = document.querySelector('.question-hyperlink')!.textContent!;
+    if (questionTitle.endsWith(' [closed]') || questionTitle.endsWith(' [duplicate]')) {
+        return;
+    }
+    const closeQuestionLink = document.querySelector<HTMLAnchorElement>('.close-question-link');
+    if (closeQuestionLink && closeQuestionLink.title.includes('You voted')) {
+        return;
+    }
+    const questionId = Number(window.location.href.match(/\d+/)![0]);
+    if (rep < 3000 && localStorage.cpUserscriptOneClickVTCSettings && getSettings().raisedCloseFlags.includes(questionId)) {
         return;
     }
     return true;

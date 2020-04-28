@@ -1,4 +1,5 @@
 import { showToastError } from '../../../common/showToast';
+import { getSettings, saveSettings } from '../settings';
 
 type CloseVoteResponse = Readonly<{
     Success: boolean;
@@ -8,7 +9,7 @@ type CloseVoteResponse = Readonly<{
     Count: number;
 }>;
 
-export const makeHandleCloseVoteResponse = (setCanSendRequestToTrue: () => void) => (result: CloseVoteResponse) => {
+export const makeHandleCloseVoteResponse = (questionId: number, setCanSendRequestToTrue: () => void) => (result: CloseVoteResponse) => {
     if (result.ResultChangedState) {
         // Question successfully closed
         window.location.href = window.location.href;
@@ -22,6 +23,21 @@ export const makeHandleCloseVoteResponse = (setCanSendRequestToTrue: () => void)
     const oneClickVTCContainer = document.querySelector('[data-cpuserscript-one-click-vtc]')!;
     oneClickVTCContainer.remove();
     updateCloseVoteCount(result);
+    if (window.StackExchange.options.user.rep < 3000) {
+        /* User flagged to close, but did not vote to close
+         * If someone has the VTC privilege, it's easy to determine, on pageload, if they've already VTC'd
+         * by examining the .close-question-link title
+         * Doesn't look like there's anything similar for flags without actually opening the close dialog,
+         * so save close flags in Local Storage instead
+         */
+        const { raisedCloseFlags } = getSettings();
+        raisedCloseFlags.push(questionId);
+        // Only need to keep recent-ish raisedCloseFlags in Local Storage:
+        if (raisedCloseFlags.length > 100) {
+            saveSettings({ raisedCloseFlags: raisedCloseFlags.slice(-100) });
+        }
+        saveSettings({ raisedCloseFlags });
+    }
 };
 const updateCloseVoteCount = (result: CloseVoteResponse) => {
     type SETypeHere = {

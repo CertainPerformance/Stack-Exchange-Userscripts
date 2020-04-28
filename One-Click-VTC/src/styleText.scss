@@ -32,7 +32,7 @@
     // Select all close texts and OK buttons:
     > :nth-child(2),
     > :nth-child(3),
-    > :nth-child(5) > *,
+    > :nth-child(5) > *:not(input),
     > :nth-child(5) ~ *:not(:last-child) {
         cursor: pointer;
     }
@@ -78,6 +78,9 @@
                     @include imminent-choice;
                 }
             }
+        }
+        > h5 {
+            margin: 10px;
         }
     }
 }

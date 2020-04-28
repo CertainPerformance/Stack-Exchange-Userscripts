@@ -1,4 +1,5 @@
 import { makeHandleCloseVoteResponse } from './makeHandleCloseVoteResponse';
+import { showToastError } from '../../../common/showToast';
 
 let canSendRequest = true;
 export const getCanSendRequest = () => canSendRequest;
@@ -18,17 +19,16 @@ export const submitCloseVote = (closeReasonId: string, siteSpecificCloseReasonId
         credentials: 'same-origin' as const,
         method: 'POST',
     };
-    const questionId = window.location.href.match(/\d+/)![0];
+    const questionId = Number(window.location.href.match(/\d+/)![0]);
     const url = `${window.location.origin}/flags/questions/${questionId}/close/add`;
     canSendRequest = false;
     fetch(url, initOptions)
         .then(res => res.json())
-        .then(makeHandleCloseVoteResponse(setCanSendRequestToTrue))
+        .then(makeHandleCloseVoteResponse(questionId, setCanSendRequestToTrue))
         .catch((error) => {
             canSendRequest = true;
             // tslint:disable-next-line: no-console
             console.error(error);
-            const msg = 'Stack One Click VTC: An error occurred, see console for details';
-            window.StackExchange.helpers.showToast(msg, { transient: false, type: 'danger' });
+            showToastError('Stack One Click VTC: An error occurred while trying to vote, see console for details');
         });
 };

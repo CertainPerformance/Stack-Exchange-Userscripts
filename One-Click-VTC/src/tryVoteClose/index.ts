@@ -1,7 +1,7 @@
 import { haveVotedOnQuestion } from '../haveVotedOnQuestion';
 import { openDuplicateModal } from './openDuplicateModal';
 import { getCanSendRequest, submitCloseVote } from './submitCloseVote';
-
+import { getSettings } from '../settings';
 // Wait until SE has attached listeners and applied personal vote classes to vote buttons
 export const tryVoteCloseWhenSEReady = (event: Event) => {
     window.StackExchange.ready(() => {
@@ -22,8 +22,7 @@ const tryVoteClose = (event: Event) => {
     const okButtonWasClicked = target !== closeTextElement;
     const { closeReasonId, siteSpecificCloseReasonId } = (closeTextElement as HTMLElement).dataset;
     const voteIsDuplicate = closeReasonId === 'Duplicate';
-    // localStorage will definitely be populated by this point; it's done on the top level of listenForAutoVoteChanges
-    const downvoteCondition = localStorage.cpUserscriptOneClickVTCDownvoteWhenVotingToClose;
+    const { downvoteCondition } = getSettings();
     const downvoteButton = document.querySelector<HTMLElement>('.question .js-vote-down-btn')!;
     if (
         !okButtonWasClicked &&

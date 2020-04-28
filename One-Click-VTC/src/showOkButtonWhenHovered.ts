@@ -1,9 +1,10 @@
 import { haveVotedOnQuestion } from './haveVotedOnQuestion';
+import { getSettings } from './settings';
 
 const tryShowButton = (textContainer: HTMLElement, okButton: HTMLElement) => {
     // If user never auto-votes when voting to close, showing the button only adds confusing and useless noise
-    const setting = localStorage.cpUserscriptOneClickVTCDownvoteWhenVotingToClose;
-    if (setting === 'Never' || (setting === 'Non-dupes only' && textContainer.dataset.closeReasonId === 'Duplicate')) {
+    const { downvoteCondition } = getSettings();
+    if (downvoteCondition === 'Never' || (downvoteCondition === 'Non-dupes only' && textContainer.dataset.closeReasonId === 'Duplicate')) {
         return false;
     }
     okButton.style.visibility = 'visible';
