@@ -3,7 +3,7 @@
 // @description      Puts question stats in the sidebar, rather than at the top of the page
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.32.1
+// @version          1.32.2
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/questions/\d+/
 // @run-at           document-start
 // @grant            none
@@ -124,6 +124,12 @@ function moveQuestionStats() {
                 ${activeTRHTML}
             </tbody>
         </table>
+    `;
+    // Make sure text color is correct even when in dark mode:
+    newSideQuestionStatsContainer.appendChild(document.createElement('style')).textContent = `
+        .label-key b, .label-key strong {
+            color: var(--black);
+        }
     `;
 }
 
