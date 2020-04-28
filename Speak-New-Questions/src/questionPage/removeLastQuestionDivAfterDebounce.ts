@@ -1,3 +1,5 @@
+import { pendingQuestionColor } from '../pendingQuestionColor';
+
 /* Remove a questionDiv once:
  * (1) the questionDiv's spoken text ended at least 10 seconds ago, and
  * (2) The mouse has not been inside the questionContainer for 10 seconds; both
@@ -28,7 +30,7 @@ export const removeLastQuestionDivAfterDebounce = () => {
 };
 const removeLastQuestionDiv = () => {
     const questionDivs = [...questionContainer.children] as HTMLElement[];
-    if (!questionDivs.length || questionDivs.some(div => div.style.backgroundColor === 'yellow')) {
+    if (!questionDivs.length || questionDivs.some(div => div.style.backgroundColor === pendingQuestionColor)) {
         return;
     }
     questionContainer.lastElementChild!.remove();

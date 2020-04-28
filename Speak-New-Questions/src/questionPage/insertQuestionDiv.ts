@@ -1,5 +1,6 @@
 import { removeLastQuestionDivAfterDebounce, watchForMouseMovementInQuestionContainer } from './removeLastQuestionDivAfterDebounce';
 import { makeQuestionContainer } from './makeQuestionContainer';
+import { pendingQuestionColor } from '../pendingQuestionColor';
 
 let questionContainer: HTMLElement;
 const mouseoverHandlersByQuestionDiv = new Map<HTMLElement, () => void>();
@@ -11,7 +12,7 @@ export const insertQuestionDiv = (questionOuterHTML: string, channel: BroadcastC
     questionContainer.insertAdjacentHTML('afterbegin', questionOuterHTML);
     const questionDiv = questionContainer.firstElementChild as HTMLElement;
     questionDiv.removeAttribute('style');
-    questionDiv.style.backgroundColor = 'yellow';
+    questionDiv.style.backgroundColor = pendingQuestionColor;
     /* If the list page closes, it can't communicate to the question pages in time to stop highlighting and remove questionDivs
      * So, remove the background color automatically after 20 seconds, to ensure the questionDiv will disappear
      */

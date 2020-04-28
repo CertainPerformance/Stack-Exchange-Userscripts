@@ -1,5 +1,6 @@
 {
     "excludeRegExp": [
-        "^\\.\\./\\.\\./common/declareGlobalStackExchange\\.ts$"
+        "^\\.\\./\\.\\./common/declareGlobalStackExchange\\.ts$",
+        "^pendingQuestionColor.ts"
     ]
 }

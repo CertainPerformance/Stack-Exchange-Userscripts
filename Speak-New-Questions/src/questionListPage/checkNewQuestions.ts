@@ -3,6 +3,7 @@ import { getState } from './state';
 import { targetBlankAllAnchors } from './targetBlankAllAnchors';
 import { addBorderWhenClicked } from './addBorderWhenClicked';
 import { temporarilyPreventClicks } from './temporarilyPreventClicks';
+import { pendingQuestionColor } from '../pendingQuestionColor';
 
 const seenQuestionsIds = new Set(
     [...document.querySelectorAll('#questions > div.question-summary')].map(({ id }) => id),
@@ -23,7 +24,7 @@ export const checkNewQuestions = () => {
             // But these divs may get removed and replaced with copies before being passed to queueUtterance (see below)
             // For style consistency while the divs are appearing, highlight them immediately
             if (!focusing) {
-                questionDiv.style.backgroundColor = 'yellow';
+                questionDiv.style.backgroundColor = pendingQuestionColor;
             }
 
             /* StackExchange will send the client new info about an active question *for every question, and for every tag in that question* that you're watching

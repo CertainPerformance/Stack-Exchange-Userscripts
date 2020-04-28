@@ -6,7 +6,7 @@ import { makeVoicesSelect } from './makeVoicesSelect';
 export const makeSpeakInterface = () => {
     const questions = document.querySelector<HTMLElement>('#questions');
     const speakInterface = document.querySelector('#mainbar')!.insertBefore(document.createElement('div'), questions);
-    speakInterface.style.cssText = 'text-align: center; background-color: #afceff; font-size: large;';
+    speakInterface.style.cssText = 'text-align: center; background-color: var(--blue-200); font-size: large;';
     const { volume, rate } = getSettings();
     assignState({ volume, rate });
     speakInterface.innerHTML = `

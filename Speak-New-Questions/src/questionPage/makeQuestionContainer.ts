@@ -24,7 +24,7 @@ export const makeQuestionContainer = () => {
         // tslint:enable: no-console
     }
     questionContainer = document.body.appendChild(document.createElement('div'));
-    questionContainer.style.cssText = 'position: fixed; bottom: 0; background-color: white;';
+    questionContainer.style.cssText = 'position: fixed; bottom: 0; background-color: var(--white);';
     setQuestionContainerWidth();
     window.addEventListener('resize', setQuestionContainerWidth);
     return questionContainer;

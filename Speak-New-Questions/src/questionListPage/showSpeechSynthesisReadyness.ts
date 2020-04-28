@@ -1,3 +1,5 @@
+import { pendingQuestionColor } from '../pendingQuestionColor';
+
 export const showSpeechSynthesisReadyness = () => {
     /* One user interaction required before audio can trigger by itself due to autoplay policies
      * In Chrome, one can also whitelist the site in the registry:
@@ -5,7 +7,7 @@ export const showSpeechSynthesisReadyness = () => {
      * In Windows:
      * Computer\HKEY_CURRENT_USER\Software\Policies\Google\Chrome\AutoplayWhitelist
      */
-    document.body.style.backgroundColor = 'yellow';
+    document.body.style.backgroundColor = pendingQuestionColor;
     document.body.addEventListener(
         'click',
         () => {

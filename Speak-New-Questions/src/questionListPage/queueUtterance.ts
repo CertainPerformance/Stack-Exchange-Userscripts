@@ -1,5 +1,6 @@
 import { speakNext } from './speakNext';
 import { getState } from './state';
+import { pendingQuestionColor } from '../pendingQuestionColor';
 
 export const queueUtterance = (textToSpeak: string, questionId?: string) => {
     const { textToSpeakQueue } = getState();
@@ -14,7 +15,7 @@ export const queueUtterance = (textToSpeak: string, questionId?: string) => {
     const channel = getState().channel!;
     if (questionElement && questionId) {
         // This will pretty much always already be highlighted, but just in case
-        questionElement.style.backgroundColor = 'yellow';
+        questionElement.style.backgroundColor = pendingQuestionColor;
         channel.postMessage({ newQuestion: true, questionOuterHTML: questionElement.outerHTML });
     }
     const mouseoverHandler = () => {

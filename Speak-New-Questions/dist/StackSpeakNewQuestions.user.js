@@ -3,7 +3,7 @@
 // @description      Speaks new question titles aloud as they come in
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.0
+// @version          1.0.1
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/questions(?:/\d+|$|\?tab=Newest$|/tagged/.*sort=newest)/
 // @include          /^https://example\.com/fakepage$/
 // @grant            none
@@ -175,6 +175,29 @@ else {
 
 /***/ }),
 
+/***/ "./src/pendingQuestionColor.ts":
+/*!*************************************!*\
+  !*** ./src/pendingQuestionColor.ts ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.pendingQuestionColor = (() => {
+    if (window.location.href === 'https://example.com/fakepage') {
+        // Export won't be used
+        return '';
+    }
+    return document.body.matches('.theme-dark')
+        ? '#404000'
+        : 'yellow';
+})();
+
+
+/***/ }),
+
 /***/ "./src/questionListPage/addBorderWhenClicked.ts":
 /*!******************************************************!*\
   !*** ./src/questionListPage/addBorderWhenClicked.ts ***!
@@ -211,6 +234,7 @@ const state_1 = __webpack_require__(/*! ./state */ "./src/questionListPage/state
 const targetBlankAllAnchors_1 = __webpack_require__(/*! ./targetBlankAllAnchors */ "./src/questionListPage/targetBlankAllAnchors.ts");
 const addBorderWhenClicked_1 = __webpack_require__(/*! ./addBorderWhenClicked */ "./src/questionListPage/addBorderWhenClicked.ts");
 const temporarilyPreventClicks_1 = __webpack_require__(/*! ./temporarilyPreventClicks */ "./src/questionListPage/temporarilyPreventClicks.ts");
+const pendingQuestionColor_1 = __webpack_require__(/*! ../pendingQuestionColor */ "./src/pendingQuestionColor.ts");
 const seenQuestionsIds = new Set([...document.querySelectorAll('#questions > div.question-summary')].map(({ id }) => id));
 const watchedTags = ((_a = document.querySelector('#search input')) === null || _a === void 0 ? void 0 : _a.value.match(/[^\[\]]+(?=\])/g)) || [];
 const questionTagCountsLeftById = {};
@@ -227,7 +251,7 @@ exports.checkNewQuestions = () => {
         // But these divs may get removed and replaced with copies before being passed to queueUtterance (see below)
         // For style consistency while the divs are appearing, highlight them immediately
         if (!focusing) {
-            questionDiv.style.backgroundColor = 'yellow';
+            questionDiv.style.backgroundColor = pendingQuestionColor_1.pendingQuestionColor;
         }
         /* StackExchange will send the client new info about an active question *for every question, and for every tag in that question* that you're watching
          * Eg if you're watching 5 tags, and a question is posted with 3 of them, the websocket will send you info 3 times
@@ -388,7 +412,7 @@ const makeVoicesSelect_1 = __webpack_require__(/*! ./makeVoicesSelect */ "./src/
 exports.makeSpeakInterface = () => {
     const questions = document.querySelector('#questions');
     const speakInterface = document.querySelector('#mainbar').insertBefore(document.createElement('div'), questions);
-    speakInterface.style.cssText = 'text-align: center; background-color: #afceff; font-size: large;';
+    speakInterface.style.cssText = 'text-align: center; background-color: var(--blue-200); font-size: large;';
     const { volume, rate } = settings_1.getSettings();
     state_1.assignState({ volume, rate });
     speakInterface.innerHTML = `
@@ -508,6 +532,7 @@ exports.makeVoicesSelect = (speakInterface) => {
 Object.defineProperty(exports, "__esModule", { value: true });
 const speakNext_1 = __webpack_require__(/*! ./speakNext */ "./src/questionListPage/speakNext.ts");
 const state_1 = __webpack_require__(/*! ./state */ "./src/questionListPage/state.ts");
+const pendingQuestionColor_1 = __webpack_require__(/*! ../pendingQuestionColor */ "./src/pendingQuestionColor.ts");
 exports.queueUtterance = (textToSpeak, questionId) => {
     const { textToSpeakQueue } = state_1.getState();
     if (!questionId) {
@@ -521,7 +546,7 @@ exports.queueUtterance = (textToSpeak, questionId) => {
     const channel = state_1.getState().channel;
     if (questionElement && questionId) {
         // This will pretty much always already be highlighted, but just in case
-        questionElement.style.backgroundColor = 'yellow';
+        questionElement.style.backgroundColor = pendingQuestionColor_1.pendingQuestionColor;
         channel.postMessage({ newQuestion: true, questionOuterHTML: questionElement.outerHTML });
     }
     const mouseoverHandler = () => {
@@ -705,6 +730,7 @@ exports.setupCrossDomainCommunication = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+const pendingQuestionColor_1 = __webpack_require__(/*! ../pendingQuestionColor */ "./src/pendingQuestionColor.ts");
 exports.showSpeechSynthesisReadyness = () => {
     /* One user interaction required before audio can trigger by itself due to autoplay policies
      * In Chrome, one can also whitelist the site in the registry:
@@ -712,7 +738,7 @@ exports.showSpeechSynthesisReadyness = () => {
      * In Windows:
      * Computer\HKEY_CURRENT_USER\Software\Policies\Google\Chrome\AutoplayWhitelist
      */
-    document.body.style.backgroundColor = 'yellow';
+    document.body.style.backgroundColor = pendingQuestionColor_1.pendingQuestionColor;
     document.body.addEventListener('click', () => {
         document.body.style.removeProperty('background-color');
     }, { once: true });
@@ -961,6 +987,7 @@ exports.handleQuestionPage = () => {
 Object.defineProperty(exports, "__esModule", { value: true });
 const removeLastQuestionDivAfterDebounce_1 = __webpack_require__(/*! ./removeLastQuestionDivAfterDebounce */ "./src/questionPage/removeLastQuestionDivAfterDebounce.ts");
 const makeQuestionContainer_1 = __webpack_require__(/*! ./makeQuestionContainer */ "./src/questionPage/makeQuestionContainer.ts");
+const pendingQuestionColor_1 = __webpack_require__(/*! ../pendingQuestionColor */ "./src/pendingQuestionColor.ts");
 let questionContainer;
 const mouseoverHandlersByQuestionDiv = new Map();
 exports.insertQuestionDiv = (questionOuterHTML, channel) => {
@@ -971,7 +998,7 @@ exports.insertQuestionDiv = (questionOuterHTML, channel) => {
     questionContainer.insertAdjacentHTML('afterbegin', questionOuterHTML);
     const questionDiv = questionContainer.firstElementChild;
     questionDiv.removeAttribute('style');
-    questionDiv.style.backgroundColor = 'yellow';
+    questionDiv.style.backgroundColor = pendingQuestionColor_1.pendingQuestionColor;
     /* If the list page closes, it can't communicate to the question pages in time to stop highlighting and remove questionDivs
      * So, remove the background color automatically after 20 seconds, to ensure the questionDiv will disappear
      */
@@ -1056,7 +1083,7 @@ exports.makeQuestionContainer = () => {
         // tslint:enable: no-console
     }
     questionContainer = document.body.appendChild(document.createElement('div'));
-    questionContainer.style.cssText = 'position: fixed; bottom: 0; background-color: white;';
+    questionContainer.style.cssText = 'position: fixed; bottom: 0; background-color: var(--white);';
     setQuestionContainerWidth();
     window.addEventListener('resize', setQuestionContainerWidth);
     return questionContainer;
@@ -1074,13 +1101,14 @@ exports.makeQuestionContainer = () => {
 
 "use strict";
 
+Object.defineProperty(exports, "__esModule", { value: true });
+const pendingQuestionColor_1 = __webpack_require__(/*! ../pendingQuestionColor */ "./src/pendingQuestionColor.ts");
 /* Remove a questionDiv once:
  * (1) the questionDiv's spoken text ended at least 10 seconds ago, and
  * (2) The mouse has not been inside the questionContainer for 10 seconds; both
  *   (a) Last mouseenter, if any, was followed by a mouseleave
  *   (b) mouseleave was at least 10 seconds ago
  */
-Object.defineProperty(exports, "__esModule", { value: true });
 let timeoutId = -1;
 let overContainer = false;
 let questionContainer;
@@ -1104,7 +1132,7 @@ exports.removeLastQuestionDivAfterDebounce = () => {
 };
 const removeLastQuestionDiv = () => {
     const questionDivs = [...questionContainer.children];
-    if (!questionDivs.length || questionDivs.some(div => div.style.backgroundColor === 'yellow')) {
+    if (!questionDivs.length || questionDivs.some(div => div.style.backgroundColor === pendingQuestionColor_1.pendingQuestionColor)) {
         return;
     }
     questionContainer.lastElementChild.remove();
