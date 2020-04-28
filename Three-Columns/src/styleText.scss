@@ -47,7 +47,7 @@ html[data-cpuserscript-three-columns-layout-open] {
     #{$third-column} {
         position: fixed !important; // For 2nd column, need to override SE's CSS rule of .ps-relative { position: relative !important; }
         top: 50px;
-        background-color: white;
+        background-color: var(--white);
         z-index: 1001; // .left-sidebar has a z-index of 1000
         height: calc(100% - 50px);
         padding: 15px;
