@@ -54,6 +54,18 @@ export const insertMissingCommentTrs = (savedComments: SavedComments) => {
         }
         const trThisNewRowShouldBeInsertedBefore = getTrs().find(tr => trToIds(tr).commentId < thisCommentId);
         const isTrailing = thisCommentId < lastOriginalTrCommentId;
+        if (Number.isNaN(savedComment.timestamp)) {
+            /* timestamp may be NaN if user visits page with their comment on it
+             * after the license update: https://meta.stackexchange.com/q/347758 and before they update their script
+             * because the comment date titles are now, eg:
+             * "2020-05-12 16:07:34Z , License: CC BY-SA 4.0"
+             * changed from
+             * "2020-05-12 16:07:34Z"
+             * If user has comments like these saved, timestamp will be NaN:
+             * just don't create the row
+             */
+            return;
+        }
         const trToInsert = makeTr(savedComment, isTrailing);
         // If trThisNewRowShouldBeInsertedBefore is null, the TR will be inserted at the end of the tbody, like appendChild, as desired:
         tBody.insertBefore(trToInsert, trThisNewRowShouldBeInsertedBefore || null);

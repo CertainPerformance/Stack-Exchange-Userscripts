@@ -6,7 +6,8 @@ import { commentHrefToIds } from '../commentHrefToIds';
  */
 export const saveComment = (userCommentAnchor: HTMLAnchorElement, savedComments: SavedComments) => {
     const dateElm = userCommentAnchor.nextElementSibling!.querySelector<HTMLElement>('.relativetime-clean')!;
-    const timestamp = new Date(dateElm.title).getTime();
+    // The title will be something like: "2020-05-12 16:08:33Z , License: CC BY-SA 4.0"
+    const timestamp = new Date(dateElm.title.match(/^[^,]+?(?= ?, License)/)![0]).getTime();
     // Some sites have a MathJax preview which is the first child of the body, rather than the comment-copy being the first child
     const commentHTML = userCommentAnchor.closest('.comment-body')!.querySelector('.comment-copy')!.innerHTML;
     const questionAnchor = document.querySelector('#question-header > h1 > a');

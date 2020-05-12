@@ -3,7 +3,7 @@
 // @description      Review the status and reception of your comments and their parent posts
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.9
+// @version          1.0.10
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/(?:users/.*\?tab=activity|questions/\d|review/\w(?!.*/stats|.*/history))/
 // @grant            none
 // ==/UserScript==
@@ -343,7 +343,8 @@ const commentHrefToIds_1 = __webpack_require__(/*! ../commentHrefToIds */ "./src
  */
 exports.saveComment = (userCommentAnchor, savedComments) => {
     const dateElm = userCommentAnchor.nextElementSibling.querySelector('.relativetime-clean');
-    const timestamp = new Date(dateElm.title).getTime();
+    // The title will be something like: "2020-05-12 16:08:33Z , License: CC BY-SA 4.0"
+    const timestamp = new Date(dateElm.title.match(/^[^,]+?(?= ?, License)/)[0]).getTime();
     // Some sites have a MathJax preview which is the first child of the body, rather than the comment-copy being the first child
     const commentHTML = userCommentAnchor.closest('.comment-body').querySelector('.comment-copy').innerHTML;
     const questionAnchor = document.querySelector('#question-header > h1 > a');
@@ -686,6 +687,18 @@ exports.insertMissingCommentTrs = (savedComments) => {
         }
         const trThisNewRowShouldBeInsertedBefore = getTrs().find(tr => trToIds(tr).commentId < thisCommentId);
         const isTrailing = thisCommentId < lastOriginalTrCommentId;
+        if (Number.isNaN(savedComment.timestamp)) {
+            /* timestamp may be NaN if user visits page with their comment on it
+             * after the license update: https://meta.stackexchange.com/q/347758 and before they update their script
+             * because the comment date titles are now, eg:
+             * "2020-05-12 16:07:34Z , License: CC BY-SA 4.0"
+             * changed from
+             * "2020-05-12 16:07:34Z"
+             * If user has comments like these saved, timestamp will be NaN:
+             * just don't create the row
+             */
+            return;
+        }
         const trToInsert = makeTr_1.makeTr(savedComment, isTrailing);
         // If trThisNewRowShouldBeInsertedBefore is null, the TR will be inserted at the end of the tbody, like appendChild, as desired:
         tBody.insertBefore(trToInsert, trThisNewRowShouldBeInsertedBefore || null);
