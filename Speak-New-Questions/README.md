@@ -14,6 +14,8 @@ On question pages, new question containers will disappear a few seconds after al
 
 Clicking on a question link will give it a small border on the right, to indicate that you've visited it.
 
+When a new question comes in, `<a>` clicks on the question list are temporarily disabled for half a second, so don't worry about accidentally clicking on a link you didn't mean to.
+
 Speaking text through the SpeechSynthesis API is only permitted once the user has interacted with the document at least once. To remind you of this, every time you load a Newest tab, the page will be given a different background color, which will persist until you've clicked somewhere on the page, which counts as an interaction.
 
 When browsing new questions, because one usually wants to keep the Newest tab open, all outgoing links are changed to `target="_blank"` so that left-clicks open in new tabs, rather than replacing the Newest page.
