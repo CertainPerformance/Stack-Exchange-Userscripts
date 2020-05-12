@@ -1,8 +1,6 @@
-// tslint:disable: object-literal-sort-keys
-
 // Properties below are site names, accessible by accessing StackExchange.options.site.name
 
-export const defaultSiteSpecificShortReasons: { [siteName: string]: string[] } = {
+export const defaultSiteSpecificShortReasons: { [siteName: string]: Array<string> } = {
     'Stack Overflow': [
         'General computing',
         'Server / networking',

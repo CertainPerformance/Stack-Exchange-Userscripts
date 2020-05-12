@@ -29,7 +29,7 @@ export const removeLastQuestionDivAfterDebounce = () => {
     }
 };
 const removeLastQuestionDiv = () => {
-    const questionDivs = [...questionContainer.children] as HTMLElement[];
+    const questionDivs = [...questionContainer.children] as Array<HTMLElement>;
     if (!questionDivs.length || questionDivs.some(div => div.style.backgroundColor === pendingQuestionColor)) {
         return;
     }

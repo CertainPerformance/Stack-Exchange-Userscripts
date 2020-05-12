@@ -7,9 +7,9 @@ const excludeDirectories = new Set(['node_modules', '.git']);
 // If readDirectoryRecursive could ever be externally called more than once (which isn't possible currently),
 // having pathsToReturn in persistent module scope would be a problem
 const pathsToReturn = {
-    javascriptPathsToESLint: [] as string[],
-    packageJSONDirectoriesToTSLint: [] as string[],
-    pathsToCustomLint: [] as string[],
+    javascriptPathsToESLint: [] as Array<string>,
+    packageJSONDirectoriesToTSLint: [] as Array<string>,
+    pathsToCustomLint: [] as Array<string>,
 };
 
 const readDirectoryRecursive = async (path: string) => {

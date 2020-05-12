@@ -4,7 +4,7 @@ import { getPostsState } from './getPostsState';
 import { insertTH } from './insertTH';
 import { populateTRs } from './populateTRs';
 
-export const getPostInfo = async (questionIds: number[]) => {
+export const getPostInfo = async (questionIds: Array<number>) => {
     const { questionsByQuestionId, answersByAnswerId } = getPostsState();
     const questionIdsToFetch = questionIds.filter(questionId => !questionsByQuestionId.has(questionId));
     const { items, error_id } = await getApi(questionIdsToFetch);

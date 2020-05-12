@@ -18,7 +18,6 @@ export const updateStyle = () => {
     const replaceObj: { [replaceProperty: string]: string } = {
         'col1-width': widthNumToCssRules(firstColWidth),
         'resizer1-left': `left: ${firstColWidth}%;`,
-        // tslint:disable-next-line: object-literal-sort-keys
         'col2-left': `left: ${firstColWidth}%;`,
         'col2-width': widthNumToCssRules(secondColWidth),
         'resizer2-left': `left: ${firstTwoColsTotalWidth}%;`,

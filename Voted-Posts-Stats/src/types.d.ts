@@ -7,10 +7,10 @@ type ApiQuestion = Readonly<{
     score: number;
     question_id: number;
     accepted_answer_id?: number;
-    answers?: ApiAnswer[];
+    answers?: Array<ApiAnswer>;
 }>;
 type ApiQuestions = Readonly<{
-    items: ApiQuestion[];
+    items: Array<ApiQuestion>;
     error_id?: number;
 }>;
 

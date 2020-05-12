@@ -7,7 +7,7 @@ type ApiAnswer = {
 };
 type ApiQuestion = Readonly<{
     accepted_answer_id?: number;
-    answers: ApiAnswer[];
+    answers: Array<ApiAnswer>;
     closed_reason?: string;
     comment_count: number;
     creation_date: number;
@@ -21,10 +21,10 @@ type ApiQuestion = Readonly<{
     view_count: number;
 }>;
 type ApiQuestionsResponse = Readonly<{
-    items: ApiQuestion[];
+    items: Array<ApiQuestion>;
     error_id?: number;
 }>;
 
 type TrsByQuestionId = {
-    [questionId: string]: HTMLTableRowElement[];
+    [questionId: string]: Array<HTMLTableRowElement>;
 };

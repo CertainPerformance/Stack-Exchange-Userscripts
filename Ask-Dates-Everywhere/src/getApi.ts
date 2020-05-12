@@ -16,7 +16,7 @@ const paramsArr = [
 const searchParams = new URLSearchParams(paramsArr);
 const paramsString = `?${searchParams.toString()}`;
 
-export const getApi = async (questionIdsToFetch: number[]) => {
+export const getApi = async (questionIdsToFetch: Array<number>) => {
     if (questionIdsToFetch.length === 0) {
         return { items: [] };
     }

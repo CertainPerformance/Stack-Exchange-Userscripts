@@ -7,7 +7,7 @@ const getStartedQuestionAnchor = (started: HTMLElement) => started.querySelector
 export const observeQuestionsContainer = (questionsContainer: HTMLElement) => {
     const handledParents = new Set();
     const fix = () => {
-        const startedsToFix: HTMLElement[] = [];
+        const startedsToFix: Array<HTMLElement> = [];
         for (const started of questionsContainer.querySelectorAll<HTMLElement>('.started')) {
             const summary = started.parentElement!;
             if (handledParents.has(summary)) {

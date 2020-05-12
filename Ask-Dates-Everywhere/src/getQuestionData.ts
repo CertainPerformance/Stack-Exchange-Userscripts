@@ -1,6 +1,6 @@
 import { getApi } from './getApi';
 
-export const getQuestionData = async (questionIdsToRetrieve: number[]) => {
+export const getQuestionData = async (questionIdsToRetrieve: Array<number>) => {
     if (!localStorage.cpUserscriptAskDatesEverywhereQuestionData) {
         localStorage.cpUserscriptAskDatesEverywhereQuestionData = '{}';
     }

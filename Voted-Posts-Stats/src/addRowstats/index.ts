@@ -2,7 +2,7 @@ import { showToastError } from '../../../common/showToast';
 import { getPostInfo } from './getPostInfo';
 import { postLinkToIds } from './postLinkToIds';
 
-const dedupe = (arr: number[]) => [...new Set(arr)];
+const dedupe = (arr: Array<number>) => [...new Set(arr)];
 export const addRowstats = () => {
     const tableExists = document.querySelector('.history-table');
     // Might not be a table, if the user hasn't cast any votes of this type:

@@ -30,7 +30,7 @@ const paramsArr = [
 const searchParams = new URLSearchParams(paramsArr);
 const paramsString = `?${searchParams.toString()}`;
 
-export const getApi = async (questionIds: number[]) => {
+export const getApi = async (questionIds: Array<number>) => {
     if (!questionIds.length) {
         return { items: [] };
     }

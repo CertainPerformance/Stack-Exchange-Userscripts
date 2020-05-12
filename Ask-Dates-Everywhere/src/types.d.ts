@@ -10,7 +10,7 @@ type ApiQuestion = Readonly<{
     }>;
 }>;
 type ApiResponse = {
-    readonly items: ApiQuestion[];
+    readonly items: Array<ApiQuestion>;
 };
 type ApiQuestionsByQuestionId = {
     [questionId: string]: ApiQuestion & { accessed: number };

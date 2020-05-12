@@ -1,4 +1,4 @@
-export const getBestAnswer = (answers: ApiAnswer[]) => {
+export const getBestAnswer = (answers: Array<ApiAnswer>) => {
     if (!answers.length) {
         return null;
     }

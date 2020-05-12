@@ -32,11 +32,11 @@ const handlePopup = (popupText: string, createInterface: () => void) => {
         return;
     }
     const thisSiteShortReasons = defaultSiteSpecificShortReasons[window.StackExchange.options.site.name] || [];
-    const siteSpecificCloseReasons: {
+    const siteSpecificCloseReasons: Array<{
         siteSpecificCloseReasonId: number;
         longReasonText: string;
         reasonText: string;
-    }[] = [];
+    }> = [];
     siteSpecificRadios.forEach((radio, i) => {
         const origLabelText = radio
             .parentElement!

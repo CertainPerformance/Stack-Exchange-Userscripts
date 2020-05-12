@@ -13,7 +13,7 @@ export const waitForTablesToExist = () => {
             return;
         }
         observer.disconnect();
-        watchForClicksOnTables(deleteTables as HTMLTableElement[]);
+        watchForClicksOnTables(deleteTables as Array<HTMLTableElement>);
     })
         .observe(containerForAllTables, { childList: true, subtree: true });
 };

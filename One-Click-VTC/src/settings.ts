@@ -1,11 +1,11 @@
 type Settings = {
-    siteSpecificCloseReasons: {
+    siteSpecificCloseReasons: Array<{
         siteSpecificCloseReasonId: number;
         longReasonText: string;
         reasonText: string;
-    }[];
+    }>;
     downvoteCondition: string;
-    raisedCloseFlags: number[];
+    raisedCloseFlags: Array<number>;
 };
 export const getSettings = () => (JSON.parse(localStorage.cpUserscriptOneClickVTCSettings as string) as Settings);
 export const saveNewSettings = (siteSpecificCloseReasons: Settings['siteSpecificCloseReasons']) => {

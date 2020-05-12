@@ -11,5 +11,5 @@ type ApiPostItem = Readonly<{
 }>;
 type ApiPostResponse = Readonly<{
     error_id?: number;
-    items: ApiPostItem[];
+    items: Array<ApiPostItem>;
 }>;

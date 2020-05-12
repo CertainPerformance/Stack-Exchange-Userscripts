@@ -10,7 +10,7 @@ export const processApiResponse = (
 ) => {
     populateRowstatsWithApiData(questionData, commentData, rowstatsContainersByIds);
     const apiQuestionIds = new Set(questionData.items.map(({ question_id }) => question_id));
-    const apiAnswerIds = new Set(([] as number[]).concat(
+    const apiAnswerIds = new Set(([] as Array<number>).concat(
         ...questionData.items.map(
             ({ answers = [] }) => answers.map(({ answer_id }) => answer_id),
         ),

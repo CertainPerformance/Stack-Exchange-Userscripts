@@ -11,10 +11,10 @@ const defaultParamsArr = [
 ];
 
 type GetApi = {
-    (method: 'comments', ids: number[]): Promise<ApiComments>;
-    (method: 'questions', ids: number[]): Promise<ApiQuestions>;
+    (method: 'comments', ids: Array<number>): Promise<ApiComments>;
+    (method: 'questions', ids: Array<number>): Promise<ApiQuestions>;
 };
-export const getApi: GetApi = async (method: 'comments' | 'questions', ids: number[]) => {
+export const getApi: GetApi = async (method: 'comments' | 'questions', ids: Array<number>) => {
     if (!ids.length) {
         return { items: [] };
     }

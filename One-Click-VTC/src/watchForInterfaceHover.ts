@@ -5,7 +5,7 @@ const showOptionContainer = (optionContainer: HTMLElement) => {
         return;
     }
     optionContainer.style.visibility = 'visible';
-    const buttons = [...optionContainer.children[1].children] as HTMLDivElement[];
+    const buttons = [...optionContainer.children[1].children] as Array<HTMLDivElement>;
     const { downvoteCondition } = getSettings();
     const currentButton = buttons.find(button => button.textContent === downvoteCondition)!;
     currentButton.setAttribute('data-selected-option', '');

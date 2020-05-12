@@ -1,7 +1,7 @@
 import { showToastError } from '../../../common/showToast';
 import { willQuestionRoomba } from './willQuestionRoomba';
 
-export const processApiResponse = ({ error_id, items }: ApiQuestionsResponse, trsByQuestionId: TrsByQuestionId, trs: HTMLTableRowElement[]) => {
+export const processApiResponse = ({ error_id, items }: ApiQuestionsResponse, trsByQuestionId: TrsByQuestionId, trs: Array<HTMLTableRowElement>) => {
     if (error_id) {
         showToastError(`Stack Hide Roomba Bound Posts Error: Stack Exchange API response code ${error_id}`);
         return;

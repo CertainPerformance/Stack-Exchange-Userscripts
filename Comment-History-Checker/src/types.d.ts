@@ -14,7 +14,7 @@ type ApiComment = Readonly<{
     comment_id: number;
 }>;
 type ApiComments = {
-    readonly items: ApiComment[];
+    readonly items: Array<ApiComment>;
 };
 type ApiAnswer = Readonly<{
     is_accepted: boolean;
@@ -25,10 +25,10 @@ type ApiQuestion = Readonly<{
     score: number;
     question_id: number;
     closed_reason?: string;
-    answers?: ApiAnswer[];
+    answers?: Array<ApiAnswer>;
 }>;
 type ApiQuestions = {
-    readonly items: ApiQuestion[];
+    readonly items: Array<ApiQuestion>;
 };
 type RowstatsContainersByIds = Readonly<{
     byComment: Map<number, HTMLDivElement>;

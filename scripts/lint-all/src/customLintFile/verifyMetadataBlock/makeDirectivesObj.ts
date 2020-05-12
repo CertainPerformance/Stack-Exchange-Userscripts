@@ -11,6 +11,7 @@ const directiveNameOrder = [
     'require',
     'run-at',
     'grant',
+    'connect',
 ];
 // No other directives allowed.
 // Don't use @match - use @include for regular expression support
@@ -18,7 +19,7 @@ const directiveNameOrder = [
 export const makeDirectivesObj = (metadataBlock: string, logError: LogError) => {
     const lines = metadataBlock.split(/[\r\n]+/);
     let directiveIndex = 0;
-    const directivesObj: { [directiveName: string]: string[] } = {};
+    const directivesObj: { [directiveName: string]: Array<string> } = {};
     for (const line of lines) {
         const directiveMatch = line.match(/^\/\/ @(\S+)( +)(\S.*)/);
         if (!directiveMatch) {

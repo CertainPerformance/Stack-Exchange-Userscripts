@@ -2,7 +2,7 @@ import { checkOpenTables } from './checkOpenTables';
 import { createSettingsInterface } from './createSettingsInterface';
 import { processTable } from './processTable';
 
-export const watchForClicksOnTables = (deleteTables: HTMLTableElement[]) => {
+export const watchForClicksOnTables = (deleteTables: Array<HTMLTableElement>) => {
     const checkOpenTablesBound = () => {
         checkOpenTables(deleteTables, processTable);
     };

@@ -30,7 +30,7 @@ export const tryUnhighlightQuestionDiv = (questionId: string) => {
         return;
     }
     removeLastQuestionDivAfterDebounce();
-    const questionDiv = ([...questionContainer.children] as HTMLElement[]).find(({ id }) => id === questionId);
+    const questionDiv = ([...questionContainer.children] as Array<HTMLElement>).find(({ id }) => id === questionId);
     if (questionDiv) {
         questionDiv.style.removeProperty('background-color');
         const mouseoverHandler = mouseoverHandlersByQuestionDiv.get(questionDiv);
