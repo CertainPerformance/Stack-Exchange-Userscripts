@@ -1,7 +1,8 @@
 let questionContainer: HTMLElement;
 let haveWarned = false;
 const setQuestionContainerWidth = () => {
-    const availableSpaceToLeftOfContent = document.querySelector<HTMLElement>('.container')!.getBoundingClientRect().left - 20;
+    const container = document.querySelector<HTMLElement>('.container')!;
+    const availableSpaceToLeftOfContent = container.getBoundingClientRect().left - 20;
     if (availableSpaceToLeftOfContent < 300) {
         if (!haveWarned) {
             haveWarned = true;
@@ -17,6 +18,12 @@ const setQuestionContainerWidth = () => {
     questionContainer.style.width = `${Math.min(availableSpaceToLeftOfContent, 700)}px`;
 };
 export const makeQuestionContainer = () => {
+    const container = document.querySelector<HTMLElement>('.container')!;
+    if (window.getComputedStyle(container, null).display === 'none') {
+        // Main container is not visible, likely due to Stack Snippet Find userscript
+        // Cannot figure out how wide the questions container should be, or even if there's enough space for it
+        return;
+    }
     if (document.querySelector<HTMLElement>('#left-sidebar')!.offsetParent !== null) {
         // tslint:disable: no-console
         console.warn('Stack Speak New Questions: Left sidebar found. This may interfere with the new questions interface.');

@@ -2,11 +2,15 @@ import { removeLastQuestionDivAfterDebounce, watchForMouseMovementInQuestionCont
 import { makeQuestionContainer } from './makeQuestionContainer';
 import { pendingQuestionColor } from '../pendingQuestionColor';
 
-let questionContainer: HTMLElement;
+let questionContainer: HTMLElement | undefined;
 const mouseoverHandlersByQuestionDiv = new Map<HTMLElement, () => void>();
 export const insertQuestionDiv = (questionOuterHTML: string, channel: BroadcastChannel) => {
     if (!questionContainer) {
         questionContainer = makeQuestionContainer();
+        if (!questionContainer) {
+            // Could not make container: return. Can try to make container next time insertQuestionDiv called.
+            return;
+        }
         watchForMouseMovementInQuestionContainer(questionContainer);
     }
     questionContainer.insertAdjacentHTML('afterbegin', questionOuterHTML);

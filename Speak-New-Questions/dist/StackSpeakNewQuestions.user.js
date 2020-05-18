@@ -3,7 +3,7 @@
 // @description      Speaks new question titles aloud as they come in
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.1
+// @version          1.0.2
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/questions(?:/\d+|$|\?tab=Newest$|/tagged/.*sort=newest)/
 // @include          /^https://example\.com/fakepage$/
 // @grant            none
@@ -852,7 +852,6 @@ let state = {
     textToSpeakQueue: [],
     voice: null,
     volume: 1,
-    // tslint:disable-next-line: object-literal-sort-keys
     rate: 2,
 };
 exports.assignState = (partialNewState) => {
@@ -993,6 +992,10 @@ const mouseoverHandlersByQuestionDiv = new Map();
 exports.insertQuestionDiv = (questionOuterHTML, channel) => {
     if (!questionContainer) {
         questionContainer = makeQuestionContainer_1.makeQuestionContainer();
+        if (!questionContainer) {
+            // Could not make container: return. Can try to make container next time insertQuestionDiv called.
+            return;
+        }
         removeLastQuestionDivAfterDebounce_1.watchForMouseMovementInQuestionContainer(questionContainer);
     }
     questionContainer.insertAdjacentHTML('afterbegin', questionOuterHTML);
@@ -1060,7 +1063,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 let questionContainer;
 let haveWarned = false;
 const setQuestionContainerWidth = () => {
-    const availableSpaceToLeftOfContent = document.querySelector('.container').getBoundingClientRect().left - 20;
+    const container = document.querySelector('.container');
+    const availableSpaceToLeftOfContent = container.getBoundingClientRect().left - 20;
     if (availableSpaceToLeftOfContent < 300) {
         if (!haveWarned) {
             haveWarned = true;
@@ -1076,6 +1080,12 @@ const setQuestionContainerWidth = () => {
     questionContainer.style.width = `${Math.min(availableSpaceToLeftOfContent, 700)}px`;
 };
 exports.makeQuestionContainer = () => {
+    const container = document.querySelector('.container');
+    if (window.getComputedStyle(container, null).display === 'none') {
+        // Main container is not visible, likely due to Stack Snippet Find userscript
+        // Cannot figure out how wide the questions container should be, or even if there's enough space for it
+        return;
+    }
     if (document.querySelector('#left-sidebar').offsetParent !== null) {
         // tslint:disable: no-console
         console.warn('Stack Speak New Questions: Left sidebar found. This may interfere with the new questions interface.');
