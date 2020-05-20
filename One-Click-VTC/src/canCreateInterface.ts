@@ -18,6 +18,10 @@ export const canCreateInterface = () => {
     if (stillVisiblePersonalAnswerAuthorAnchor) {
         return;
     }
+    // Do not display the VTC interface if you posted the question:
+    if (document.querySelector(`.owner a[href^="${myProfileLink}"]`)) {
+        return;
+    }
     // Interface will be ~250px wide
     // So, only create interface if there's at least 250px between container and viewport edge:
     const emptySpaceToLeftOfContent = document.querySelector<HTMLElement>('.container')!.getBoundingClientRect().left;

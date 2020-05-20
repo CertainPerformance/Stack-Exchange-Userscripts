@@ -3,7 +3,7 @@
 // @description      Allows voting to close with a single click
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.2.0
+// @version          1.2.1
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/questions/\d+/
 // @grant            none
 // ==/UserScript==
@@ -174,6 +174,10 @@ exports.canCreateInterface = () => {
     if (stillVisiblePersonalAnswerAuthorAnchor) {
         return;
     }
+    // Do not display the VTC interface if you posted the question:
+    if (document.querySelector(`.owner a[href^="${myProfileLink}"]`)) {
+        return;
+    }
     // Interface will be ~250px wide
     // So, only create interface if there's at least 250px between container and viewport edge:
     const emptySpaceToLeftOfContent = document.querySelector('.container').getBoundingClientRect().left;
@@ -226,9 +230,8 @@ exports.canCreateInterface = () => {
 
 "use strict";
 
-// tslint:disable: object-literal-sort-keys
-Object.defineProperty(exports, "__esModule", { value: true });
 // Properties below are site names, accessible by accessing StackExchange.options.site.name
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.defaultSiteSpecificShortReasons = {
     'Stack Overflow': [
         'General computing',
@@ -615,6 +618,10 @@ exports.makeHandleCloseVoteResponse = (questionId, setCanSendRequestToTrue) => (
         showToast_1.showToastError(result.Message);
         return;
     }
+    const downvoteButton = document.querySelector('.question .js-vote-down-btn');
+    // In very rare cases, this element will still have the attribute
+    // (perhaps if they clicked to close, then moved mouse out and back in before response is received)
+    downvoteButton.removeAttribute('data-cpuserscript-one-click-vtc-imminent-downvote');
     const oneClickVTCContainer = document.querySelector('[data-cpuserscript-one-click-vtc]');
     oneClickVTCContainer.remove();
     updateCloseVoteCount(result);
@@ -679,9 +686,7 @@ exports.openDuplicateModal = () => {
         if (!ajaxOptions.url || !/\/flags\/questions\/\d+\/close\/popup/.test(ajaxOptions.url)) {
             return;
         }
-        // First ID selector below is new due to UI changes ~4/13/20: https://meta.stackoverflow.com/q/396592
-        // If it doesn't get reverted and makes it out of the testing phase, second selector can be removed
-        const duplicateRadio = document.querySelector('#closeReasonId-Duplicate, input[type="radio"][name="close-reason"][value="Duplicate"]');
+        const duplicateRadio = document.querySelector('#closeReasonId-Duplicate');
         if (duplicateRadio) {
             // If there's an error, or user has already voted to close, duplicateRadio will not exist
             // That's fine - keep the newly opened modal or error box open, so user can see what the problem was

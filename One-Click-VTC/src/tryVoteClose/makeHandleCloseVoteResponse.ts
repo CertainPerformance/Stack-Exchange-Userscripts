@@ -20,6 +20,12 @@ export const makeHandleCloseVoteResponse = (questionId: number, setCanSendReques
         showToastError(result.Message);
         return;
     }
+
+    const downvoteButton = document.querySelector<HTMLElement>('.question .js-vote-down-btn')!;
+    // In very rare cases, this element will still have the attribute
+    // (perhaps if they clicked to close, then moved mouse out and back in before response is received)
+    downvoteButton.removeAttribute('data-cpuserscript-one-click-vtc-imminent-downvote');
+
     const oneClickVTCContainer = document.querySelector('[data-cpuserscript-one-click-vtc]')!;
     oneClickVTCContainer.remove();
     updateCloseVoteCount(result);
