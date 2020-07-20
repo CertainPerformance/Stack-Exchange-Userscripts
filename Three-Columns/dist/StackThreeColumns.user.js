@@ -3,7 +3,7 @@
 // @description      When answering, editing, or asking, displays the question page, post textarea, and post preview in side-by-side columns
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.3.11
+// @version          1.3.12
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/(?:posts/\d+/edit|questions/(?:\d+|ask))/
 // @grant            none
 // ==/UserScript==
@@ -205,7 +205,7 @@ exports.closeLayoutOnPostEditorClose = (thisPostRoot) => {
     // This must be done through jQuery, because SE's JS sometimes submits the form by calling `div.find('form').submit()`
     // which does not trigger native DOM submit event listeners
     const form = thisPostRoot.querySelector('form');
-    $(form).on('submit', () => {
+    window.$(form).on('submit', () => {
         if (postRootState.get() === thisPostRoot) {
             closeLayout_1.closeLayout();
         }
@@ -326,14 +326,14 @@ const postRootState = __webpack_require__(/*! ./postRootState */ "./src/attachLi
 // Don't enter the interface in this situation.
 const postIdsAboutToBeReplaced = new Set();
 // tslint:disable-next-line: variable-name
-$(document).on('refreshEdit', (_event, postId) => {
+window.$(document).on('refreshEdit', (_event, postId) => {
     if (typeof postId !== 'number') {
         return;
     }
     postIdsAboutToBeReplaced.add(postId);
 });
 // tslint:disable-next-line: variable-name
-$(document).ajaxComplete((_event, _jqXHR, { url = '' }) => {
+window.$(document).ajaxComplete((_event, _jqXHR, { url = '' }) => {
     const match = url.match(/^\/posts\/ajax-load-realtime\/(\d+)\?/);
     if (!match) {
         return;
@@ -488,7 +488,7 @@ exports.closeLayout = (scrollImmediately = false) => {
      */
     oldPostRoot.querySelector('.grippie').removeAttribute('style');
     document.documentElement.removeAttribute('data-cpuserscript-three-columns-layout-open');
-    window.$('html, body').animate({ scrollTop: $(oldPostRoot).offset().top - 55 }, scrollImmediately ? 0 : 200);
+    window.$('html, body').animate({ scrollTop: window.$(oldPostRoot).offset().top - 55 }, scrollImmediately ? 0 : 200);
     postRootState.set(null);
 };
 
@@ -528,7 +528,7 @@ exports.closeLayoutWhenClickOnCloseOrFlagOrPendingEdit = () => {
         // Scroll to the post the user wants to close or edit:
         const targetedPostRoot = target.closest('#post-form, .answer, .question');
         window.$('html, body')
-            .animate({ scrollTop: $(targetedPostRoot).offset().top - 55 }, 200)
+            .animate({ scrollTop: window.$(targetedPostRoot).offset().top - 55 }, 200)
             .promise()
             .then(() => {
             // Click on "Edit (1)" or Close immediately after window is scrolled:
@@ -588,7 +588,7 @@ exports.enterInterfaceWhenCopyToAnswer = () => {
         if (!(e.target.matches('.copySnippet'))) {
             return;
         }
-        const markdownTextarea = $('#post-editor textarea.wmd-input');
+        const markdownTextarea = window.$('#post-editor textarea.wmd-input');
         markdownTextarea.focus();
     });
 };
@@ -766,7 +766,6 @@ exports.updateStyle = () => {
     const replaceObj = {
         'col1-width': widthNumToCssRules(firstColWidth),
         'resizer1-left': `left: ${firstColWidth}%;`,
-        // tslint:disable-next-line: object-literal-sort-keys
         'col2-left': `left: ${firstColWidth}%;`,
         'col2-width': widthNumToCssRules(secondColWidth),
         'resizer2-left': `left: ${firstTwoColsTotalWidth}%;`,

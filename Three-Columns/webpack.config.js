@@ -32,6 +32,18 @@ module.exports = ({ liveDev = false } = {}) => {
                 banner: (liveDev ? '// LIVE DEV\n\n' : '') + fs.readFileSync('./src/userscript-metadata-block.js', 'utf-8'),
                 raw: true,
             }),
+            {
+                apply: (compiler) => {
+                    if (liveDev) {
+                        return;
+                    }
+                    compiler.hooks.afterEmit.tap('AfterEmitPlugin', () => {
+                        const distTextContent = fs.readFileSync('./dist/StackThreeColumns.user.js', 'utf-8');
+                        // Only change the metadata block:	
+                        fs.writeFileSync('./dist/StackThreeColumnsAdjustable.user.js', distTextContent.replace('Three Columns', 'Three Columns Adjustable'));
+                    });
+                }
+            }
         ],
         stats: liveDev ? 'minimal' : 'normal',
     };
