@@ -120,6 +120,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.showToastInfo = exports.showToastError = void 0;
 __webpack_require__(/*! ./declareGlobalStackExchange */ "../common/declareGlobalStackExchange.ts");
 exports.showToastError = (message) => {
     window.StackExchange.helpers.showToast(message, { transient: false, type: 'danger' });
@@ -204,6 +205,7 @@ module.exports = g;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.setDB = exports.getDB = void 0;
 /* The ultimate output bundle will not be minified, for the sake of easier debugging
  * But localforage, if imported ordinarily without minification, will be a HUGE part of the output bundle
  * despite its implementation being near-irrelevant to this script
@@ -240,6 +242,7 @@ exports.setDB = async (newData) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.commentHrefToIds = void 0;
 exports.commentHrefToIds = (commentHref) => {
     // commentHref will be in a format like:
     // https://stackoverflow.com/questions/1732348/regex-match-open-tags-except-xhtml-self-contained-tags#comment1612336_1732454
@@ -286,6 +289,7 @@ else {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.watchForCommentChanges = void 0;
 const watchForNewComments_1 = __webpack_require__(/*! ./watchForNewComments */ "./src/watchForCommentChanges/watchForNewComments.ts");
 const watchForSelfDeletedComments_1 = __webpack_require__(/*! ./watchForSelfDeletedComments */ "./src/watchForCommentChanges/watchForSelfDeletedComments.ts");
 exports.watchForCommentChanges = () => {
@@ -308,6 +312,7 @@ exports.watchForCommentChanges = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.makeSaveAllVisibleComments = void 0;
 const commentDB_1 = __webpack_require__(/*! ../commentDB */ "./src/commentDB.ts");
 const saveComment_1 = __webpack_require__(/*! ./saveComment */ "./src/watchForCommentChanges/saveComment.ts");
 exports.makeSaveAllVisibleComments = (userHref) => async () => {
@@ -336,6 +341,7 @@ exports.makeSaveAllVisibleComments = (userHref) => async () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.saveComment = void 0;
 const commentHrefToIds_1 = __webpack_require__(/*! ../commentHrefToIds */ "./src/commentHrefToIds.ts");
 /**
  * Saves the comment surrounding this anchor in the database
@@ -386,6 +392,7 @@ exports.saveComment = (userCommentAnchor, savedComments) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.saveDeletedComment = void 0;
 const commentDB_1 = __webpack_require__(/*! ../commentDB */ "./src/commentDB.ts");
 exports.saveDeletedComment = async (commentId) => {
     const savedComments = await commentDB_1.getDB();
@@ -413,6 +420,7 @@ exports.saveDeletedComment = async (commentId) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.watchForNewComments = void 0;
 const makeSaveAllVisibleComments_1 = __webpack_require__(/*! ./makeSaveAllVisibleComments */ "./src/watchForCommentChanges/makeSaveAllVisibleComments.ts");
 exports.watchForNewComments = async () => {
     const myProfile = document.querySelector('a.my-profile');
@@ -455,6 +463,7 @@ exports.watchForNewComments = async () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.watchForSelfDeletedComments = void 0;
 const saveDeletedComment_1 = __webpack_require__(/*! ./saveDeletedComment */ "./src/watchForCommentChanges/saveDeletedComment.ts");
 exports.watchForSelfDeletedComments = () => {
     const responseJSONHasSuccessProp = (responseJSON) => 'Success' in responseJSON;
@@ -493,6 +502,7 @@ exports.watchForSelfDeletedComments = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.fixCommentTab = void 0;
 const commentDB_1 = __webpack_require__(/*! ../commentDB */ "./src/commentDB.ts");
 const getApi_1 = __webpack_require__(/*! ./getApi */ "./src/watchForCommentTab/getApi.ts");
 const insertMissingCommentTrs_1 = __webpack_require__(/*! ./insertMissingCommentTrs */ "./src/watchForCommentTab/insertMissingCommentTrs/index.ts");
@@ -541,6 +551,7 @@ exports.fixCommentTab = async () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getApi = void 0;
 const filters = {
     comments: '!SWJ_S9Hse(rWelcqk1',
     questions: '!5RCI6qPDF8)WPM-vVxWYF-1w0',
@@ -578,6 +589,7 @@ exports.getApi = async (method, ids) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.watchForCommentTab = void 0;
 const showToast_1 = __webpack_require__(/*! ../../../common/showToast */ "../common/showToast.ts");
 const fixCommentTab_1 = __webpack_require__(/*! ./fixCommentTab */ "./src/watchForCommentTab/fixCommentTab.ts");
 const styleTag_1 = __webpack_require__(/*! ./styleTag */ "./src/watchForCommentTab/styleTag.ts");
@@ -617,6 +629,7 @@ exports.watchForCommentTab = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.escapeHTML = void 0;
 exports.escapeHTML = (unsafe) => unsafe
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
@@ -637,6 +650,7 @@ exports.escapeHTML = (unsafe) => unsafe
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.insertMissingCommentTrs = void 0;
 const commentHrefToIds_1 = __webpack_require__(/*! ../../commentHrefToIds */ "./src/commentHrefToIds.ts");
 const makeTr_1 = __webpack_require__(/*! ./makeTr */ "./src/watchForCommentTab/insertMissingCommentTrs/makeTr.ts");
 // Make sure to only select trs with data-postids;
@@ -719,6 +733,7 @@ exports.insertMissingCommentTrs = (savedComments) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.makeTr = void 0;
 const commentHrefToIds_1 = __webpack_require__(/*! ../../commentHrefToIds */ "./src/commentHrefToIds.ts");
 const escapeHTML_1 = __webpack_require__(/*! ./escapeHTML */ "./src/watchForCommentTab/insertMissingCommentTrs/escapeHTML.ts");
 const timestampToDateDivHTML_1 = __webpack_require__(/*! ./timestampToDateDivHTML */ "./src/watchForCommentTab/insertMissingCommentTrs/timestampToDateDivHTML.ts");
@@ -763,6 +778,7 @@ exports.makeTr = (savedComment, isTrailing) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.timestampToDateDivHTML = void 0;
 const timestampToTimeAgoStr_1 = __webpack_require__(/*! ./timestampToTimeAgoStr */ "./src/watchForCommentTab/insertMissingCommentTrs/timestampToTimeAgoStr.ts");
 exports.timestampToDateDivHTML = (timestamp) => {
     const dateTitleAttr = new Date(timestamp).toISOString()
@@ -794,6 +810,7 @@ exports.timestampToDateDivHTML = (timestamp) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.timestampToTimeAgoStr = void 0;
 /**
  * If difference between timestamp and now is more than 2 days, return "mon #" (eg "Jan 1").
  * Otherwise, return one of: "#d", "#h", "#m", "#s", or "now".
@@ -841,6 +858,7 @@ exports.timestampToTimeAgoStr = (timestamp) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.insertTh = void 0;
 exports.insertTh = (table, thisProfileIsLoggedIn) => {
     const thead = table.insertBefore(document.createElement('thead'), table.children[0]);
     // Limitation: Below only makes sense on English sites
@@ -880,6 +898,7 @@ exports.insertTh = (table, thisProfileIsLoggedIn) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.makeRowstatsContainers = void 0;
 const commentHrefToIds_1 = __webpack_require__(/*! ../commentHrefToIds */ "./src/commentHrefToIds.ts");
 exports.makeRowstatsContainers = () => {
     // Map question / comment IDs to the second td in every tr, the tds which initially contain "Comment" on pageload
@@ -923,6 +942,7 @@ exports.makeRowstatsContainers = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getBestAnswer = void 0;
 exports.getBestAnswer = (answers) => {
     if (!answers.length) {
         return null;
@@ -948,6 +968,7 @@ exports.getBestAnswer = (answers) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.highlightCommentsWithoutData = void 0;
 /*
  * Iterate through all rowstatsContainers on the page.
  * If the comment associated with a container is not in apiCommentIds,
@@ -997,6 +1018,7 @@ exports.highlightCommentsWithoutData = (rowstatsContainersByIds, apiCommentIds, 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.processApiResponse = void 0;
 const highlightCommentsWithoutData_1 = __webpack_require__(/*! ./highlightCommentsWithoutData */ "./src/watchForCommentTab/processApiResponse/highlightCommentsWithoutData.ts");
 const populateRowstatsWithApiData_1 = __webpack_require__(/*! ./populateRowstatsWithApiData */ "./src/watchForCommentTab/processApiResponse/populateRowstatsWithApiData.ts");
 const removeEmptyContainers_1 = __webpack_require__(/*! ./removeEmptyContainers */ "./src/watchForCommentTab/processApiResponse/removeEmptyContainers.ts");
@@ -1025,6 +1047,7 @@ exports.processApiResponse = ([questionData, commentData], rowstatsContainersByI
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.populateRowstatsWithApiData = void 0;
 const getBestAnswer_1 = __webpack_require__(/*! ./getBestAnswer */ "./src/watchForCommentTab/processApiResponse/getBestAnswer.ts");
 exports.populateRowstatsWithApiData = (questionData, commentData, rowstatsContainersByIds) => {
     /* Insert question scores (for all rows),
@@ -1087,6 +1110,7 @@ exports.populateRowstatsWithApiData = (questionData, commentData, rowstatsContai
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.removeEmptyContainers = void 0;
 exports.removeEmptyContainers = () => {
     const commentTrs = document.querySelectorAll('.history-table > tbody tr[data-postid]');
     commentTrs.forEach((commentTr) => {
@@ -1115,6 +1139,7 @@ exports.removeEmptyContainers = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.removeRedundantTrs = void 0;
 const commentHrefToIds_1 = __webpack_require__(/*! ../../commentHrefToIds */ "./src/commentHrefToIds.ts");
 /**
  * Remove the TRs at the bottom of the comment table which will be visible if user navigates to the next page
@@ -1156,6 +1181,7 @@ exports.removeRedundantTrs = (apiCommentIds) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.styleTag = void 0;
 // @ts-ignore
 // tslint:disable-next-line: no-implicit-dependencies
 const styleText_css_1 = __webpack_require__(/*! raw-loader!../../build/watchForCommentTab/styleText.css */ "./node_modules/raw-loader/dist/cjs.js!./build/watchForCommentTab/styleText.css");
