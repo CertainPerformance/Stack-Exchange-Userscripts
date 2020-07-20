@@ -120,6 +120,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.showToastInfo = exports.showToastError = void 0;
 __webpack_require__(/*! ./declareGlobalStackExchange */ "../common/declareGlobalStackExchange.ts");
 exports.showToastError = (message) => {
     window.StackExchange.helpers.showToast(message, { transient: false, type: 'danger' });
@@ -177,6 +178,7 @@ if (youarehere && youarehere.dataset.value === 'delete') {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.insertStyle = void 0;
 // @ts-ignore
 // tslint:disable-next-line: no-implicit-dependencies
 const styleText_css_1 = __webpack_require__(/*! raw-loader!../build/styleText.css */ "./node_modules/raw-loader/dist/cjs.js!./build/styleText.css");
@@ -198,6 +200,7 @@ exports.insertStyle = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.waitForTablesToExist = void 0;
 const watchForClicksOnTables_1 = __webpack_require__(/*! ./watchForClicksOnTables */ "./src/watchForClicksOnTables/index.ts");
 exports.waitForTablesToExist = () => {
     // Wait for both delete tables to be created from the multiple ajax request done by the page
@@ -231,6 +234,7 @@ exports.waitForTablesToExist = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.checkOpenTables = void 0;
 exports.checkOpenTables = (deleteTables, processTable) => {
     deleteTables.forEach((table) => {
         // Only process the tables that are open:
@@ -253,6 +257,7 @@ exports.checkOpenTables = (deleteTables, processTable) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.createSettingsInterface = void 0;
 const settingsStore = __webpack_require__(/*! ./settingsStore */ "./src/watchForClicksOnTables/settingsStore.ts");
 const setSettingsDivAttributes = (settings, settingsDiv) => {
     if (settings.enabled) {
@@ -309,6 +314,7 @@ exports.createSettingsInterface = (checkOpenTables) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getApi = void 0;
 const questionFilter = '!6hZ(LC39RZp_fXm)k.WmxI2EbQC-cYI0bobCM88qaT*W7W';
 /* https://api.stackexchange.com/docs/questions-by-ids
  * questionFilter is generated from:
@@ -368,6 +374,7 @@ exports.getApi = (questionIdsStr) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.watchForClicksOnTables = void 0;
 const checkOpenTables_1 = __webpack_require__(/*! ./checkOpenTables */ "./src/watchForClicksOnTables/checkOpenTables.ts");
 const createSettingsInterface_1 = __webpack_require__(/*! ./createSettingsInterface */ "./src/watchForClicksOnTables/createSettingsInterface.ts");
 const processTable_1 = __webpack_require__(/*! ./processTable */ "./src/watchForClicksOnTables/processTable.ts");
@@ -402,6 +409,7 @@ exports.watchForClicksOnTables = (deleteTables) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.processApiResponse = void 0;
 const showToast_1 = __webpack_require__(/*! ../../../common/showToast */ "../common/showToast.ts");
 const willQuestionRoomba_1 = __webpack_require__(/*! ./willQuestionRoomba */ "./src/watchForClicksOnTables/willQuestionRoomba.ts");
 exports.processApiResponse = ({ error_id, items }, trsByQuestionId, trs) => {
@@ -446,6 +454,7 @@ exports.processApiResponse = ({ error_id, items }, trsByQuestionId, trs) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.processTable = void 0;
 const showToast_1 = __webpack_require__(/*! ../../../common/showToast */ "../common/showToast.ts");
 const getApi_1 = __webpack_require__(/*! ./getApi */ "./src/watchForClicksOnTables/getApi.ts");
 const processApiResponse_1 = __webpack_require__(/*! ./processApiResponse */ "./src/watchForClicksOnTables/processApiResponse.ts");
@@ -498,6 +507,7 @@ exports.processTable = (table) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.set = exports.get = void 0;
 let settings;
 if (!localStorage.cpUserscriptHideRoombaBoundPostsSettings) {
     localStorage.cpUserscriptHideRoombaBoundPostsSettings = JSON.stringify({
@@ -528,6 +538,7 @@ exports.set = (newSettings) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.willQuestionRoomba = void 0;
 exports.willQuestionRoomba = (questionObj) => {
     const { answers = [], accepted_answer_id, score: questionScore, locked_date, view_count, comment_count, creation_date, owner, closed_reason, reopen_vote_count, } = questionObj;
     const questionAgeInDays = (Date.now() - creation_date) / (1000 * 60 * 60 * 24);
