@@ -58,8 +58,8 @@ const observeContainer = (commentsContainer) => {
         for (const comment of newComments) {
             window.setTimeout(() => {
                 const highlightColor = document.body.matches('.theme-dark')
-                  ? '#403d33' // Dark brown, close to default dark background
-                  : '#fff2e0'; // Pale yellow, close to default light background
+                    ? '#403d33' // Dark brown, close to default dark background
+                    : '#fff2e0'; // Pale yellow, close to default light background
                 // eslint-disable-next-line no-param-reassign
                 comment.children[0].style.backgroundColor = highlightColor;
                 // eslint-disable-next-line no-param-reassign

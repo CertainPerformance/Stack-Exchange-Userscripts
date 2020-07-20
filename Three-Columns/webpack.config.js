@@ -39,11 +39,11 @@ module.exports = ({ liveDev = false } = {}) => {
                     }
                     compiler.hooks.afterEmit.tap('AfterEmitPlugin', () => {
                         const distTextContent = fs.readFileSync('./dist/StackThreeColumns.user.js', 'utf-8');
-                        // Only change the metadata block:	
+                        // Only change the metadata block:
                         fs.writeFileSync('./dist/StackThreeColumnsAdjustable.user.js', distTextContent.replace('Three Columns', 'Three Columns Adjustable'));
                     });
-                }
-            }
+                },
+            },
         ],
         stats: liveDev ? 'minimal' : 'normal',
     };

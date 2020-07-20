@@ -133,7 +133,6 @@ function moveQuestionStats() {
     `;
 }
 
-
 if (document.readyState === 'loading') {
     window.addEventListener('DOMContentLoaded', moveQuestionStats);
 } else {

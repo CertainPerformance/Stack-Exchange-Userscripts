@@ -2,7 +2,7 @@
 import fs from 'fs';
 import { resolve as pathResolve } from 'path';
 
-const excludeDirectories = new Set(['node_modules', '.git']);
+const excludeDirectories = new Set(['node_modules', '.git', 'obsolete']);
 
 // If readDirectoryRecursive could ever be externally called more than once (which isn't possible currently),
 // having pathsToReturn in persistent module scope would be a problem
