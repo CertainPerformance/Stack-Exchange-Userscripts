@@ -120,6 +120,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.showToastInfo = exports.showToastError = void 0;
 __webpack_require__(/*! ./declareGlobalStackExchange */ "../common/declareGlobalStackExchange.ts");
 exports.showToastError = (message) => {
     window.StackExchange.helpers.showToast(message, { transient: false, type: 'danger' });
@@ -155,6 +156,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getApi = void 0;
 const questionFilter = '!*7PmBPEzvIHchpOMByA174F6_hcW';
 /* https://api.stackexchange.com/docs/questions-by-ids
  * questionFilter is generated from:
@@ -208,6 +210,7 @@ exports.getApi = async (questionIds) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getBestAnswer = void 0;
 exports.getBestAnswer = (answers) => {
     if (!answers.length) {
         return null;
@@ -233,6 +236,7 @@ exports.getBestAnswer = (answers) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getPostInfo = void 0;
 const showToast_1 = __webpack_require__(/*! ../../../common/showToast */ "../common/showToast.ts");
 const getApi_1 = __webpack_require__(/*! ./getApi */ "./src/addRowstats/getApi.ts");
 const getPostsState_1 = __webpack_require__(/*! ./getPostsState */ "./src/addRowstats/getPostsState.ts");
@@ -271,6 +275,7 @@ exports.getPostInfo = async (questionIds) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getPostsState = void 0;
 const questionsByQuestionId = new Map();
 const answersByAnswerId = new Map();
 exports.getPostsState = () => ({ questionsByQuestionId, answersByAnswerId });
@@ -288,6 +293,7 @@ exports.getPostsState = () => ({ questionsByQuestionId, answersByAnswerId });
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.addRowstats = void 0;
 const showToast_1 = __webpack_require__(/*! ../../../common/showToast */ "../common/showToast.ts");
 const getPostInfo_1 = __webpack_require__(/*! ./getPostInfo */ "./src/addRowstats/getPostInfo.ts");
 const postLinkToIds_1 = __webpack_require__(/*! ./postLinkToIds */ "./src/addRowstats/postLinkToIds.ts");
@@ -321,6 +327,7 @@ exports.addRowstats = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.insertTH = void 0;
 exports.insertTH = () => {
     const table = document.querySelector('.history-table');
     const thead = table.insertBefore(document.createElement('thead'), table.children[0]);
@@ -351,6 +358,7 @@ exports.insertTH = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.populateTRs = void 0;
 const getBestAnswer_1 = __webpack_require__(/*! ./getBestAnswer */ "./src/addRowstats/getBestAnswer.ts");
 const getPostsState_1 = __webpack_require__(/*! ./getPostsState */ "./src/addRowstats/getPostsState.ts");
 const postLinkToIds_1 = __webpack_require__(/*! ./postLinkToIds */ "./src/addRowstats/postLinkToIds.ts");
@@ -402,6 +410,7 @@ exports.populateTRs = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.postLinkToIds = void 0;
 exports.postLinkToIds = (postLink) => {
     /* postLink will be in a format like:
      * https://stackoverflow.com/questions/1732348/regex-match-open-tags-except-xhtml-self-contained-tags
@@ -457,6 +466,7 @@ if (mainbarFull) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.insertStyle = void 0;
 // @ts-ignore
 // tslint:disable-next-line: no-implicit-dependencies
 const styleText_css_1 = __webpack_require__(/*! raw-loader!../build/styleText.css */ "./node_modules/raw-loader/dist/cjs.js!./build/styleText.css");
@@ -478,6 +488,7 @@ exports.insertStyle = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.watchForTabChanges = void 0;
 const addRowstats_1 = __webpack_require__(/*! ./addRowstats */ "./src/addRowstats/index.ts");
 exports.watchForTabChanges = (mainbarFull) => {
     addRowstats_1.addRowstats();
