@@ -8,10 +8,11 @@
     "license": "MIT",
     "private": true,
     "dependencies": {
+        "@types/node": "^13.9.2",
+        "acorn": "^7.3.1",
         "eslint": "^6.8.0",
         "eslint-config-airbnb-base": "^14.1.0",
         "eslint-plugin-import": "^2.20.1",
-        "@types/node": "^13.9.2",
         "ts-node": "^8.7.0",
         "tslint": "^6.1.0",
         "tslint-config-airbnb": "^5.11.2",

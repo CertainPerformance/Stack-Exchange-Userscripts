@@ -1,14 +1,16 @@
 import fs from 'fs';
 import { LogError } from '../types';
+import { verifyDollarPrefixedByWindow } from './verifyDollarPrefixedByWindow';
 import { verifyMetadataBlock } from './verifyMetadataBlock';
 import { verifyNewlineAtEnd } from './verifyNewlineAtEnd';
-import { verifyNoObjectSpread } from './verifyNoObjectSpread';
+import { verifyNoES2018 } from './verifyNoES2018';
 import { verifySetTimeoutInterval } from './verifySetTimeoutInterval';
 
 const verifiers = [
+    verifyDollarPrefixedByWindow,
     verifyMetadataBlock,
     verifyNewlineAtEnd,
-    verifyNoObjectSpread,
+    verifyNoES2018,
     verifySetTimeoutInterval,
 ];
 
