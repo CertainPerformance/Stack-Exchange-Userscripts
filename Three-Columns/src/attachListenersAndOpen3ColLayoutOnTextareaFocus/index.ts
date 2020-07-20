@@ -8,14 +8,14 @@ import * as postRootState from './postRootState';
 // Don't enter the interface in this situation.
 const postIdsAboutToBeReplaced = new Set<number>();
 // tslint:disable-next-line: variable-name
-$(document).on('refreshEdit', (_event, postId) => {
+window.$(document).on('refreshEdit', (_event, postId) => {
     if (typeof postId !== 'number') {
         return;
     }
     postIdsAboutToBeReplaced.add(postId);
 });
 // tslint:disable-next-line: variable-name
-$(document).ajaxComplete((_event, _jqXHR, { url = '' }) => {
+window.$(document).ajaxComplete((_event, _jqXHR, { url = '' }) => {
     const match = url.match(/^\/posts\/ajax-load-realtime\/(\d+)\?/);
     if (!match) {
         return;

@@ -22,6 +22,6 @@ export const closeLayout = (scrollImmediately = false) => {
      */
     oldPostRoot.querySelector<HTMLElement>('.grippie')!.removeAttribute('style');
     document.documentElement.removeAttribute('data-cpuserscript-three-columns-layout-open');
-    window.$('html, body').animate({ scrollTop: $(oldPostRoot).offset()!.top - 55 }, scrollImmediately ? 0 : 200);
+    window.$('html, body').animate({ scrollTop: window.$(oldPostRoot).offset()!.top - 55 }, scrollImmediately ? 0 : 200);
     postRootState.set(null);
 };

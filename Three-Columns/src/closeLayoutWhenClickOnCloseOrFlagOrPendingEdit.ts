@@ -22,7 +22,7 @@ export const closeLayoutWhenClickOnCloseOrFlagOrPendingEdit = () => {
         // Scroll to the post the user wants to close or edit:
         const targetedPostRoot = target.closest('#post-form, .answer, .question')!;
         window.$('html, body')
-            .animate({ scrollTop: $(targetedPostRoot).offset()!.top - 55 }, 200)
+            .animate({ scrollTop: window.$(targetedPostRoot).offset()!.top - 55 }, 200)
             .promise()
             .then(() => {
                 // Click on "Edit (1)" or Close immediately after window is scrolled:

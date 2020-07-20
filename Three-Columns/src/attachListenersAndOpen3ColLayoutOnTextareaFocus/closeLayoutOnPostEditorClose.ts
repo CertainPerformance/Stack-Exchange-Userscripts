@@ -11,7 +11,7 @@ export const closeLayoutOnPostEditorClose = (thisPostRoot: HTMLElement) => {
     // This must be done through jQuery, because SE's JS sometimes submits the form by calling `div.find('form').submit()`
     // which does not trigger native DOM submit event listeners
     const form = thisPostRoot.querySelector('form')!;
-    $(form).on('submit', () => {
+    window.$(form).on('submit', () => {
         if (postRootState.get() === thisPostRoot) {
             closeLayout();
         }

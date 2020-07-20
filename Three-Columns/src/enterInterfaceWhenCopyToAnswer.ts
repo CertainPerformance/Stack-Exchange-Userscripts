@@ -8,7 +8,7 @@ export const enterInterfaceWhenCopyToAnswer = () => {
         if (!((e.target as HTMLElement).matches('.copySnippet'))) {
             return;
         }
-        const markdownTextarea = $('#post-editor textarea.wmd-input');
+        const markdownTextarea = window.$('#post-editor textarea.wmd-input');
         markdownTextarea.focus();
     });
 };

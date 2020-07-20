@@ -53,7 +53,7 @@ const updateCloseVoteCount = (result: CloseVoteResponse) => {
     };
     const { updateCloseLinkCount } = (window.StackExchange as unknown as SETypeHere).vote_closingAndFlagging;
     const haveSEUpdateCloseLinkCount = () => {
-        updateCloseLinkCount(result, $('.close-question-link'));
+        updateCloseLinkCount(result, window.$('.close-question-link'));
     };
     haveSEUpdateCloseLinkCount();
     // If the question had an edit notice, and the downvote button was .click()ed, the postcell will be refreshed,
