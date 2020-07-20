@@ -3,7 +3,7 @@
 // @description      Allows voting to close with a single click
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.2.1
+// @version          1.2.2
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/questions/\d+/
 // @grant            none
 // ==/UserScript==
@@ -120,6 +120,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.showToastInfo = exports.showToastError = void 0;
 __webpack_require__(/*! ./declareGlobalStackExchange */ "../common/declareGlobalStackExchange.ts");
 exports.showToastError = (message) => {
     window.StackExchange.helpers.showToast(message, { transient: false, type: 'danger' });
@@ -155,6 +156,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.canCreateInterface = void 0;
 const settings_1 = __webpack_require__(/*! ./settings */ "./src/settings.ts");
 exports.canCreateInterface = () => {
     const myProfile = document.querySelector('.my-profile');
@@ -232,6 +234,7 @@ exports.canCreateInterface = () => {
 
 // Properties below are site names, accessible by accessing StackExchange.options.site.name
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.defaultSiteSpecificShortReasons = void 0;
 exports.defaultSiteSpecificShortReasons = {
     'Stack Overflow': [
         'General computing',
@@ -271,6 +274,7 @@ exports.defaultSiteSpecificShortReasons = {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.haveVotedOnQuestion = void 0;
 exports.haveVotedOnQuestion = () => Boolean(document.querySelector('.question .fc-theme-primary'));
 
 
@@ -329,6 +333,7 @@ if (canCreateInterface_1.canCreateInterface()) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.insertStyle = void 0;
 // @ts-ignore
 // tslint:disable-next-line: no-implicit-dependencies
 const styleText_css_1 = __webpack_require__(/*! raw-loader!../build/styleText.css */ "./node_modules/raw-loader/dist/cjs.js!./build/styleText.css");
@@ -350,6 +355,7 @@ exports.insertStyle = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.makeVTCContainerHTML = void 0;
 const settings_1 = __webpack_require__(/*! ./settings */ "./src/settings.ts");
 exports.makeVTCContainerHTML = () => `
 <h2>Vote to close as</h2>
@@ -393,6 +399,7 @@ exports.makeVTCContainerHTML = () => `
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.populateCloseReasons = void 0;
 const showToast_1 = __webpack_require__(/*! ../../common/showToast */ "../common/showToast.ts");
 const settings_1 = __webpack_require__(/*! ./settings */ "./src/settings.ts");
 const defaultSiteSpecificShortReasons_1 = __webpack_require__(/*! ./defaultSiteSpecificShortReasons */ "./src/defaultSiteSpecificShortReasons.ts");
@@ -467,6 +474,7 @@ const handlePopup = (popupText, createInterface) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.saveSettings = exports.saveNewSettings = exports.getSettings = void 0;
 exports.getSettings = () => JSON.parse(localStorage.cpUserscriptOneClickVTCSettings);
 exports.saveNewSettings = (siteSpecificCloseReasons) => {
     localStorage.cpUserscriptOneClickVTCSettings = JSON.stringify({
@@ -495,6 +503,7 @@ exports.saveSettings = (partialNewSettings) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.showOkButtonWhenHovered = void 0;
 const haveVotedOnQuestion_1 = __webpack_require__(/*! ./haveVotedOnQuestion */ "./src/haveVotedOnQuestion.ts");
 const settings_1 = __webpack_require__(/*! ./settings */ "./src/settings.ts");
 const tryShowButton = (textContainer, okButton) => {
@@ -554,6 +563,7 @@ exports.showOkButtonWhenHovered = (vtcContainer) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.tryVoteCloseWhenSEReady = void 0;
 const haveVotedOnQuestion_1 = __webpack_require__(/*! ../haveVotedOnQuestion */ "./src/haveVotedOnQuestion.ts");
 const openDuplicateModal_1 = __webpack_require__(/*! ./openDuplicateModal */ "./src/tryVoteClose/openDuplicateModal.ts");
 const submitCloseVote_1 = __webpack_require__(/*! ./submitCloseVote */ "./src/tryVoteClose/submitCloseVote.ts");
@@ -605,6 +615,7 @@ const tryVoteClose = (event) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.makeHandleCloseVoteResponse = void 0;
 const showToast_1 = __webpack_require__(/*! ../../../common/showToast */ "../common/showToast.ts");
 const settings_1 = __webpack_require__(/*! ../settings */ "./src/settings.ts");
 exports.makeHandleCloseVoteResponse = (questionId, setCanSendRequestToTrue) => (result) => {
@@ -644,7 +655,7 @@ exports.makeHandleCloseVoteResponse = (questionId, setCanSendRequestToTrue) => (
 const updateCloseVoteCount = (result) => {
     const { updateCloseLinkCount } = window.StackExchange.vote_closingAndFlagging;
     const haveSEUpdateCloseLinkCount = () => {
-        updateCloseLinkCount(result, $('.close-question-link'));
+        updateCloseLinkCount(result, window.$('.close-question-link'));
     };
     haveSEUpdateCloseLinkCount();
     // If the question had an edit notice, and the downvote button was .click()ed, the postcell will be refreshed,
@@ -680,6 +691,7 @@ const updateCloseVoteCount = (result) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.openDuplicateModal = void 0;
 exports.openDuplicateModal = () => {
     document.querySelector('.close-question-link').click();
     const handler = (_event, _jqXHR, ajaxOptions) => {
@@ -710,6 +722,7 @@ exports.openDuplicateModal = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.submitCloseVote = exports.getCanSendRequest = void 0;
 const makeHandleCloseVoteResponse_1 = __webpack_require__(/*! ./makeHandleCloseVoteResponse */ "./src/tryVoteClose/makeHandleCloseVoteResponse.ts");
 const showToast_1 = __webpack_require__(/*! ../../../common/showToast */ "../common/showToast.ts");
 let canSendRequest = true;
@@ -756,6 +769,7 @@ exports.submitCloseVote = (closeReasonId, siteSpecificCloseReasonId) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.watchForInterfaceHover = void 0;
 const settings_1 = __webpack_require__(/*! ./settings */ "./src/settings.ts");
 const showOptionContainer = (optionContainer) => {
     if (optionContainer.style.visibility === 'visible') {
@@ -803,6 +817,7 @@ exports.watchForInterfaceHover = (vtcContainer) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.watchForReset = void 0;
 const showToast_1 = __webpack_require__(/*! ../../common/showToast */ "../common/showToast.ts");
 exports.watchForReset = (vtcContainer) => {
     const button = vtcContainer.querySelector('button');
@@ -826,6 +841,7 @@ exports.watchForReset = (vtcContainer) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.watchForSiteSpecificEdits = void 0;
 const settings_1 = __webpack_require__(/*! ./settings */ "./src/settings.ts");
 /**
  * When user right-clicks on a Site Specific reason, replace it with an input.
