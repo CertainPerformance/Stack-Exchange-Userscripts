@@ -133,6 +133,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.addListeners = void 0;
 const attachListenersAndOpen3ColLayoutOnTextareaFocus_1 = __webpack_require__(/*! ./attachListenersAndOpen3ColLayoutOnTextareaFocus */ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/index.ts");
 const closeLayoutWhenClickOnCloseOrFlagOrPendingEdit_1 = __webpack_require__(/*! ./closeLayoutWhenClickOnCloseOrFlagOrPendingEdit */ "./src/closeLayoutWhenClickOnCloseOrFlagOrPendingEdit.ts");
 const closeTopbarWhenClickingPreview_1 = __webpack_require__(/*! ./closeTopbarWhenClickingPreview */ "./src/closeTopbarWhenClickingPreview.ts");
@@ -159,6 +160,7 @@ exports.addListeners = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.closeLayoutIfEditCancelSucceeds = void 0;
 const closeLayout_1 = __webpack_require__(/*! ../closeLayout */ "./src/closeLayout.ts");
 /**
  * Close layout if user confirms (via SE's window.confirm) that they want to discard the edit
@@ -193,6 +195,7 @@ exports.closeLayoutIfEditCancelSucceeds = (child) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.closeLayoutOnPostEditorClose = void 0;
 const closeLayout_1 = __webpack_require__(/*! ../closeLayout */ "./src/closeLayout.ts");
 const closeLayoutIfEditCancelSucceeds_1 = __webpack_require__(/*! ./closeLayoutIfEditCancelSucceeds */ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/closeLayoutIfEditCancelSucceeds.ts");
 const postRootState = __webpack_require__(/*! ./postRootState */ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/postRootState.ts");
@@ -245,6 +248,7 @@ exports.closeLayoutOnPostEditorClose = (thisPostRoot) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.closeLayoutWhenPostRefreshed = void 0;
 const closeLayout_1 = __webpack_require__(/*! ../closeLayout */ "./src/closeLayout.ts");
 /**
  * If the user clicks on "An edit has been made to this post" while editing that post in 3-column layout, close the layout
@@ -273,6 +277,7 @@ exports.closeLayoutWhenPostRefreshed = (newPostRoot) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.createToggleButton = void 0;
 const closeLayout_1 = __webpack_require__(/*! ../closeLayout */ "./src/closeLayout.ts");
 const postRootState = __webpack_require__(/*! ./postRootState */ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/postRootState.ts");
 exports.createToggleButton = (postRootOfButton, openLayout) => {
@@ -317,6 +322,7 @@ exports.createToggleButton = (postRootOfButton, openLayout) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.attachListenersAndOpen3ColLayoutOnTextareaFocus = void 0;
 const closeLayoutOnPostEditorClose_1 = __webpack_require__(/*! ./closeLayoutOnPostEditorClose */ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/closeLayoutOnPostEditorClose.ts");
 const closeLayoutWhenPostRefreshed_1 = __webpack_require__(/*! ./closeLayoutWhenPostRefreshed */ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/closeLayoutWhenPostRefreshed.ts");
 const openLayout_1 = __webpack_require__(/*! ./openLayout */ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/openLayout.ts");
@@ -403,6 +409,7 @@ exports.attachListenersAndOpen3ColLayoutOnTextareaFocus = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.openLayout = void 0;
 const isAdjustable_1 = __webpack_require__(/*! ../isAdjustable */ "./src/isAdjustable.ts");
 const createToggleButton_1 = __webpack_require__(/*! ./createToggleButton */ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/createToggleButton.ts");
 const postRootState = __webpack_require__(/*! ./postRootState */ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/postRootState.ts");
@@ -440,6 +447,7 @@ exports.openLayout = (newPostRoot) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.set = exports.get = void 0;
 /**
  * This variable will hold the element with [data-cpuserscript-three-columns-post-root] while it's being displayed in 3 columns.
  * When not in 3-column layout, will be null (and no element will match [data-cpuserscript-three-columns-post-root])
@@ -464,6 +472,7 @@ exports.set = (newPostRoot) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.closeLayout = void 0;
 const postRootState = __webpack_require__(/*! ./attachListenersAndOpen3ColLayoutOnTextareaFocus/postRootState */ "./src/attachListenersAndOpen3ColLayoutOnTextareaFocus/postRootState.ts");
 exports.closeLayout = (scrollImmediately = false) => {
     const oldPostRoot = postRootState.get();
@@ -505,6 +514,7 @@ exports.closeLayout = (scrollImmediately = false) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.closeLayoutWhenClickOnCloseOrFlagOrPendingEdit = void 0;
 const closeLayout_1 = __webpack_require__(/*! ./closeLayout */ "./src/closeLayout.ts");
 /**
  * If the user clicks on "close" or "edit (1)" (pending edit which needs to be approved) on ANY post while in 3-column layout,
@@ -551,6 +561,7 @@ exports.closeLayoutWhenClickOnCloseOrFlagOrPendingEdit = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.closeTopbarWhenClickingPreview = void 0;
 /**
  * When one of the topbar menus are open (inbox, reputation, etc), clicking anywhere else is supposed to close it
  * Due to a bug, this does not happen when clicking the post preview section, which is a big problem when the preview comprises a large part of the screen
@@ -578,6 +589,7 @@ exports.closeTopbarWhenClickingPreview = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.enterInterfaceWhenCopyToAnswer = void 0;
 exports.enterInterfaceWhenCopyToAnswer = () => {
     /* This will only actually enter the interface if it's currently closed (and this textarea hasn't been focused before).
      * The interface won't open in the rare case that this is an extremely popular question
@@ -625,6 +637,7 @@ addListeners_1.addListeners();
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.changeStyle = exports.insertStyle = void 0;
 // @ts-ignore
 // tslint:disable-next-line: no-implicit-dependencies
 const styleText_css_1 = __webpack_require__(/*! raw-loader!../build/styleText.css */ "./node_modules/raw-loader/dist/cjs.js!./build/styleText.css");
@@ -656,6 +669,7 @@ exports.changeStyle = (newStyleText) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.isAdjustable = void 0;
 exports.isAdjustable = typeof GM_info !== 'undefined' && GM_info.script.name.toLowerCase().trim().endsWith('adjustable');
 
 
@@ -671,6 +685,7 @@ exports.isAdjustable = typeof GM_info !== 'undefined' && GM_info.script.name.toL
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getSettings = void 0;
 exports.getSettings = () => {
     const json = localStorage.cpUserscriptThreeColumnsAdjustable;
     return json
@@ -691,6 +706,7 @@ exports.getSettings = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.watchForResize = void 0;
 const isAdjustable_1 = __webpack_require__(/*! ../isAdjustable */ "./src/isAdjustable.ts");
 const getSettings_1 = __webpack_require__(/*! ./getSettings */ "./src/watchForResize/getSettings.ts");
 const updateStyle_1 = __webpack_require__(/*! ./updateStyle */ "./src/watchForResize/updateStyle.ts");
@@ -747,6 +763,7 @@ exports.watchForResize = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.updateStyle = void 0;
 // @ts-ignore
 // tslint:disable-next-line: no-implicit-dependencies
 const styleText_css_1 = __webpack_require__(/*! raw-loader!../../build/styleText.css */ "./node_modules/raw-loader/dist/cjs.js!./build/styleText.css");
