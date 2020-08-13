@@ -121,6 +121,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.showToastInfo = exports.showToastError = void 0;
 __webpack_require__(/*! ./declareGlobalStackExchange */ "../common/declareGlobalStackExchange.ts");
 exports.showToastError = (message) => {
     window.StackExchange.helpers.showToast(message, { transient: false, type: 'danger' });
@@ -143,6 +144,7 @@ exports.showToastInfo = (message) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getApi = void 0;
 const getParamsString = () => {
     /* This is done in a function rather than set on the top level
      * to make sure that that the *latest* cpUserscriptVoteFromReviewAccessToken is retrieved from localStorage
@@ -186,6 +188,7 @@ exports.getApi = (postId) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getPostId = void 0;
 exports.getPostId = () => {
     const { href, title } = document.querySelector('[title="view answer"], [title="view question"]');
     const postId = Number(href.match(title === 'view answer'
@@ -208,6 +211,7 @@ exports.getPostId = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getVoteResponse = void 0;
 const getPostId_1 = __webpack_require__(/*! ./getPostId */ "./src/handleNewTask/getPostId.ts");
 exports.getVoteResponse = (voteParam) => {
     const formData = new FormData();
@@ -237,6 +241,7 @@ exports.getVoteResponse = (voteParam) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.handleError = void 0;
 const showToast_1 = __webpack_require__(/*! ../../../common/showToast */ "../common/showToast.ts");
 exports.handleError = (error) => {
     // tslint:disable-next-line: no-console
@@ -257,6 +262,7 @@ exports.handleError = (error) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.highlightVoteButtonIfVotedHere = void 0;
 const showToast_1 = __webpack_require__(/*! ../../../common/showToast */ "../common/showToast.ts");
 const getApi_1 = __webpack_require__(/*! ./getApi */ "./src/handleNewTask/getApi.ts");
 const getPostId_1 = __webpack_require__(/*! ./getPostId */ "./src/handleNewTask/getPostId.ts");
@@ -310,6 +316,7 @@ exports.highlightVoteButtonIfVotedHere = (votingContainer, accessTokenWasJustSav
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.handleNewTask = void 0;
 const highlightVoteButtonIfVotedHere_1 = __webpack_require__(/*! ./highlightVoteButtonIfVotedHere */ "./src/handleNewTask/highlightVoteButtonIfVotedHere.ts");
 const listenForUpDownVotes_1 = __webpack_require__(/*! ./listenForUpDownVotes */ "./src/handleNewTask/listenForUpDownVotes.ts");
 const listenForVoteCountClick_1 = __webpack_require__(/*! ./listenForVoteCountClick */ "./src/handleNewTask/listenForVoteCountClick.ts");
@@ -353,6 +360,7 @@ exports.handleNewTask = (accessTokenWasJustSaved) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.listenForUpDownVotes = void 0;
 const showToast_1 = __webpack_require__(/*! ../../../common/showToast */ "../common/showToast.ts");
 const getVoteResponse_1 = __webpack_require__(/*! ./getVoteResponse */ "./src/handleNewTask/getVoteResponse.ts");
 const handleError_1 = __webpack_require__(/*! ./handleError */ "./src/handleNewTask/handleError.ts");
@@ -411,6 +419,7 @@ exports.listenForUpDownVotes = (votingContainer) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.listenForVoteCountClick = void 0;
 const showToast_1 = __webpack_require__(/*! ../../../common/showToast */ "../common/showToast.ts");
 const getPostId_1 = __webpack_require__(/*! ./getPostId */ "./src/handleNewTask/getPostId.ts");
 const handleError_1 = __webpack_require__(/*! ./handleError */ "./src/handleNewTask/handleError.ts");
@@ -493,6 +502,7 @@ exports.listenForVoteCountClick = (centerNetSumDiv) => {
  * but that's quite wasteful compared to the API, especially for those who review a lot
  */
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.requestAccessToken = void 0;
 const paramsArr = [
     ['client_id', '16456'],
     ['scope', 'private_info'],
@@ -565,6 +575,7 @@ else {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.redirectOauthResultOnStackexchange = void 0;
 exports.redirectOauthResultOnStackexchange = () => {
     const params = new URLSearchParams(window.location.hash);
     const accessToken = params.get('#access_token');
@@ -592,6 +603,7 @@ exports.redirectOauthResultOnStackexchange = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.saveOauthResultOnOrigin = void 0;
 exports.saveOauthResultOnOrigin = (search) => {
     const params = new URLSearchParams(search);
     const accessToken = params.get('access_token_vote_from_review');

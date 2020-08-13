@@ -121,6 +121,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.handleFakePage = void 0;
 /**
  * Runs on example.com inside an iframe in a Newest tab to allow for communication between different SE domains
  */
@@ -185,6 +186,7 @@ else {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.pendingQuestionColor = void 0;
 exports.pendingQuestionColor = (() => {
     if (window.location.href === 'https://example.com/fakepage') {
         // Export won't be used
@@ -208,6 +210,7 @@ exports.pendingQuestionColor = (() => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.addBorderWhenClicked = void 0;
 // Give visual indication of having visited a question
 exports.addBorderWhenClicked = (questionDiv) => {
     questionDiv.querySelector('.question-hyperlink').addEventListener('click', () => {
@@ -229,6 +232,7 @@ exports.addBorderWhenClicked = (questionDiv) => {
 
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.checkNewQuestions = void 0;
 const queueUtterance_1 = __webpack_require__(/*! ./queueUtterance */ "./src/questionListPage/queueUtterance.ts");
 const state_1 = __webpack_require__(/*! ./state */ "./src/questionListPage/state.ts");
 const targetBlankAllAnchors_1 = __webpack_require__(/*! ./targetBlankAllAnchors */ "./src/questionListPage/targetBlankAllAnchors.ts");
@@ -301,6 +305,7 @@ exports.checkNewQuestions = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.clearInterfaceOnDuplicatePageload = void 0;
 exports.clearInterfaceOnDuplicatePageload = (channel, speakInterface) => {
     // Tell question pages that a new list page is active
     channel.postMessage('New Newest page');
@@ -329,6 +334,7 @@ exports.clearInterfaceOnDuplicatePageload = (channel, speakInterface) => {
 // The new post activity element will be clicked on automatically in watchNewQuestions.
 // Its frequent appearance and disappearance will only cause disorienting vertical jiggle of the question list, so remove it.
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.hideNewPostActivity = void 0;
 exports.hideNewPostActivity = () => {
     document.querySelector('#questions').appendChild(document.createElement('style')).textContent = `
         .js-new-post-activity {
@@ -350,6 +356,7 @@ exports.hideNewPostActivity = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.handleQuestionListPage = void 0;
 const makeSpeakInterface_1 = __webpack_require__(/*! ./makeSpeakInterface */ "./src/questionListPage/makeSpeakInterface.ts");
 const showSpeechSynthesisReadyness_1 = __webpack_require__(/*! ./showSpeechSynthesisReadyness */ "./src/questionListPage/showSpeechSynthesisReadyness.ts");
 const speakOnNewMessage_1 = __webpack_require__(/*! ./speakOnNewMessage */ "./src/questionListPage/speakOnNewMessage.ts");
@@ -405,6 +412,7 @@ exports.handleQuestionListPage = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.makeSpeakInterface = void 0;
 const queueUtterance_1 = __webpack_require__(/*! ./queueUtterance */ "./src/questionListPage/queueUtterance.ts");
 const state_1 = __webpack_require__(/*! ./state */ "./src/questionListPage/state.ts");
 const settings_1 = __webpack_require__(/*! ./settings */ "./src/questionListPage/settings.ts");
@@ -475,6 +483,7 @@ exports.makeSpeakInterface = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.makeVoicesSelect = void 0;
 const state_1 = __webpack_require__(/*! ./state */ "./src/questionListPage/state.ts");
 const settings_1 = __webpack_require__(/*! ./settings */ "./src/questionListPage/settings.ts");
 const populateSelect = (select) => {
@@ -530,6 +539,7 @@ exports.makeVoicesSelect = (speakInterface) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.queueUtterance = void 0;
 const speakNext_1 = __webpack_require__(/*! ./speakNext */ "./src/questionListPage/speakNext.ts");
 const state_1 = __webpack_require__(/*! ./state */ "./src/questionListPage/state.ts");
 const pendingQuestionColor_1 = __webpack_require__(/*! ../pendingQuestionColor */ "./src/pendingQuestionColor.ts");
@@ -586,6 +596,7 @@ exports.queueUtterance = (textToSpeak, questionId) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.saveSettings = exports.getSettings = void 0;
 let settings = localStorage.cpUserscriptSpeakNewQuestions
     ? JSON.parse(localStorage.cpUserscriptSpeakNewQuestions)
     : {
@@ -612,6 +623,7 @@ exports.saveSettings = (partialNewSettings) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.setupBroadcastChannelForFocusOnQuestionList = void 0;
 const state_1 = __webpack_require__(/*! ./state */ "./src/questionListPage/state.ts");
 const setupFocusButtonInterval_1 = __webpack_require__(/*! ../setupFocusButtonInterval */ "./src/setupFocusButtonInterval.ts");
 exports.setupBroadcastChannelForFocusOnQuestionList = (channel, focusButton) => {
@@ -676,6 +688,7 @@ exports.setupBroadcastChannelForFocusOnQuestionList = (channel, focusButton) => 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.setupCrossDomainCommunication = void 0;
 exports.setupCrossDomainCommunication = () => {
     /* This enables the userscript on different Newest tabs to communicate despite being on different domains
      * Each Newest tab will create an iframe to example.com
@@ -730,6 +743,7 @@ exports.setupCrossDomainCommunication = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.showSpeechSynthesisReadyness = void 0;
 const pendingQuestionColor_1 = __webpack_require__(/*! ../pendingQuestionColor */ "./src/pendingQuestionColor.ts");
 exports.showSpeechSynthesisReadyness = () => {
     /* One user interaction required before audio can trigger by itself due to autoplay policies
@@ -757,6 +771,7 @@ exports.showSpeechSynthesisReadyness = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.speakNext = void 0;
 const state_1 = __webpack_require__(/*! ./state */ "./src/questionListPage/state.ts");
 exports.speakNext = () => {
     const { textToSpeakQueue, volume, rate, voice } = state_1.getState();
@@ -794,6 +809,7 @@ exports.speakNext = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.speakOnNewMessage = void 0;
 const queueUtterance_1 = __webpack_require__(/*! ./queueUtterance */ "./src/questionListPage/queueUtterance.ts");
 const setupCrossDomainCommunication_1 = __webpack_require__(/*! ./setupCrossDomainCommunication */ "./src/questionListPage/setupCrossDomainCommunication.ts");
 const pageLoadTimestamp = Date.now();
@@ -846,6 +862,7 @@ exports.speakOnNewMessage = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getState = exports.assignState = void 0;
 let state = {
     channel: null,
     focusing: false,
@@ -872,6 +889,7 @@ exports.getState = () => state;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.targetBlankAllAnchors = void 0;
 exports.targetBlankAllAnchors = (parent) => {
     for (const a of parent.querySelectorAll('a[href]')) {
         a.target = '_blank';
@@ -891,6 +909,7 @@ exports.targetBlankAllAnchors = (parent) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.temporarilyPreventClicks = void 0;
 let timeoutId;
 const listener = (e) => {
     const target = e.target;
@@ -924,6 +943,7 @@ exports.temporarilyPreventClicks = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.watchNewQuestions = void 0;
 const checkNewQuestions_1 = __webpack_require__(/*! ./checkNewQuestions */ "./src/questionListPage/checkNewQuestions.ts");
 const state_1 = __webpack_require__(/*! ./state */ "./src/questionListPage/state.ts");
 exports.watchNewQuestions = (channel, speakInterface) => {
@@ -964,6 +984,7 @@ exports.watchNewQuestions = (channel, speakInterface) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.handleQuestionPage = void 0;
 const makeFocusButton_1 = __webpack_require__(/*! ./makeFocusButton */ "./src/questionPage/makeFocusButton.ts");
 const setupBroadcastChannelForFocusOnQuestion_1 = __webpack_require__(/*! ./setupBroadcastChannelForFocusOnQuestion */ "./src/questionPage/setupBroadcastChannelForFocusOnQuestion.ts");
 exports.handleQuestionPage = () => {
@@ -984,6 +1005,7 @@ exports.handleQuestionPage = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.tryUnhighlightQuestionDiv = exports.insertQuestionDiv = void 0;
 const removeLastQuestionDivAfterDebounce_1 = __webpack_require__(/*! ./removeLastQuestionDivAfterDebounce */ "./src/questionPage/removeLastQuestionDivAfterDebounce.ts");
 const makeQuestionContainer_1 = __webpack_require__(/*! ./makeQuestionContainer */ "./src/questionPage/makeQuestionContainer.ts");
 const pendingQuestionColor_1 = __webpack_require__(/*! ../pendingQuestionColor */ "./src/pendingQuestionColor.ts");
@@ -1040,6 +1062,7 @@ exports.tryUnhighlightQuestionDiv = (questionId) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.makeFocusButton = void 0;
 exports.makeFocusButton = () => {
     const header = document.querySelector('header');
     const focusButton = header.insertBefore(document.createElement('button'), header.children[0]);
@@ -1060,6 +1083,7 @@ exports.makeFocusButton = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.makeQuestionContainer = void 0;
 let questionContainer;
 let haveWarned = false;
 const setQuestionContainerWidth = () => {
@@ -1112,6 +1136,7 @@ exports.makeQuestionContainer = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.removeLastQuestionDivAfterDebounce = exports.watchForMouseMovementInQuestionContainer = void 0;
 const pendingQuestionColor_1 = __webpack_require__(/*! ../pendingQuestionColor */ "./src/pendingQuestionColor.ts");
 /* Remove a questionDiv once:
  * (1) the questionDiv's spoken text ended at least 10 seconds ago, and
@@ -1162,6 +1187,7 @@ const removeLastQuestionDiv = () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.setupBroadcastChannelForFocusOnQuestion = void 0;
 const insertQuestionDiv_1 = __webpack_require__(/*! ./insertQuestionDiv */ "./src/questionPage/insertQuestionDiv.ts");
 const setupFocusButtonInterval_1 = __webpack_require__(/*! ../setupFocusButtonInterval */ "./src/setupFocusButtonInterval.ts");
 exports.setupBroadcastChannelForFocusOnQuestion = (focusButton) => {
@@ -1223,6 +1249,7 @@ exports.setupBroadcastChannelForFocusOnQuestion = (focusButton) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.setupFocusButtonInterval = void 0;
 exports.setupFocusButtonInterval = (focusButton, setStateFocusingFalse) => {
     let intervalId;
     let stopFocusingAfter = 0;

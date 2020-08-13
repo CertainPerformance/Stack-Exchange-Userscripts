@@ -120,6 +120,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.showToastInfo = exports.showToastError = void 0;
 __webpack_require__(/*! ./declareGlobalStackExchange */ "../common/declareGlobalStackExchange.ts");
 exports.showToastError = (message) => {
     window.StackExchange.helpers.showToast(message, { transient: false, type: 'danger' });
@@ -142,6 +143,7 @@ exports.showToastInfo = (message) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.addResultsToQuestionList = void 0;
 const haveSEUpdateRelativeDates_1 = __webpack_require__(/*! ./haveSEUpdateRelativeDates */ "./src/haveSEUpdateRelativeDates.ts");
 const makeStartedHTMLForFullList_1 = __webpack_require__(/*! ./makeStartedHTMLForFullList */ "./src/makeStartedHTMLForFullList.ts");
 const makeStartedHTMLForMiniList_1 = __webpack_require__(/*! ./makeStartedHTMLForMiniList */ "./src/makeStartedHTMLForMiniList.ts");
@@ -175,6 +177,7 @@ exports.addResultsToQuestionList = (startedsToFixByQuestionId, apiQuestionsByQue
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.addThousandsSeparators = void 0;
 exports.addThousandsSeparators = (num) => String(num).replace(/(?!^)(?=(?:\d{3})+$)/g, ',');
 
 
@@ -190,6 +193,7 @@ exports.addThousandsSeparators = (num) => String(num).replace(/(?!^)(?=(?:\d{3})
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getApi = void 0;
 /* Filter is constructed from:
  * wrapper -> { items }
  * question -> { creation_date, owner }
@@ -230,6 +234,7 @@ exports.getApi = async (questionIdsToFetch) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getQuestionData = void 0;
 const getApi_1 = __webpack_require__(/*! ./getApi */ "./src/getApi.ts");
 exports.getQuestionData = async (questionIdsToRetrieve) => {
     if (!localStorage.cpUserscriptAskDatesEverywhereQuestionData) {
@@ -271,6 +276,7 @@ exports.getQuestionData = async (questionIdsToRetrieve) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getShortRep = void 0;
 const addThousandsSeparators_1 = __webpack_require__(/*! ./addThousandsSeparators */ "./src/addThousandsSeparators.ts");
 /**
  * Turn reputation number into a short, pretty string. Eg:
@@ -306,6 +312,7 @@ exports.getShortRep = (reputation) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.haveSEUpdateRelativeDates = void 0;
 exports.haveSEUpdateRelativeDates = () => {
     // updateRelativeDates is defined in full.en.js, which is loaded dynamically by stub.en.js - probably won't exist immediately on pageload
     if (window.StackExchange.realtime) {
@@ -357,6 +364,7 @@ if (questionsContainer) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.makeStartedHTMLForFullList = void 0;
 const addThousandsSeparators_1 = __webpack_require__(/*! ./addThousandsSeparators */ "./src/addThousandsSeparators.ts");
 const getShortRep_1 = __webpack_require__(/*! ./getShortRep */ "./src/getShortRep.ts");
 const prettyAbsoluteDate_1 = __webpack_require__(/*! ./prettyAbsoluteDate */ "./src/prettyAbsoluteDate.ts");
@@ -413,6 +421,7 @@ exports.makeStartedHTMLForFullList = ({ owner, creation_date, question_id }) => 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.makeStartedHTMLForMiniList = void 0;
 const addThousandsSeparators_1 = __webpack_require__(/*! ./addThousandsSeparators */ "./src/addThousandsSeparators.ts");
 const getShortRep_1 = __webpack_require__(/*! ./getShortRep */ "./src/getShortRep.ts");
 const prettyAbsoluteDate_1 = __webpack_require__(/*! ./prettyAbsoluteDate */ "./src/prettyAbsoluteDate.ts");
@@ -450,6 +459,7 @@ exports.makeStartedHTMLForMiniList = ({ owner, creation_date, question_id }) => 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.observeQuestionsContainer = void 0;
 const showToast_1 = __webpack_require__(/*! ../../common/showToast */ "../common/showToast.ts");
 const addResultsToQuestionList_1 = __webpack_require__(/*! ./addResultsToQuestionList */ "./src/addResultsToQuestionList.ts");
 const getQuestionData_1 = __webpack_require__(/*! ./getQuestionData */ "./src/getQuestionData.ts");
@@ -505,6 +515,7 @@ exports.observeQuestionsContainer = (questionsContainer) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.prettyAbsoluteDate = void 0;
 const shortMonthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 /**
  * Transform an almost-ISO date string, eg
