@@ -3,7 +3,7 @@
 // @description      Reduces the space between lines back to what it used to be
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.1
+// @version          1.1.0
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)//
 // @run-at           document-start
 // @grant            none
@@ -16,9 +16,17 @@
 'use strict';
 
 (document.head || document.documentElement).appendChild(document.createElement('style')).textContent = `
+/* Spacing for normal text: */
 .s-prose {
     /* Feel free to adjust the number below as desired */
-    /* 1.3 was the old line-height, 1.6 is the new line-height */
+    /* 1.3 was the old line-height, 1.5 is the new line-height */
+    line-height: 1.3 !important;
+}
+
+/* Spacing for code blocks: */
+.s-prose pre:not(.s-code-block) {
+    /* Feel free to adjust the number below as desired */
+    /* 1.3 was the old line-height, 1.30769231; is the new line-height */
     line-height: 1.3 !important;
 }
 `;
