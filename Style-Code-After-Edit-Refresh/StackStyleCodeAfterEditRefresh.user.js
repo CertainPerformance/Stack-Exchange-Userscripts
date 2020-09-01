@@ -3,7 +3,7 @@
 // @description      Shows Stack Snippet buttons and does syntax highlighting when refreshing an edited post
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.2
+// @version          1.0.3
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/(?:questions/\d+|review/\w(?!.*/stats|.*/history))/
 // @grant            none
 // ==/UserScript==
@@ -19,6 +19,9 @@ const patchStyleCode = (origStyleCode) => {
             styleCodeCalledRecently = false;
         }, 100);
     };
+    // SE puts a property directly onto window.styleCode. It is used inside styleCode: it calls `styleCode.initializeSpoilers()`
+    // This assignment may or may not have already been done; assign it to the new function:
+    window.styleCode.initializeSpoilers = origStyleCode.initializeSpoilers;
 
     const callStyleCodeIfUncalled = () => {
         if (!styleCodeCalledRecently) {
@@ -48,9 +51,9 @@ if (window.styleCode) {
         'styleCode',
         {
             configurable: true,
-            set(newVal) {
+            set(origStyleCode) {
                 delete window.styleCode; // Remove this setter
-                patchStyleCode(newVal);
+                patchStyleCode(origStyleCode);
             },
         },
     );
