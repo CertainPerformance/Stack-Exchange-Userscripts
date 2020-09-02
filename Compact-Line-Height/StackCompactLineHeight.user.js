@@ -3,7 +3,7 @@
 // @description      Reduces the space between lines back to what it used to be
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.2.0
+// @version          1.3.0
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)//
 // @run-at           document-start
 // @grant            none
@@ -18,21 +18,41 @@
 // Feel free to adjust the numbers below as desired
 
 (document.head || document.documentElement).appendChild(document.createElement('style')).textContent = `
-/* Spacing for normal text: */
+/* Spacing between lines, normal text: */
 .s-prose {
     /* 1.3 was the old line-height, 1.5 is the new line-height */
     line-height: 1.3 !important;
 }
 
-/* Spacing for code blocks: */
+/* Spacing between lines, code blocks: */
 .s-prose pre:not(.s-code-block) {
     /* 1.3 was the old line-height, 1.30769231; is the new line-height */
     line-height: 1.3 !important;
 }
 
-/* Spacing between paragraphs: */
-.s-prose p {
-    /* 15px (equal to 1em) was the old margin-bottom, 1.4em (equal to 21px); is the new margin-bottom */
+/* Spacing between separate elements: */
+.s-prose p, .s-prose ol, .s-prose ul, .s-prose blockquote, .s-prose hr {
     margin-bottom: 15px !important;
+}
+
+.s-prose pre {
+    margin-bottom: 13px !important;
+}
+
+.s-prose ol li, .s-prose ul li {
+    margin-bottom: 7.5px !important;
+}
+
+.s-prose ol li:last-child, .s-prose ul li:last-child {
+    margin-bottom: 0 !important;
+}
+
+.s-prose h1 { margin-bottom: 21px !important; }
+.s-prose h2 { margin-bottom: 19px !important; }
+.s-prose h3 { margin-bottom: 17px !important; }
+.s-prose h4 { margin-bottom: 15px !important; }
+
+.s-prose blockquote *:last-child {
+    margin-bottom: 0 !important;
 }
 `;
