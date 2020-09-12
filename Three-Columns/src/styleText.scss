@@ -85,7 +85,7 @@ html[data-cpuserscript-three-columns-layout-open] {
     #{$second-column} {
         left: calc(100% / 3);
         /* replace-col2-left */
-        width: calc(100% / 3);
+        width: calc(100% / 3) !important;
         /* replace-col2-width */
         @include verticalContainer;
         &.answer [id^="post-editor"],

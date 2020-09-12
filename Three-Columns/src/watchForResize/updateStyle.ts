@@ -19,7 +19,7 @@ export const updateStyle = () => {
         'col1-width': widthNumToCssRules(firstColWidth),
         'resizer1-left': `left: ${firstColWidth}%;`,
         'col2-left': `left: ${firstColWidth}%;`,
-        'col2-width': widthNumToCssRules(secondColWidth),
+        'col2-width': `${widthNumToCssRules(secondColWidth)} !important`,
         'resizer2-left': `left: ${firstTwoColsTotalWidth}%;`,
         'col3-left': `left: ${firstTwoColsTotalWidth}%;`,
         'col3-width': widthNumToCssRules(thirdColumnWidth),
