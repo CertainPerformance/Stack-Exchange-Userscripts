@@ -20,8 +20,6 @@ Speaking text through the SpeechSynthesis API is only permitted once the user ha
 
 When browsing new questions, because one usually wants to keep the Newest tab open, all outgoing links are changed to `target="_blank"` so that left-clicks open in new tabs, rather than replacing the Newest page.
 
-Speech volume is adjustable with a slider.
-
 When on Stack Overflow, you can "Start Focusing" from the Newest page or a question page by pressing a button, which will temporarily pause all speech, allowing you to focus on something without interruptions. (This button is only on Stack Overflow because other sites have much less traffic.)
 
 In addition, the word "Message" is spoken when a new inbox message appears.
