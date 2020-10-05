@@ -24,11 +24,10 @@
     input {
         margin: 0 0 0 10px !important;
     }
-}
-
-[data-cpuserscript-hide-roomba-bound-posts-settings][data-enabled] {
-    & ~ .island [data-cpuserscript-roomba-bound],
-    &[data-hide-posts-with-reopen-votes] ~ .island [data-cpuserscript-roomba-bound-but-reopen-votes] {
-        display: none;
+    &[data-enabled] {
+        & ~ .island [data-cpuserscript-roomba-bound],
+        &[data-hide-posts-with-reopen-votes] ~ .island [data-cpuserscript-roomba-bound-but-reopen-votes] {
+            display: none;
+        }
     }
 }
