@@ -160,6 +160,11 @@ html[data-cpuserscript-three-columns-layout-open] {
         z-index: 1002; // Needed to make the second resizer selectable
         @include psRelativeTextareaContainer;
     }
+    // By default, deleted answers receive `margin-left: -24px;` to widen the color of the deleted-background
+    // but that throws things off the 3 cols layout, so it gets reset here
+    .deleted-answer {
+        margin-left: inherit;
+    }
 }
 
 .realtime-post-deleted-notification + [data-cpuserscript-three-columns-post-root] {
