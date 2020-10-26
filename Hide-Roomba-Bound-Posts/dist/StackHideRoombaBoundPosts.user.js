@@ -3,7 +3,7 @@
 // @description      In Moderator Tools Delete Votes, creates an option to hide posts that will be roombad without intervention
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.1
+// @version          1.0.2
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/tools/
 // @grant            none
 // ==/UserScript==
@@ -142,7 +142,7 @@ exports.showToastInfo = (message) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("[data-cpuserscript-hide-roomba-bound-posts-settings] {\n  margin: 0.5em auto;\n  height: 3em;\n  display: flex;\n  align-items: center; }\n  [data-cpuserscript-hide-roomba-bound-posts-settings] > * {\n    display: flex;\n    align-items: center;\n    justify-content: center; }\n  [data-cpuserscript-hide-roomba-bound-posts-settings] > label {\n    height: 2em;\n    cursor: pointer;\n    user-select: none; }\n    [data-cpuserscript-hide-roomba-bound-posts-settings] > label > * {\n      cursor: pointer; }\n    [data-cpuserscript-hide-roomba-bound-posts-settings] > label:nth-child(2) {\n      margin-left: 70px;\n      margin-right: 40px; }\n  [data-cpuserscript-hide-roomba-bound-posts-settings] input {\n    margin: 0 0 0 10px !important; }\n\n[data-cpuserscript-hide-roomba-bound-posts-settings][data-enabled] ~ .island [data-cpuserscript-roomba-bound],\n[data-cpuserscript-hide-roomba-bound-posts-settings][data-enabled][data-hide-posts-with-reopen-votes] ~ .island [data-cpuserscript-roomba-bound-but-reopen-votes] {\n  display: none; }\n");
+/* harmony default export */ __webpack_exports__["default"] = ("[data-cpuserscript-hide-roomba-bound-posts-settings] {\n  margin: 0.5em auto;\n  height: 3em;\n  display: flex;\n  align-items: center; }\n  [data-cpuserscript-hide-roomba-bound-posts-settings] > * {\n    display: flex;\n    align-items: center;\n    justify-content: center; }\n  [data-cpuserscript-hide-roomba-bound-posts-settings] > label {\n    height: 2em;\n    cursor: pointer;\n    user-select: none; }\n    [data-cpuserscript-hide-roomba-bound-posts-settings] > label > * {\n      cursor: pointer; }\n    [data-cpuserscript-hide-roomba-bound-posts-settings] > label:nth-child(2) {\n      margin-left: 70px;\n      margin-right: 40px; }\n  [data-cpuserscript-hide-roomba-bound-posts-settings] input {\n    margin: 0 0 0 10px !important; }\n  [data-cpuserscript-hide-roomba-bound-posts-settings][data-enabled] ~ .island [data-cpuserscript-roomba-bound],\n  [data-cpuserscript-hide-roomba-bound-posts-settings][data-enabled][data-hide-posts-with-reopen-votes] ~ .island [data-cpuserscript-roomba-bound-but-reopen-votes] {\n    display: none; }\n");
 
 /***/ }),
 
@@ -160,7 +160,7 @@ __webpack_require__(/*! ../../common/declareGlobalStackExchange */ "../common/de
 const insertStyle_1 = __webpack_require__(/*! ./insertStyle */ "./src/insertStyle.ts");
 const waitForTablesToExist_1 = __webpack_require__(/*! ./waitForTablesToExist */ "./src/waitForTablesToExist.ts");
 const youarehere = document.querySelector('.youarehere');
-if (youarehere && youarehere.dataset.value === 'delete') {
+if ((youarehere === null || youarehere === void 0 ? void 0 : youarehere.dataset.value) === 'delete') {
     insertStyle_1.insertStyle();
     waitForTablesToExist_1.waitForTablesToExist();
 }
@@ -236,9 +236,13 @@ exports.waitForTablesToExist = () => {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkOpenTables = void 0;
 exports.checkOpenTables = (deleteTables, processTable) => {
+    const expanderArrow = document.querySelector('.expander-arrow-small-hide');
+    // If the below userscript is being used, the tables will be open by default, no need to click:
+    // https://github.com/samliew/SO-mod-userscripts/blob/master/10kToolsHelper.user.js
+    const tablesOpenViaCustomCSS = window.getComputedStyle(expanderArrow).display === 'none';
     deleteTables.forEach((table) => {
         // Only process the tables that are open:
-        if (!table.classList.contains('collapsed')) {
+        if (tablesOpenViaCustomCSS || !table.classList.contains('collapsed')) {
             processTable(table);
         }
     });
