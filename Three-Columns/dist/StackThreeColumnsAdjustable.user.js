@@ -3,7 +3,7 @@
 // @description      When answering, editing, or asking, displays the question page, post textarea, and post preview in side-by-side columns
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.3.15
+// @version          1.3.16
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/(?:posts/\d+/edit|questions/(?:\d+|ask))/
 // @grant            none
 // ==/UserScript==
@@ -284,6 +284,7 @@ exports.createToggleButton = (postRootOfButton, openLayout) => {
     // Get a reference to the container that either has "Save Edits" or "Post Your Answer" button:
     const postBottomContainer = postRootOfButton.querySelector('.form-submit, .post-editor ~ .grid.ai-center') || postRootOfButton;
     const toggleButton = postBottomContainer.appendChild(document.createElement('button'));
+    toggleButton.className = 's-btn s-btn__primary';
     toggleButton.setAttribute('data-cpuserscript-three-columns-toggle', '');
     toggleButton.textContent = 'Close 3-column layout';
     // This function will always be called just before entering the 3-column layout:
