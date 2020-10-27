@@ -38,7 +38,7 @@ export const makeSpeakInterface = () => {
         return speakInterface;
     }
     speakInterface.insertAdjacentHTML('beforeend', `
-        <button>Start Focusing</button>
+        <button class="s-btn s-btn__primary">Start Focusing</button>
         <div></div>
     `);
     const questionFrequencyDiv = speakInterface.children[5];

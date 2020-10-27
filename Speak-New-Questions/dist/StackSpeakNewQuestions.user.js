@@ -3,7 +3,7 @@
 // @description      Speaks new question titles aloud as they come in
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.2
+// @version          1.0.3
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/questions(?:/\d+|$|\?tab=Newest$|/tagged/.*sort=newest)/
 // @include          /^https://example\.com/fakepage$/
 // @grant            none
@@ -452,7 +452,7 @@ exports.makeSpeakInterface = () => {
         return speakInterface;
     }
     speakInterface.insertAdjacentHTML('beforeend', `
-        <button>Start Focusing</button>
+        <button class="s-btn s-btn__primary">Start Focusing</button>
         <div></div>
     `);
     const questionFrequencyDiv = speakInterface.children[5];
@@ -1066,6 +1066,7 @@ exports.makeFocusButton = void 0;
 exports.makeFocusButton = () => {
     const header = document.querySelector('header');
     const focusButton = header.insertBefore(document.createElement('button'), header.children[0]);
+    focusButton.className = 's-btn s-btn__primary';
     focusButton.style.cssText = 'position: absolute; margin-left: 10px; height: 100%; z-index: 1; display: none;';
     return focusButton;
 };
