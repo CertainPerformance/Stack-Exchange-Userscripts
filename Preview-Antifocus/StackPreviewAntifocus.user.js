@@ -3,7 +3,7 @@
 // @description      Prevents post textarea from stealing focus when clicking on preview
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.0
+// @version          1.0.1
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/(?:questions/(?:\d|ask)|posts/\d+/edit)/
 // @grant            none
 // ==/UserScript==
@@ -24,9 +24,16 @@
 
 document.querySelectorAll('[id^="post-form"] .wmd-preview').forEach((preview) => {
     preview.addEventListener('click', (e) => {
-        // "Edit the above snippet" listener needs to see event so that snippet editor interface can pop up
-        if (!e.target.matches('.edit-snippet')) {
-            e.stopImmediatePropagation();
+        const { target } = e;
+        if (target.matches('.edit-snippet')) {
+            // "Edit the above snippet" listener needs to see event so that snippet editor interface can pop up
+            return;
+        }
+        e.stopImmediatePropagation();
+        // If the click was on a spoiler element, reveal it while not focusing on textarea:
+        const spoilerBlockquote = target.closest('blockquote.spoiler');
+        if (spoilerBlockquote) {
+            spoilerBlockquote.classList.add('is-visible');
         }
     });
 });
