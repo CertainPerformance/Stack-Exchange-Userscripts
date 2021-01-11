@@ -25,7 +25,7 @@ module.exports = ({ liveDev = false } = {}) => {
             filename,
             path: path.join(cwd, liveDev ? '' : '/dist'),
         },
-        devtool: 'none', // Keep the generated .js readable; no eval shenanigans
+        devtool: false, // Keep the generated .js readable; no eval shenanigans
         mode: 'development', // Never minify. Completely different from liveDev
         plugins: [
             new webpack.BannerPlugin({

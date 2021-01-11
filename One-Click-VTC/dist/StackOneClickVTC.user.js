@@ -3,146 +3,26 @@
 // @description      Allows voting to close with a single click
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.2.2
+// @version          1.2.3
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/questions/\d+/
 // @grant            none
 // ==/UserScript==
 
-/******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// define __esModule on exports
-/******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
-/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-/******/
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/index.ts");
-/******/ })
-/************************************************************************/
-/******/ ({
-
-/***/ "../common/declareGlobalStackExchange.ts":
-/*!***********************************************!*\
-  !*** ../common/declareGlobalStackExchange.ts ***!
-  \***********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-
-
-/***/ }),
-
-/***/ "../common/showToast.ts":
-/*!******************************!*\
-  !*** ../common/showToast.ts ***!
-  \******************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.showToastInfo = exports.showToastError = void 0;
-__webpack_require__(/*! ./declareGlobalStackExchange */ "../common/declareGlobalStackExchange.ts");
-exports.showToastError = (message) => {
-    window.StackExchange.helpers.showToast(message, { transient: false, type: 'danger' });
-};
-exports.showToastInfo = (message) => {
-    const transientTimeout = window.StackExchange.helpers.suggestedTransientTimeout(message, true);
-    window.StackExchange.helpers.showToast(message, { transientTimeout, transient: true, type: 'info' });
-};
-
-
-/***/ }),
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
 
 /***/ "./node_modules/raw-loader/dist/cjs.js!./build/styleText.css":
 /*!*******************************************************************!*\
   !*** ./node_modules/raw-loader/dist/cjs.js!./build/styleText.css ***!
   \*******************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("[data-cpuserscript-one-click-vtc] {\n  position: absolute;\n  margin-top: 24px;\n  left: -250px;\n  width: 240px; }\n  [data-cpuserscript-one-click-vtc] [data-close-reason-id] {\n    margin-bottom: 10px;\n    padding: 5px; }\n    [data-cpuserscript-one-click-vtc] [data-close-reason-id]:hover {\n      background-color: yellow; }\n      body.theme-dark [data-cpuserscript-one-click-vtc] [data-close-reason-id]:hover {\n        background-color: chocolate; }\n  [data-cpuserscript-one-click-vtc] div:hover + [data-close-reason-id] {\n    background-color: lime; }\n    body.theme-dark [data-cpuserscript-one-click-vtc] div:hover + [data-close-reason-id] {\n      background-color: green; }\n  [data-cpuserscript-one-click-vtc] > :nth-child(4) {\n    padding: 5px; }\n  [data-cpuserscript-one-click-vtc] > :nth-child(2),\n  [data-cpuserscript-one-click-vtc] > :nth-child(3),\n  [data-cpuserscript-one-click-vtc] > :nth-child(5) > *:not(input),\n  [data-cpuserscript-one-click-vtc] > :nth-child(5) ~ *:not(:last-child) {\n    cursor: pointer; }\n  [data-cpuserscript-one-click-vtc] > :nth-child(5) {\n    margin-left: 20px; }\n  [data-cpuserscript-one-click-vtc] > div:not(:last-child) > div:nth-child(odd) {\n    border: 1px solid var(--black);\n    float: right;\n    visibility: hidden;\n    width: calc(0.75em + 15px);\n    height: calc(0.75em + 15px);\n    text-align: center;\n    vertical-align: middle;\n    line-height: calc(0.75em + 15px); }\n  [data-cpuserscript-one-click-vtc] > div:nth-child(even):not(:last-child) {\n    border: 1px solid var(--black);\n    float: right;\n    visibility: hidden;\n    width: calc(1em + 15px);\n    height: calc(1em + 15px);\n    text-align: center;\n    vertical-align: middle;\n    line-height: calc(1em + 15px); }\n  [data-cpuserscript-one-click-vtc] > div:last-child {\n    visibility: hidden;\n    text-align: center; }\n    [data-cpuserscript-one-click-vtc] > div:last-child > div {\n      display: flex;\n      justify-content: space-around; }\n      [data-cpuserscript-one-click-vtc] > div:last-child > div > div {\n        padding: 0 5px;\n        border: 1px solid var(--black);\n        cursor: pointer;\n        user-select: none; }\n        [data-cpuserscript-one-click-vtc] > div:last-child > div > div[data-selected-option] {\n          background-color: var(--blue-700);\n          color: var(--white); }\n        [data-cpuserscript-one-click-vtc] > div:last-child > div > div:hover:not([data-selected-option]) {\n          background-color: yellow; }\n          body.theme-dark [data-cpuserscript-one-click-vtc] > div:last-child > div > div:hover:not([data-selected-option]) {\n            background-color: chocolate; }\n    [data-cpuserscript-one-click-vtc] > div:last-child > h5 {\n      margin: 10px; }\n\n.question .js-vote-down-btn[data-cpuserscript-one-click-vtc-imminent-downvote] {\n  background-color: yellow; }\n  body.theme-dark .question .js-vote-down-btn[data-cpuserscript-one-click-vtc-imminent-downvote] {\n    background-color: chocolate; }\n");
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("[data-cpuserscript-one-click-vtc] {\n  position: absolute;\n  margin-top: 24px;\n  left: -250px;\n  width: 240px; }\n  [data-cpuserscript-one-click-vtc] [data-close-reason-id] {\n    margin-bottom: 10px;\n    padding: 5px; }\n    [data-cpuserscript-one-click-vtc] [data-close-reason-id]:hover {\n      background-color: yellow; }\n      body.theme-dark [data-cpuserscript-one-click-vtc] [data-close-reason-id]:hover {\n        background-color: chocolate; }\n  [data-cpuserscript-one-click-vtc] div:hover + [data-close-reason-id] {\n    background-color: lime; }\n    body.theme-dark [data-cpuserscript-one-click-vtc] div:hover + [data-close-reason-id] {\n      background-color: green; }\n  [data-cpuserscript-one-click-vtc] > :nth-child(4) {\n    padding: 5px; }\n  [data-cpuserscript-one-click-vtc] > :nth-child(2),\n  [data-cpuserscript-one-click-vtc] > :nth-child(3),\n  [data-cpuserscript-one-click-vtc] > :nth-child(5) > *:not(input),\n  [data-cpuserscript-one-click-vtc] > :nth-child(5) ~ *:not(:last-child) {\n    cursor: pointer; }\n  [data-cpuserscript-one-click-vtc] > :nth-child(5) {\n    margin-left: 20px; }\n  [data-cpuserscript-one-click-vtc] > div:not(:last-child) > div:nth-child(odd) {\n    border: 1px solid var(--black);\n    float: right;\n    visibility: hidden;\n    width: calc(0.75em + 15px);\n    height: calc(0.75em + 15px);\n    text-align: center;\n    vertical-align: middle;\n    line-height: calc(0.75em + 15px); }\n  [data-cpuserscript-one-click-vtc] > div:nth-child(even):not(:last-child) {\n    border: 1px solid var(--black);\n    float: right;\n    visibility: hidden;\n    width: calc(1em + 15px);\n    height: calc(1em + 15px);\n    text-align: center;\n    vertical-align: middle;\n    line-height: calc(1em + 15px); }\n  [data-cpuserscript-one-click-vtc] > div:last-child {\n    visibility: hidden;\n    text-align: center; }\n    [data-cpuserscript-one-click-vtc] > div:last-child > div {\n      display: flex;\n      justify-content: space-around; }\n      [data-cpuserscript-one-click-vtc] > div:last-child > div > div {\n        padding: 0 5px;\n        border: 1px solid var(--black);\n        cursor: pointer;\n        user-select: none; }\n        [data-cpuserscript-one-click-vtc] > div:last-child > div > div[data-selected-option] {\n          background-color: var(--blue-700);\n          color: var(--white); }\n        [data-cpuserscript-one-click-vtc] > div:last-child > div > div:hover:not([data-selected-option]) {\n          background-color: yellow; }\n          body.theme-dark [data-cpuserscript-one-click-vtc] > div:last-child > div > div:hover:not([data-selected-option]) {\n            background-color: chocolate; }\n    [data-cpuserscript-one-click-vtc] > div:last-child > h5 {\n      margin: 10px; }\n\n.question .js-vote-down-btn[data-cpuserscript-one-click-vtc-imminent-downvote] {\n  background-color: yellow; }\n  body.theme-dark .question .js-vote-down-btn[data-cpuserscript-one-click-vtc-imminent-downvote] {\n    background-color: chocolate; }\n");
 
 /***/ }),
 
@@ -150,15 +30,13 @@ __webpack_require__.r(__webpack_exports__);
 /*!***********************************!*\
   !*** ./src/canCreateInterface.ts ***!
   \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-"use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.canCreateInterface = void 0;
 const settings_1 = __webpack_require__(/*! ./settings */ "./src/settings.ts");
-exports.canCreateInterface = () => {
+const canCreateInterface = () => {
     const myProfile = document.querySelector('.my-profile');
     if (!myProfile) {
         // Not logged in, or site is down, don't do anything
@@ -194,7 +72,7 @@ exports.canCreateInterface = () => {
         console.warn('To acquire more space, consider installing Stack Right Content: https://github.com/CertainPerformance/Stack-Exchange-Userscripts/tree/master/Right-Content');
         return;
     }
-    const flagQuestionLink = document.querySelector('.flag-post-link ');
+    const flagQuestionLink = document.querySelector('.js-flag-post-link ');
     if (!flagQuestionLink) {
         // Probably only occurs with locked posts
         // or with deleted posts user does not have the privilege to see
@@ -209,7 +87,7 @@ exports.canCreateInterface = () => {
     if (questionTitle.endsWith(' [closed]') || questionTitle.endsWith(' [duplicate]')) {
         return;
     }
-    const closeQuestionLink = document.querySelector('.close-question-link');
+    const closeQuestionLink = document.querySelector('.js-close-question-link');
     if (closeQuestionLink && closeQuestionLink.title.includes('You voted')) {
         return;
     }
@@ -219,6 +97,7 @@ exports.canCreateInterface = () => {
     }
     return true;
 };
+exports.canCreateInterface = canCreateInterface;
 
 
 /***/ }),
@@ -227,13 +106,11 @@ exports.canCreateInterface = () => {
 /*!************************************************!*\
   !*** ./src/defaultSiteSpecificShortReasons.ts ***!
   \************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports) => {
 
-"use strict";
 
 // Properties below are site names, accessible by accessing StackExchange.options.site.name
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.defaultSiteSpecificShortReasons = void 0;
 exports.defaultSiteSpecificShortReasons = {
     'Stack Overflow': [
@@ -268,14 +145,13 @@ exports.defaultSiteSpecificShortReasons = {
 /*!************************************!*\
   !*** ./src/haveVotedOnQuestion.ts ***!
   \************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports) => {
 
-"use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.haveVotedOnQuestion = void 0;
-exports.haveVotedOnQuestion = () => Boolean(document.querySelector('.question .fc-theme-primary'));
+const haveVotedOnQuestion = () => Boolean(document.querySelector('.question .fc-theme-primary'));
+exports.haveVotedOnQuestion = haveVotedOnQuestion;
 
 
 /***/ }),
@@ -284,12 +160,10 @@ exports.haveVotedOnQuestion = () => Boolean(document.querySelector('.question .f
 /*!**********************!*\
   !*** ./src/index.ts ***!
   \**********************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-"use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 __webpack_require__(/*! ../../common/declareGlobalStackExchange */ "../common/declareGlobalStackExchange.ts");
 const canCreateInterface_1 = __webpack_require__(/*! ./canCreateInterface */ "./src/canCreateInterface.ts");
 const insertStyle_1 = __webpack_require__(/*! ./insertStyle */ "./src/insertStyle.ts");
@@ -327,20 +201,19 @@ if (canCreateInterface_1.canCreateInterface()) {
 /*!****************************!*\
   !*** ./src/insertStyle.ts ***!
   \****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-"use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.insertStyle = void 0;
 // @ts-ignore
 // tslint:disable-next-line: no-implicit-dependencies
 const styleText_css_1 = __webpack_require__(/*! raw-loader!../build/styleText.css */ "./node_modules/raw-loader/dist/cjs.js!./build/styleText.css");
-exports.insertStyle = () => {
+const insertStyle = () => {
     const styleTag = document.body.appendChild(document.createElement('style'));
     styleTag.textContent = styleText_css_1.default;
 };
+exports.insertStyle = insertStyle;
 
 
 /***/ }),
@@ -349,15 +222,13 @@ exports.insertStyle = () => {
 /*!*************************************!*\
   !*** ./src/makeVTCContainerHTML.ts ***!
   \*************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-"use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.makeVTCContainerHTML = void 0;
 const settings_1 = __webpack_require__(/*! ./settings */ "./src/settings.ts");
-exports.makeVTCContainerHTML = () => `
+const makeVTCContainerHTML = () => `
 <h2>Vote to close as</h2>
 <div>OK</div><h3 data-close-reason-id="Duplicate">Duplicate</h3>
 <h3>Site-Specific</h3>
@@ -385,6 +256,7 @@ exports.makeVTCContainerHTML = () => `
     <button title="Click this if moderators change a site's close reasons">Reset close reasons</button>
 </div>
 `;
+exports.makeVTCContainerHTML = makeVTCContainerHTML;
 
 
 /***/ }),
@@ -393,12 +265,10 @@ exports.makeVTCContainerHTML = () => `
 /*!*************************************!*\
   !*** ./src/populateCloseReasons.ts ***!
   \*************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-"use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.populateCloseReasons = void 0;
 const showToast_1 = __webpack_require__(/*! ../../common/showToast */ "../common/showToast.ts");
 const settings_1 = __webpack_require__(/*! ./settings */ "./src/settings.ts");
@@ -407,7 +277,7 @@ const defaultSiteSpecificShortReasons_1 = __webpack_require__(/*! ./defaultSiteS
  * Make a network request to get the site-specific interface to close the question,
  * save the results in localStorage
  */
-exports.populateCloseReasons = (createInterface) => {
+const populateCloseReasons = (createInterface) => {
     const questionId = window.location.href.match(/\d+/)[0];
     // The below will probably only log once after the userscript is installed
     // tslint:disable-next-line: no-console
@@ -424,6 +294,7 @@ exports.populateCloseReasons = (createInterface) => {
         showToast_1.showToastError('Stack One Click VTC: An error occurred while fetching site-specific close reasons, see console for details');
     });
 };
+exports.populateCloseReasons = populateCloseReasons;
 const handlePopup = (popupText, createInterface) => {
     const doc = new DOMParser().parseFromString(popupText, 'text/html');
     const siteSpecificRadios = doc.querySelectorAll('input[name="siteSpecificCloseReasonId"]');
@@ -468,27 +339,28 @@ const handlePopup = (popupText, createInterface) => {
 /*!*************************!*\
   !*** ./src/settings.ts ***!
   \*************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports) => {
 
-"use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.saveSettings = exports.saveNewSettings = exports.getSettings = void 0;
-exports.getSettings = () => JSON.parse(localStorage.cpUserscriptOneClickVTCSettings);
-exports.saveNewSettings = (siteSpecificCloseReasons) => {
+const getSettings = () => JSON.parse(localStorage.cpUserscriptOneClickVTCSettings);
+exports.getSettings = getSettings;
+const saveNewSettings = (siteSpecificCloseReasons) => {
     localStorage.cpUserscriptOneClickVTCSettings = JSON.stringify({
         siteSpecificCloseReasons,
         downvoteCondition: 'Non-dupes only',
         raisedCloseFlags: [],
     });
 };
-exports.saveSettings = (partialNewSettings) => {
+exports.saveNewSettings = saveNewSettings;
+const saveSettings = (partialNewSettings) => {
     // Overwrite some properties of the existing settings:
     const oldSettings = exports.getSettings();
     const newSettings = Object.assign({}, oldSettings, partialNewSettings);
     localStorage.cpUserscriptOneClickVTCSettings = JSON.stringify(newSettings);
 };
+exports.saveSettings = saveSettings;
 
 
 /***/ }),
@@ -497,12 +369,10 @@ exports.saveSettings = (partialNewSettings) => {
 /*!****************************************!*\
   !*** ./src/showOkButtonWhenHovered.ts ***!
   \****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-"use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.showOkButtonWhenHovered = void 0;
 const haveVotedOnQuestion_1 = __webpack_require__(/*! ./haveVotedOnQuestion */ "./src/haveVotedOnQuestion.ts");
 const settings_1 = __webpack_require__(/*! ./settings */ "./src/settings.ts");
@@ -515,7 +385,7 @@ const tryShowButton = (textContainer, okButton) => {
     okButton.style.visibility = 'visible';
     return true;
 };
-exports.showOkButtonWhenHovered = (vtcContainer) => {
+const showOkButtonWhenHovered = (vtcContainer) => {
     const downvoteButton = document.querySelector('.question .js-vote-down-btn');
     const showImminentDownvote = () => {
         if (!haveVotedOnQuestion_1.haveVotedOnQuestion()) {
@@ -549,6 +419,7 @@ exports.showOkButtonWhenHovered = (vtcContainer) => {
         });
     }
 };
+exports.showOkButtonWhenHovered = showOkButtonWhenHovered;
 
 
 /***/ }),
@@ -557,23 +428,22 @@ exports.showOkButtonWhenHovered = (vtcContainer) => {
 /*!***********************************!*\
   !*** ./src/tryVoteClose/index.ts ***!
   \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-"use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.tryVoteCloseWhenSEReady = void 0;
 const haveVotedOnQuestion_1 = __webpack_require__(/*! ../haveVotedOnQuestion */ "./src/haveVotedOnQuestion.ts");
 const openDuplicateModal_1 = __webpack_require__(/*! ./openDuplicateModal */ "./src/tryVoteClose/openDuplicateModal.ts");
 const submitCloseVote_1 = __webpack_require__(/*! ./submitCloseVote */ "./src/tryVoteClose/submitCloseVote.ts");
 const settings_1 = __webpack_require__(/*! ../settings */ "./src/settings.ts");
 // Wait until SE has attached listeners and applied personal vote classes to vote buttons
-exports.tryVoteCloseWhenSEReady = (event) => {
+const tryVoteCloseWhenSEReady = (event) => {
     window.StackExchange.ready(() => {
         tryVoteClose(event);
     });
 };
+exports.tryVoteCloseWhenSEReady = tryVoteCloseWhenSEReady;
 const tryVoteClose = (event) => {
     if (!submitCloseVote_1.getCanSendRequest()) {
         return;
@@ -609,16 +479,14 @@ const tryVoteClose = (event) => {
 /*!*********************************************************!*\
   !*** ./src/tryVoteClose/makeHandleCloseVoteResponse.ts ***!
   \*********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-"use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.makeHandleCloseVoteResponse = void 0;
 const showToast_1 = __webpack_require__(/*! ../../../common/showToast */ "../common/showToast.ts");
 const settings_1 = __webpack_require__(/*! ../settings */ "./src/settings.ts");
-exports.makeHandleCloseVoteResponse = (questionId, setCanSendRequestToTrue) => (result) => {
+const makeHandleCloseVoteResponse = (questionId, setCanSendRequestToTrue) => (result) => {
     if (result.ResultChangedState) {
         // Question successfully closed
         window.location.href = window.location.href;
@@ -639,7 +507,7 @@ exports.makeHandleCloseVoteResponse = (questionId, setCanSendRequestToTrue) => (
     if (window.StackExchange.options.user.rep < 3000) {
         /* User flagged to close, but did not vote to close
          * If someone has the VTC privilege, it's easy to determine, on pageload, if they've already VTC'd
-         * by examining the .close-question-link title
+         * by examining the .js-close-question-link title
          * Doesn't look like there's anything similar for flags without actually opening the close dialog,
          * so save close flags in Local Storage instead
          */
@@ -652,10 +520,11 @@ exports.makeHandleCloseVoteResponse = (questionId, setCanSendRequestToTrue) => (
         settings_1.saveSettings({ raisedCloseFlags });
     }
 };
+exports.makeHandleCloseVoteResponse = makeHandleCloseVoteResponse;
 const updateCloseVoteCount = (result) => {
     const { updateCloseLinkCount } = window.StackExchange.vote_closingAndFlagging;
     const haveSEUpdateCloseLinkCount = () => {
-        updateCloseLinkCount(result, window.$('.close-question-link'));
+        updateCloseLinkCount(result, window.$('.js-close-question-link'));
     };
     haveSEUpdateCloseLinkCount();
     // If the question had an edit notice, and the downvote button was .click()ed, the postcell will be refreshed,
@@ -685,15 +554,13 @@ const updateCloseVoteCount = (result) => {
 /*!************************************************!*\
   !*** ./src/tryVoteClose/openDuplicateModal.ts ***!
   \************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports) => {
 
-"use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.openDuplicateModal = void 0;
-exports.openDuplicateModal = () => {
-    document.querySelector('.close-question-link').click();
+const openDuplicateModal = () => {
+    document.querySelector('.js-close-question-link').click();
     const handler = (_event, _jqXHR, ajaxOptions) => {
         if (!ajaxOptions.url || !/\/flags\/questions\/\d+\/close\/popup/.test(ajaxOptions.url)) {
             return;
@@ -708,6 +575,7 @@ exports.openDuplicateModal = () => {
     };
     window.$(document).on('ajaxComplete', handler);
 };
+exports.openDuplicateModal = openDuplicateModal;
 
 
 /***/ }),
@@ -716,21 +584,20 @@ exports.openDuplicateModal = () => {
 /*!*********************************************!*\
   !*** ./src/tryVoteClose/submitCloseVote.ts ***!
   \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-"use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.submitCloseVote = exports.getCanSendRequest = void 0;
 const makeHandleCloseVoteResponse_1 = __webpack_require__(/*! ./makeHandleCloseVoteResponse */ "./src/tryVoteClose/makeHandleCloseVoteResponse.ts");
 const showToast_1 = __webpack_require__(/*! ../../../common/showToast */ "../common/showToast.ts");
 let canSendRequest = true;
-exports.getCanSendRequest = () => canSendRequest;
+const getCanSendRequest = () => canSendRequest;
+exports.getCanSendRequest = getCanSendRequest;
 const setCanSendRequestToTrue = () => {
     canSendRequest = true;
 };
-exports.submitCloseVote = (closeReasonId, siteSpecificCloseReasonId) => {
+const submitCloseVote = (closeReasonId, siteSpecificCloseReasonId) => {
     const formData = new FormData();
     formData.append('fkey', window.StackExchange.options.user.fkey);
     formData.append('closeReasonId', closeReasonId);
@@ -755,6 +622,7 @@ exports.submitCloseVote = (closeReasonId, siteSpecificCloseReasonId) => {
         showToast_1.showToastError('Stack One Click VTC: An error occurred while trying to vote, see console for details');
     });
 };
+exports.submitCloseVote = submitCloseVote;
 
 
 /***/ }),
@@ -763,12 +631,10 @@ exports.submitCloseVote = (closeReasonId, siteSpecificCloseReasonId) => {
 /*!***************************************!*\
   !*** ./src/watchForInterfaceHover.ts ***!
   \***************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-"use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.watchForInterfaceHover = void 0;
 const settings_1 = __webpack_require__(/*! ./settings */ "./src/settings.ts");
 const showOptionContainer = (optionContainer) => {
@@ -792,7 +658,7 @@ const showOptionContainer = (optionContainer) => {
         settings_1.saveSettings({ downvoteCondition: target.textContent });
     });
 };
-exports.watchForInterfaceHover = (vtcContainer) => {
+const watchForInterfaceHover = (vtcContainer) => {
     const optionContainer = vtcContainer.lastElementChild;
     // Reveal the optionContainer after mouse has hovered over the vtcContainer for 5 seconds
     let timeout;
@@ -803,6 +669,7 @@ exports.watchForInterfaceHover = (vtcContainer) => {
         window.clearTimeout(timeout);
     });
 };
+exports.watchForInterfaceHover = watchForInterfaceHover;
 
 
 /***/ }),
@@ -811,15 +678,13 @@ exports.watchForInterfaceHover = (vtcContainer) => {
 /*!******************************!*\
   !*** ./src/watchForReset.ts ***!
   \******************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-"use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.watchForReset = void 0;
 const showToast_1 = __webpack_require__(/*! ../../common/showToast */ "../common/showToast.ts");
-exports.watchForReset = (vtcContainer) => {
+const watchForReset = (vtcContainer) => {
     const button = vtcContainer.querySelector('button');
     button.addEventListener('click', () => {
         delete localStorage.cpUserscriptOneClickVTCSettings;
@@ -827,6 +692,7 @@ exports.watchForReset = (vtcContainer) => {
         showToast_1.showToastError('Cleared, refresh the page');
     });
 };
+exports.watchForReset = watchForReset;
 
 
 /***/ }),
@@ -835,19 +701,17 @@ exports.watchForReset = (vtcContainer) => {
 /*!******************************************!*\
   !*** ./src/watchForSiteSpecificEdits.ts ***!
   \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-"use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.watchForSiteSpecificEdits = void 0;
 const settings_1 = __webpack_require__(/*! ./settings */ "./src/settings.ts");
 /**
  * When user right-clicks on a Site Specific reason, replace it with an input.
  * When enter is pressed, save the new text for that reason in Local Storage
  */
-exports.watchForSiteSpecificEdits = (vtcContainer) => {
+const watchForSiteSpecificEdits = (vtcContainer) => {
     vtcContainer.addEventListener('contextmenu', (rightClickEvent) => {
         const originalDiv = rightClickEvent.target;
         if (!originalDiv.matches('h3 + div > [data-close-reason-id]')) {
@@ -879,8 +743,107 @@ exports.watchForSiteSpecificEdits = (vtcContainer) => {
         });
     });
 };
+exports.watchForSiteSpecificEdits = watchForSiteSpecificEdits;
+
+
+/***/ }),
+
+/***/ "../common/declareGlobalStackExchange.ts":
+/*!***********************************************!*\
+  !*** ../common/declareGlobalStackExchange.ts ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+
+
+/***/ }),
+
+/***/ "../common/showToast.ts":
+/*!******************************!*\
+  !*** ../common/showToast.ts ***!
+  \******************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.showToastInfo = exports.showToastError = void 0;
+__webpack_require__(/*! ./declareGlobalStackExchange */ "../common/declareGlobalStackExchange.ts");
+// Most scripts have `// @grant none`, and will see the native window.StackExchange
+// Those which have a different @grant will need to go through unsafeWindow.StackExchange
+const { helpers } = (window.StackExchange || unsafeWindow.StackExchange);
+const showToastError = (message) => {
+    helpers.showToast(message, { transient: false, type: 'danger' });
+};
+exports.showToastError = showToastError;
+const showToastInfo = (message) => {
+    const transientTimeout = helpers.suggestedTransientTimeout(message, true);
+    helpers.showToast(message, { transientTimeout, transient: true, type: 'info' });
+};
+exports.showToastInfo = showToastInfo;
 
 
 /***/ })
 
-/******/ });
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		if(__webpack_module_cache__[moduleId]) {
+/******/ 			return __webpack_module_cache__[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	// startup
+/******/ 	// Load entry module
+/******/ 	__webpack_require__("./src/index.ts");
+/******/ 	// This entry module used 'exports' so it can't be inlined
+/******/ })()
+;
