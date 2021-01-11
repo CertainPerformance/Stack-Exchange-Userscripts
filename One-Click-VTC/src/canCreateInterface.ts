@@ -51,7 +51,7 @@ export const canCreateInterface = () => {
     if (questionTitle.endsWith(' [closed]') || questionTitle.endsWith(' [duplicate]')) {
         return;
     }
-    const closeQuestionLink = document.querySelector<HTMLAnchorElement>('.close-question-link');
+    const closeQuestionLink = document.querySelector<HTMLAnchorElement>('.js-close-question-link');
     if (closeQuestionLink && closeQuestionLink.title.includes('You voted')) {
         return;
     }

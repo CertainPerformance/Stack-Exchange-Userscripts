@@ -1,5 +1,5 @@
 export const openDuplicateModal = () => {
-    document.querySelector<HTMLAnchorElement>('.close-question-link')!.click();
+    document.querySelector<HTMLAnchorElement>('.js-close-question-link')!.click();
     const handler = (_event: unknown, _jqXHR: unknown, ajaxOptions: JQuery.AjaxSettings<unknown>) => {
         if (!ajaxOptions.url || !/\/flags\/questions\/\d+\/close\/popup/.test(ajaxOptions.url)) {
             return;

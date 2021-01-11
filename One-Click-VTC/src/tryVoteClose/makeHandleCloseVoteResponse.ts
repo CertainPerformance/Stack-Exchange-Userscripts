@@ -32,7 +32,7 @@ export const makeHandleCloseVoteResponse = (questionId: number, setCanSendReques
     if (window.StackExchange.options.user.rep < 3000) {
         /* User flagged to close, but did not vote to close
          * If someone has the VTC privilege, it's easy to determine, on pageload, if they've already VTC'd
-         * by examining the .close-question-link title
+         * by examining the .js-close-question-link title
          * Doesn't look like there's anything similar for flags without actually opening the close dialog,
          * so save close flags in Local Storage instead
          */
@@ -53,7 +53,7 @@ const updateCloseVoteCount = (result: CloseVoteResponse) => {
     };
     const { updateCloseLinkCount } = (window.StackExchange as unknown as SETypeHere).vote_closingAndFlagging;
     const haveSEUpdateCloseLinkCount = () => {
-        updateCloseLinkCount(result, window.$('.close-question-link'));
+        updateCloseLinkCount(result, window.$('.js-close-question-link'));
     };
     haveSEUpdateCloseLinkCount();
     // If the question had an edit notice, and the downvote button was .click()ed, the postcell will be refreshed,
