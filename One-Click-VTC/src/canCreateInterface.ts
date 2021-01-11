@@ -36,7 +36,7 @@ export const canCreateInterface = () => {
         console.warn('To acquire more space, consider installing Stack Right Content: https://github.com/CertainPerformance/Stack-Exchange-Userscripts/tree/master/Right-Content');
         return;
     }
-    const flagQuestionLink = document.querySelector<HTMLAnchorElement>('.flag-post-link ');
+    const flagQuestionLink = document.querySelector<HTMLAnchorElement>('.js-flag-post-link ');
     if (!flagQuestionLink) {
         // Probably only occurs with locked posts
         // or with deleted posts user does not have the privilege to see
