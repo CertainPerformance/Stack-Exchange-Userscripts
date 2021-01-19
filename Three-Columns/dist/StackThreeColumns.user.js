@@ -3,7 +3,7 @@
 // @description      When answering, editing, or asking, displays the question page, post textarea, and post preview in side-by-side columns
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.3.16
+// @version          1.3.17
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/(?:posts/\d+/edit|questions/(?:\d+|ask))/
 // @grant            none
 // ==/UserScript==
@@ -526,8 +526,8 @@ exports.closeLayoutWhenClickOnCloseOrFlagOrPendingEdit = () => {
     const clickHandler = (e) => {
         const target = e.target;
         // tslint:disable-next-line: no-console
-        // Continue main body of function only if layout is open *and* one of (.close-question-link or .flag-post-link or a[id^="edit-pending"]) is clicked
-        if (!target.closest('html[data-cpuserscript-three-columns-layout-open]') || !target.closest('.close-question-link, .flag-post-link, a[id^="edit-pending"]')) {
+        // Continue main body of function only if layout is open *and* one of (.js-close-question-link or .js-flag-post-link or a[id^="edit-pending"]) is clicked
+        if (!target.closest('html[data-cpuserscript-three-columns-layout-open]') || !target.closest('.js-close-question-link, .js-flag-post-link, a[id^="edit-pending"]')) {
             return;
         }
         // Do not trigger SE's listeners for clicks on Edit / Close:
