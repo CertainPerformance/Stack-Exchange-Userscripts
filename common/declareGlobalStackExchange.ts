@@ -27,6 +27,7 @@ export type StackExchange = {
         user: {
             fkey: string;
             rep: number;
+            userId: number;
         };
     };
     realtime: {
