@@ -42,6 +42,7 @@ declare global {
     interface Window {
         StackExchange: StackExchange;
     }
+    const unsafeWindow: Window;
     const GM_info: undefined | {
         script: {
             name: string;
