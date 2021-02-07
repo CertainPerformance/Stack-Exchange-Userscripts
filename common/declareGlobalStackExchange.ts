@@ -1,10 +1,10 @@
-type ToastSettings = {
+type ToastSettings = ({
     transient: false;
-    type: 'danger';
 } | {
     transientTimeout: number;
     transient: true;
-    type: 'info';
+}) & {
+    type: 'info' | 'danger';
 };
 /* Need to export something so that this gets interpreted as a module by TS, so that `declare global` works below
  * even if the export is rarely or never going to be used by importers
