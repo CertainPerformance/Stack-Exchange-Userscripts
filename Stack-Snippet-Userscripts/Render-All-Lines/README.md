@@ -1,4 +1,4 @@
-# Snippet Render All Lines (&#8202;[install](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/raw/master/Stack-Snippet-Userscripts/Lag-Fixer/StackSnippetRenderAllLines.user.js)&#8202;)
+# Snippet Render All Lines (&#8202;[install](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/raw/master/Stack-Snippet-Userscripts/Render-All-Lines/StackSnippetRenderAllLines.user.js)&#8202;)
 
 Due to [performance issues](https://codemirror.net/doc/manual.html#option_viewportMargin), CodeMirror ony renders ~10 code lines above and below the viewport. For example, if you're currently scrolled to the point that lines 50 to 80 are visible, lines below ~40 will not exist in the DOM, nor will lines above ~90. This can improve performance when on a lower-end machines, or when there are an unreasonably large number of lines.
 
