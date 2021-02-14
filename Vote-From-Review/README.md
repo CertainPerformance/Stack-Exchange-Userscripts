@@ -15,3 +15,5 @@ This is tedious. So, this userscript creates voting buttons for posts being revi
 ![screenshot](https://raw.githubusercontent.com/CertainPerformance/Stack-Exchange-Userscripts/master/Vote-From-Review/userscript-screenshot.png)
 
 The userscript uses the Stack Exchange API to check to see if you've already voted on a post, so that the appropriate vote arrow is colored when a new review task comes up. Checking whether you've voted on a post requires you to authorize the application to access your private information, so you'll see a warning about this when the script redirects you to https://stackoverflow.com/oauth the first time you run it.
+
+**This userscript currently does not function in the LQP queue due to some recent UI changes.** It will be fixed once the updated UI [is fully rolled out](https://meta.stackexchange.com/q/360198).
