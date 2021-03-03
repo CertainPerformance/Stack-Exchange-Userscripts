@@ -30,7 +30,6 @@ Feel free to [report issues](https://github.com/CertainPerformance/Stack-Exchang
 - [Style Code After Edit Refresh](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/tree/master/Style-Code-After-Edit-Refresh) - Shows Stack Snippet buttons and does syntax highlighting when refreshing an edited post
 - [Three Columns](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/tree/master/Three-Columns) - When answering, editing, or asking, displays the question page, post textarea, and post preview in side-by-side columns ([screenshot](https://raw.githubusercontent.com/CertainPerformance/Stack-Exchange-Userscripts/master/Three-Columns/userscript-screenshot.png))
 - [Voted Posts Stats](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/tree/master/Voted-Posts-Stats) - Shows the scores and status of posts you've voted on ([screenshot](https://raw.githubusercontent.com/CertainPerformance/Stack-Exchange-Userscripts/master/Voted-Posts-Stats/userscript-screenshot.png))
-- [Vote From Review](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/tree/master/Vote-From-Review) - Allows voting on items being reviewed from review queues
 - [Websocket Indicator](https://github.com/CertainPerformance/Stack-Exchange-Userscripts/tree/master/Websocket-Indicator) - Adds a visual indicator to the topbar indicating whether the websocket to Stack Exchange is open or not
 
 ## Stack Snippet Userscripts
