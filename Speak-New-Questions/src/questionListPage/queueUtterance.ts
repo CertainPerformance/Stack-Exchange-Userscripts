@@ -2,7 +2,7 @@ import { speakNext } from './speakNext';
 import { getState } from './state';
 import { pendingQuestionColor } from '../pendingQuestionColor';
 
-export const queueUtterance = (textToSpeak: string, questionId?: string) => {
+export const queueUtterance = (textToSpeak: string, questionId?: number) => {
     const { textToSpeakQueue } = getState();
     if (!questionId) {
         textToSpeakQueue.push({ textToSpeak });
@@ -11,7 +11,7 @@ export const queueUtterance = (textToSpeak: string, questionId?: string) => {
         }
         return;
     }
-    const questionElement = document.getElementById(questionId)!;
+    const questionElement = document.getElementById(`question-summary-${questionId}`)!;
     const channel = getState().channel!;
     if (questionElement && questionId) {
         // This will pretty much always already be highlighted, but just in case

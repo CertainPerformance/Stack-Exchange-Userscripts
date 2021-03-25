@@ -3,7 +3,7 @@
 // @description      Speaks new question titles aloud as they come in
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.3
+// @version          1.0.4
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/questions(?:/\d+|$|\?tab=Newest$|/tagged/.*sort=newest)/
 // @include          /^https://example\.com/fakepage$/
 // @grant            none
@@ -239,16 +239,20 @@ const targetBlankAllAnchors_1 = __webpack_require__(/*! ./targetBlankAllAnchors 
 const addBorderWhenClicked_1 = __webpack_require__(/*! ./addBorderWhenClicked */ "./src/questionListPage/addBorderWhenClicked.ts");
 const temporarilyPreventClicks_1 = __webpack_require__(/*! ./temporarilyPreventClicks */ "./src/questionListPage/temporarilyPreventClicks.ts");
 const pendingQuestionColor_1 = __webpack_require__(/*! ../pendingQuestionColor */ "./src/pendingQuestionColor.ts");
-const seenQuestionsIds = new Set([...document.querySelectorAll('#questions > div.question-summary')].map(({ id }) => id));
+const getQuestionDivs = () => [...document.querySelectorAll('#questions div.question-summary')];
+const getQuestionId = (questionDiv) => Number(questionDiv.id.match(/\d+$/)[0]);
+const seenQuestionsIds = new Set(getQuestionDivs().map(getQuestionId));
 const watchedTags = ((_a = document.querySelector('#search input')) === null || _a === void 0 ? void 0 : _a.value.match(/[^\[\]]+(?=\])/g)) || [];
 const questionTagCountsLeftById = {};
 const siteName = window.location.href === 'https://example.com/fakepage' ? '' : window.StackExchange.options.site.name;
 const siteNameSpokenText = siteName === 'Stack Overflow' ? '' : `${siteName}, `;
 exports.checkNewQuestions = () => {
     temporarilyPreventClicks_1.temporarilyPreventClicks();
-    [...document.querySelectorAll('#questions > div.question-summary')]
-        .filter(questionDiv => !seenQuestionsIds.has(questionDiv.id))
-        .forEach((questionDiv) => {
+    for (const questionDiv of getQuestionDivs()) {
+        const questionId = getQuestionId(questionDiv);
+        if (!questionId || seenQuestionsIds.has(questionId)) {
+            continue;
+        }
         targetBlankAllAnchors_1.targetBlankAllAnchors(questionDiv);
         const { focusing } = state_1.getState();
         // New question divs that have not been spoken yet will be highlighted yellow
@@ -267,7 +271,6 @@ exports.checkNewQuestions = () => {
          * just wait for the question to appear in the questions list for the nth time, where n is the number of watched tags that question has
          * Only on that nth time does the code below result in the questionDiv actually getting changed, watched, and linked to the utterance that gets queued
          */
-        const questionId = questionDiv.id;
         if (!questionTagCountsLeftById.hasOwnProperty(questionId)) {
             const watchedTagCountForThisQuestion = Array.from(questionDiv.querySelectorAll('.tags > a'), a => a.textContent)
                 .reduce((a, tag) => a + Number(watchedTags.includes(tag)), 0);
@@ -277,19 +280,19 @@ exports.checkNewQuestions = () => {
         // User may not be watching any tags - may be just on /questions?tab=Newest page
         // in which case there's nothing to count, and only one socket message per question, so queue the question immediately
         if (watchedTags.length && questionTagCountsLeftById[questionId] !== 0) {
-            return;
+            continue;
         }
         seenQuestionsIds.add(questionId);
         addBorderWhenClicked_1.addBorderWhenClicked(questionDiv);
         if (focusing) {
-            return;
+            continue;
         }
         const questionText = questionDiv.querySelector('.question-hyperlink').textContent;
         const questionTags = [...questionDiv.querySelectorAll('.tags > a')]
             .map(tagA => tagA.textContent.replace(/\./g, ' dot '));
         const textToSpeak = `Question, ${siteNameSpokenText} ${questionText} ---- ${questionTags.join(', ')}`;
         queueUtterance_1.queueUtterance(textToSpeak, questionId);
-    });
+    }
 };
 
 
@@ -552,7 +555,7 @@ exports.queueUtterance = (textToSpeak, questionId) => {
         }
         return;
     }
-    const questionElement = document.getElementById(questionId);
+    const questionElement = document.getElementById(`question-summary-${questionId}`);
     const channel = state_1.getState().channel;
     if (questionElement && questionId) {
         // This will pretty much always already be highlighted, but just in case
