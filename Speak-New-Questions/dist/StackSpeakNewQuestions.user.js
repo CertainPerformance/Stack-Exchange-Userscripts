@@ -3,7 +3,7 @@
 // @description      Speaks new question titles aloud as they come in
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.4
+// @version          1.0.5
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/questions(?:/\d+|$|\?tab=Newest$|/tagged/.*sort=newest)/
 // @include          /^https://example\.com/fakepage$/
 // @grant            none
@@ -246,6 +246,7 @@ const watchedTags = ((_a = document.querySelector('#search input')) === null || 
 const questionTagCountsLeftById = {};
 const siteName = window.location.href === 'https://example.com/fakepage' ? '' : window.StackExchange.options.site.name;
 const siteNameSpokenText = siteName === 'Stack Overflow' ? '' : `${siteName}, `;
+const tagSelector = '.post-tag';
 exports.checkNewQuestions = () => {
     temporarilyPreventClicks_1.temporarilyPreventClicks();
     for (const questionDiv of getQuestionDivs()) {
@@ -272,7 +273,7 @@ exports.checkNewQuestions = () => {
          * Only on that nth time does the code below result in the questionDiv actually getting changed, watched, and linked to the utterance that gets queued
          */
         if (!questionTagCountsLeftById.hasOwnProperty(questionId)) {
-            const watchedTagCountForThisQuestion = Array.from(questionDiv.querySelectorAll('.tags > a'), a => a.textContent)
+            const watchedTagCountForThisQuestion = Array.from(questionDiv.querySelectorAll(tagSelector), a => a.textContent)
                 .reduce((a, tag) => a + Number(watchedTags.includes(tag)), 0);
             questionTagCountsLeftById[questionId] = watchedTagCountForThisQuestion;
         }
@@ -288,7 +289,7 @@ exports.checkNewQuestions = () => {
             continue;
         }
         const questionText = questionDiv.querySelector('.question-hyperlink').textContent;
-        const questionTags = [...questionDiv.querySelectorAll('.tags > a')]
+        const questionTags = [...questionDiv.querySelectorAll(tagSelector)]
             .map(tagA => tagA.textContent.replace(/\./g, ' dot '));
         const textToSpeak = `Question, ${siteNameSpokenText} ${questionText} ---- ${questionTags.join(', ')}`;
         queueUtterance_1.queueUtterance(textToSpeak, questionId);

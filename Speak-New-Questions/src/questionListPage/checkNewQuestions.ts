@@ -13,6 +13,8 @@ const questionTagCountsLeftById: { [questionId: string]: number } = {};
 const siteName = window.location.href === 'https://example.com/fakepage' ? '' : window.StackExchange.options.site.name;
 const siteNameSpokenText = siteName === 'Stack Overflow' ? '' : `${siteName}, `;
 
+const tagSelector = '.post-tag';
+
 export const checkNewQuestions = () => {
     temporarilyPreventClicks();
     for (const questionDiv of getQuestionDivs()) {
@@ -41,7 +43,7 @@ export const checkNewQuestions = () => {
          */
         if (!questionTagCountsLeftById.hasOwnProperty(questionId)) {
             const watchedTagCountForThisQuestion = Array.from(
-                questionDiv.querySelectorAll('.tags > a'),
+                questionDiv.querySelectorAll(tagSelector),
                 a => a.textContent!,
             )
                 .reduce((a, tag) => a + Number(watchedTags.includes(tag)), 0);
@@ -59,7 +61,7 @@ export const checkNewQuestions = () => {
             continue;
         }
         const questionText = questionDiv.querySelector('.question-hyperlink')!.textContent;
-        const questionTags = [...questionDiv.querySelectorAll('.tags > a')]
+        const questionTags = [...questionDiv.querySelectorAll(tagSelector)]
             .map(tagA => tagA.textContent!.replace(/\./g, ' dot '));
         const textToSpeak = `Question, ${siteNameSpokenText} ${questionText} ---- ${questionTags.join(', ')}`;
         queueUtterance(textToSpeak, questionId);
