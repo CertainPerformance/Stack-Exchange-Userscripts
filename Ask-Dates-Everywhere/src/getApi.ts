@@ -2,6 +2,9 @@
  * wrapper -> { items }
  * question -> { creation_date, owner }
  * shallow_user -> { display_name, profile_image, reputation, user_id, user_type }
+ * 
+ * Would prefer to also check if user is employee to add icon,
+ * but that's not present in shallow_user and would require a separate API call - won't bother
  */
 const filter = '!iCA6(zQJbylNesjF799NMC';
 const thisSite = window.location.hostname

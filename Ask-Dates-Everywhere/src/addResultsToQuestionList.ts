@@ -1,5 +1,5 @@
 import { haveSEUpdateRelativeDates } from './haveSEUpdateRelativeDates';
-import { makeStartedHTMLForFullList } from './makeStartedHTMLForFullList';
+import { changeFullListItem } from './changeFullListItem';
 import { makeStartedHTMLForMiniList } from './makeStartedHTMLForMiniList';
 
 export const addResultsToQuestionList = (
@@ -16,7 +16,7 @@ export const addResultsToQuestionList = (
         if (questionsContainerIsMiniList) {
             started.insertAdjacentHTML('afterend', makeStartedHTMLForMiniList(apiQuestion));
         } else {
-            started.insertAdjacentHTML('beforebegin', makeStartedHTMLForFullList(apiQuestion));
+            changeFullListItem(started, apiQuestion);
         }
     }
     haveSEUpdateRelativeDates();
