@@ -3,7 +3,7 @@
 // @description      Puts question stats in the sidebar, rather than at the top of the page
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.32.2
+// @version          1.32.3
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/questions/\d+/
 // @run-at           document-start
 // @grant            none
@@ -49,9 +49,9 @@ function moveQuestionStats() {
         });
     });
 
-    const topQuestionStatsContainer = document.querySelector('#question-header + div.grid');
+    const topQuestionStatsContainer = document.querySelector('#question-header + div');
     const statusCells = {};
-    for (const cell of topQuestionStatsContainer.querySelectorAll('#question-header + div.grid > .grid--cell')) {
+    for (const cell of topQuestionStatsContainer.querySelectorAll('#question-header + div > div')) {
         const cellLabel = cell.querySelector('span.fc-light').textContent;
         const type = mapToEnglishWord[cellLabel];
         if (type) {
