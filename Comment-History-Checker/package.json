@@ -1,11 +1,11 @@
 {
     "name": "comment-history-checker",
     "scripts": {
-        "build": "npm run lint && npm run node-sass && webpack",
+        "build": "npm run lint && npm run sass && webpack",
         "watch": "onchange --await-write-finish 200 -i ./src/**/* -- npm run watch-build",
-        "watch-build": "((node-sass src -o build && webpack --env.liveDev) || echo Build failed) && echo =================================",
+        "watch-build": "((npm run sass && webpack --env liveDev) || echo Build failed) && echo =================================",
         "lint": "tslint src/**/*.ts -p ./tsconfig.json",
-        "node-sass": "node-sass src -o build",
+        "sass": "sass src:build",
         "graph": "madge ./src/index.ts --ts-config=tsconfig.json -i ./madge-dependency-graph.png"
     },
     "author": "CertainPerformance",
@@ -15,15 +15,14 @@
         "localforage": "^1.7.3"
     },
     "devDependencies": {
-        "@types/jquery": "^3.5.0",
-        "node-sass": "^4.14.1",
-        "onchange": "^7.0.2",
-        "raw-loader": "^4.0.1",
-        "ts-loader": "^8.0.1",
+        "@types/jquery": "^3.5.8",
+        "sass": "^1.43.3",
+        "onchange": "^7.1.0",
+        "raw-loader": "^4.0.2",
+        "ts-loader": "^9.2.6",
         "tslint": "^6.1.2",
-        "tslint-config-airbnb": "^5.11.2",
-        "typescript": "^3.9.7",
-        "webpack": "^4.43.0",
-        "webpack-cli": "^3.3.12"
+        "typescript": "^4.4.4",
+        "webpack": "^5.59.1",
+        "webpack-cli": "^4.9.1"
     }
 }
