@@ -3,7 +3,7 @@
 // @description      Puts ask dates next to questions in question lists
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.2
+// @version          1.0.3
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/(?:(?:questions|\?tab).*)?$/
 // @grant            none
 // ==/UserScript==

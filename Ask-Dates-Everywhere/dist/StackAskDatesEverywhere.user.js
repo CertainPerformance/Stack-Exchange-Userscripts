@@ -3,150 +3,27 @@
 // @description      Puts ask dates next to questions in question lists
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.2
+// @version          1.0.3
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/(?:(?:questions|\?tab).*)?$/
 // @grant            none
 // ==/UserScript==
 
-/******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// define __esModule on exports
-/******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
-/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-/******/
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/index.ts");
-/******/ })
-/************************************************************************/
-/******/ ({
-
-/***/ "../common/declareGlobalStackExchange.ts":
-/*!***********************************************!*\
-  !*** ../common/declareGlobalStackExchange.ts ***!
-  \***********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-
-
-/***/ }),
-
-/***/ "../common/showToast.ts":
-/*!******************************!*\
-  !*** ../common/showToast.ts ***!
-  \******************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.showToastInfo = exports.showToastError = void 0;
-__webpack_require__(/*! ./declareGlobalStackExchange */ "../common/declareGlobalStackExchange.ts");
-exports.showToastError = (message) => {
-    window.StackExchange.helpers.showToast(message, { transient: false, type: 'danger' });
-};
-exports.showToastInfo = (message) => {
-    const transientTimeout = window.StackExchange.helpers.suggestedTransientTimeout(message, true);
-    window.StackExchange.helpers.showToast(message, { transientTimeout, transient: true, type: 'info' });
-};
-
-
-/***/ }),
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
 
 /***/ "./src/addResultsToQuestionList.ts":
 /*!*****************************************!*\
   !*** ./src/addResultsToQuestionList.ts ***!
   \*****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-"use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.addResultsToQuestionList = void 0;
 const haveSEUpdateRelativeDates_1 = __webpack_require__(/*! ./haveSEUpdateRelativeDates */ "./src/haveSEUpdateRelativeDates.ts");
-const makeStartedHTMLForFullList_1 = __webpack_require__(/*! ./makeStartedHTMLForFullList */ "./src/makeStartedHTMLForFullList.ts");
-const makeStartedHTMLForMiniList_1 = __webpack_require__(/*! ./makeStartedHTMLForMiniList */ "./src/makeStartedHTMLForMiniList.ts");
+const changeFullListItem_1 = __webpack_require__(/*! ./changeFullListItem */ "./src/changeFullListItem.ts");
+const changeMiniListItem_1 = __webpack_require__(/*! ./changeMiniListItem */ "./src/changeMiniListItem.ts");
 exports.addResultsToQuestionList = (startedsToFixByQuestionId, apiQuestionsByQuestionId, questionsContainerIsMiniList) => {
     for (const [questionId, started] of startedsToFixByQuestionId.entries()) {
         const apiQuestion = apiQuestionsByQuestionId[questionId];
@@ -155,10 +32,10 @@ exports.addResultsToQuestionList = (startedsToFixByQuestionId, apiQuestionsByQue
             continue;
         }
         if (questionsContainerIsMiniList) {
-            started.insertAdjacentHTML('afterend', makeStartedHTMLForMiniList_1.makeStartedHTMLForMiniList(apiQuestion));
+            changeMiniListItem_1.changeMiniListItem(started, apiQuestion);
         }
         else {
-            started.insertAdjacentHTML('beforebegin', makeStartedHTMLForFullList_1.makeStartedHTMLForFullList(apiQuestion));
+            changeFullListItem_1.changeFullListItem(started, apiQuestion);
         }
     }
     haveSEUpdateRelativeDates_1.haveSEUpdateRelativeDates();
@@ -171,14 +48,118 @@ exports.addResultsToQuestionList = (startedsToFixByQuestionId, apiQuestionsByQue
 /*!***************************************!*\
   !*** ./src/addThousandsSeparators.ts ***!
   \***************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports) => {
 
-"use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.addThousandsSeparators = void 0;
 exports.addThousandsSeparators = (num) => String(num).replace(/(?!^)(?=(?:\d{3})+$)/g, ',');
+
+
+/***/ }),
+
+/***/ "./src/changeFullListItem.ts":
+/*!***********************************!*\
+  !*** ./src/changeFullListItem.ts ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.changeFullListItem = void 0;
+const addThousandsSeparators_1 = __webpack_require__(/*! ./addThousandsSeparators */ "./src/addThousandsSeparators.ts");
+const getShortRep_1 = __webpack_require__(/*! ./getShortRep */ "./src/getShortRep.ts");
+const prettyAbsoluteDate_1 = __webpack_require__(/*! ./prettyAbsoluteDate */ "./src/prettyAbsoluteDate.ts");
+const makeRegisteredUserGravatar = (owner) => `
+    <a href="/users/${owner.user_id}">
+        <div class="gravatar-wrapper-32">
+            <img src="${owner.profile_image}" alt="" width="32" height="32" class="bar-sm">
+        </div>
+    </a>
+`;
+const makeRegisteredUserDetails = (owner) => `
+    <a href="/users/${owner.user_id}" class="mr2">${owner.display_name}</a>
+    ${owner.user_type === 'moderator' ? '<span class="flex--item s-badge ml2 s-badge__moderator s-badge__xs mtn4" title="Moderator">Mod</span>' : ''}
+    <div class="-flair">
+        <span class="reputation-score" title="reputation score ${addThousandsSeparators_1.addThousandsSeparators(owner.reputation)}" dir="ltr">${getShortRep_1.getShortRep(owner.reputation)}</span>
+    </div>
+`;
+exports.changeFullListItem = (started, apiQuestion) => {
+    started.insertAdjacentHTML('beforebegin', '<div style="width: 100%;"></div>');
+    started.setAttribute('style', 'margin-left: 0px !important');
+    started.insertAdjacentHTML('afterend', makeStartedHTMLForFullList(apiQuestion));
+};
+const makeStartedHTMLForFullList = ({ owner, creation_date, question_id }) => {
+    // Create a string like "2019-12-24 01:25:57Z"
+    const dateTitle = new Date(creation_date * 1000).toISOString().replace('T', ' ').replace(/\.\d\d\dZ/g, 'Z');
+    return `
+        <div class="flex--item ml-auto fl-shrink0 started mt0">
+            <div class="user-info user-hover">
+                <div class="user-action-time">
+                    <a href="/questions/${question_id}" class="started-link">asked
+                        <span
+                            title="${dateTitle}"
+                            class="relativetime"
+                        >${prettyAbsoluteDate_1.prettyAbsoluteDate(dateTitle) /* Newer dates will be immediately replaced by updateRelativeDates */}</span>
+                    </a>
+                </div>
+                <div class="user-gravatar32">
+                    ${owner.user_id ? makeRegisteredUserGravatar(owner) : '<span class="anonymous-gravatar"></span>'}
+                </div>
+                <div class="user-details">
+                    ${owner.user_id ? makeRegisteredUserDetails(owner) : owner.display_name}
+                </div>
+            </div>
+        </div>
+    `;
+};
+
+
+/***/ }),
+
+/***/ "./src/changeMiniListItem.ts":
+/*!***********************************!*\
+  !*** ./src/changeMiniListItem.ts ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.changeMiniListItem = void 0;
+const addThousandsSeparators_1 = __webpack_require__(/*! ./addThousandsSeparators */ "./src/addThousandsSeparators.ts");
+const getShortRep_1 = __webpack_require__(/*! ./getShortRep */ "./src/getShortRep.ts");
+const prettyAbsoluteDate_1 = __webpack_require__(/*! ./prettyAbsoluteDate */ "./src/prettyAbsoluteDate.ts");
+const makeRegisteredUserHTML = (owner) => `
+    <a href="/users/${owner.user_id}">${owner.display_name /* Yes, these are already HTML-escaped */}</a>${owner.user_type === 'moderator' ? '<span class="flex--item s-badge ml2 s-badge__moderator s-badge__xs mtn2" title="Moderator">Mod</span>' : ''}
+    <span class="reputation-score" title="reputation score ${addThousandsSeparators_1.addThousandsSeparators(owner.reputation)}" dir="ltr">${getShortRep_1.getShortRep(owner.reputation)}</span>
+`;
+const makeStartedHTMLForMiniList = ({ owner, creation_date, question_id }) => {
+    // Create a string like "2019-12-24 01:25:57Z"
+    const dateTitle = new Date(creation_date * 1000).toISOString().replace('T', ' ').replace(/\.\d\d\dZ/g, 'Z');
+    return `
+        <a href="/questions/${question_id}" class="started-link">
+            asked
+            <span
+                title="${dateTitle}"
+                class="relativetime"
+            >${prettyAbsoluteDate_1.prettyAbsoluteDate(dateTitle) /* Newer dates will be immediately replaced by updateRelativeDates */}</span>
+        </a>
+        ${owner.user_id ? makeRegisteredUserHTML(owner) : ''}
+    `;
+};
+exports.changeMiniListItem = (started, apiQuestion) => {
+    started.style.display = 'flex';
+    started.style.flexDirection = 'column';
+    started.style.alignItems = 'flex-end';
+    started.parentElement.style.alignItems = 'flex-start'; // Keep tags from vertically expanding
+    const existingChildrenContainer = document.createElement('div');
+    for (const child of [...started.childNodes]) {
+        existingChildrenContainer.appendChild(child);
+    }
+    started.appendChild(existingChildrenContainer);
+    const newChildrenContainer = started.appendChild(document.createElement('div'));
+    newChildrenContainer.innerHTML = makeStartedHTMLForMiniList(apiQuestion);
+};
 
 
 /***/ }),
@@ -187,17 +168,18 @@ exports.addThousandsSeparators = (num) => String(num).replace(/(?!^)(?=(?:\d{3})
 /*!***********************!*\
   !*** ./src/getApi.ts ***!
   \***********************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports) => {
 
-"use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getApi = void 0;
 /* Filter is constructed from:
  * wrapper -> { items }
  * question -> { creation_date, owner }
  * shallow_user -> { display_name, profile_image, reputation, user_id, user_type }
+ *
+ * Would prefer to also check if user is employee to add icon,
+ * but that's not present in shallow_user and would require a separate API call - won't bother
  */
 const filter = '!iCA6(zQJbylNesjF799NMC';
 const thisSite = window.location.hostname
@@ -228,12 +210,10 @@ exports.getApi = async (questionIdsToFetch) => {
 /*!********************************!*\
   !*** ./src/getQuestionData.ts ***!
   \********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-"use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getQuestionData = void 0;
 const getApi_1 = __webpack_require__(/*! ./getApi */ "./src/getApi.ts");
 exports.getQuestionData = async (questionIdsToRetrieve) => {
@@ -270,12 +250,10 @@ exports.getQuestionData = async (questionIdsToRetrieve) => {
 /*!****************************!*\
   !*** ./src/getShortRep.ts ***!
   \****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-"use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getShortRep = void 0;
 const addThousandsSeparators_1 = __webpack_require__(/*! ./addThousandsSeparators */ "./src/addThousandsSeparators.ts");
 /**
@@ -283,8 +261,10 @@ const addThousandsSeparators_1 = __webpack_require__(/*! ./addThousandsSeparator
  * 900 -> 900
  * 1111 -> 1,111
  * 9999 -> 9,999
- * 10000 -> 10k
- * 11111 -> 11k
+ * 10_000 -> 10k
+ * 10_100 -> 10.1k
+ * 99_900 -> 99.9k
+ * 100_100 -> 100k
  * 234_567 -> 235k
  * 1_000_000 -> 1000k
  */
@@ -294,6 +274,12 @@ exports.getShortRep = (reputation) => {
     }
     if (reputation < 10000) {
         return addThousandsSeparators_1.addThousandsSeparators(reputation);
+    }
+    if (reputation < 100000) {
+        const hundreds = Math.round(reputation / 100);
+        return hundreds % 10 === 0
+            ? `${hundreds / 10}k`
+            : String(hundreds).replace(/.$/, '.$&') + 'k';
     }
     const thousands = Math.round(reputation / 1000);
     return `${thousands}k`;
@@ -306,12 +292,10 @@ exports.getShortRep = (reputation) => {
 /*!******************************************!*\
   !*** ./src/haveSEUpdateRelativeDates.ts ***!
   \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports) => {
 
-"use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.haveSEUpdateRelativeDates = void 0;
 exports.haveSEUpdateRelativeDates = () => {
     // updateRelativeDates is defined in full.en.js, which is loaded dynamically by stub.en.js - probably won't exist immediately on pageload
@@ -332,133 +316,14 @@ exports.haveSEUpdateRelativeDates = () => {
 
 /***/ }),
 
-/***/ "./src/index.ts":
-/*!**********************!*\
-  !*** ./src/index.ts ***!
-  \**********************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-__webpack_require__(/*! ../../common/declareGlobalStackExchange */ "../common/declareGlobalStackExchange.ts");
-const observeQuestionsContainer_1 = __webpack_require__(/*! ./observeQuestionsContainer */ "./src/observeQuestionsContainer.ts");
-const questions = document.querySelector('#questions');
-const miniList = document.querySelector('#question-mini-list');
-const questionsContainer = questions || miniList;
-if (questionsContainer) {
-    observeQuestionsContainer_1.observeQuestionsContainer(questionsContainer);
-}
-
-
-/***/ }),
-
-/***/ "./src/makeStartedHTMLForFullList.ts":
-/*!*******************************************!*\
-  !*** ./src/makeStartedHTMLForFullList.ts ***!
-  \*******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.makeStartedHTMLForFullList = void 0;
-const addThousandsSeparators_1 = __webpack_require__(/*! ./addThousandsSeparators */ "./src/addThousandsSeparators.ts");
-const getShortRep_1 = __webpack_require__(/*! ./getShortRep */ "./src/getShortRep.ts");
-const prettyAbsoluteDate_1 = __webpack_require__(/*! ./prettyAbsoluteDate */ "./src/prettyAbsoluteDate.ts");
-const makeRegisteredUserGravatar = (owner) => `
-    <a href="/users/${owner.user_id}">
-        <div class="gravatar-wrapper-32">
-            <img src="${owner.profile_image}" alt="" width="32" height="32" class="bar-sm">
-        </div>
-    </a>
-`;
-const makeRegisteredUserDetails = (owner) => `
-    <a href="/users/${owner.user_id}">${owner.display_name}</a>
-    ${owner.user_type === 'moderator' ? '<span class="mod-flair" title="moderator">♦</span>' : ''}
-    <div class="-flair">
-        <span class="reputation-score" title="reputation score ${addThousandsSeparators_1.addThousandsSeparators(owner.reputation)}" dir="ltr">${getShortRep_1.getShortRep(owner.reputation)}</span>
-    </div>
-`;
-exports.makeStartedHTMLForFullList = ({ owner, creation_date, question_id }) => {
-    // Create a string like "2019-12-24 01:25:57Z"
-    const dateTitle = new Date(creation_date * 1000).toISOString().replace('T', ' ').replace(/\.\d\d\dZ/g, 'Z');
-    return `
-        <div style="float: right; width: 400px; clear: right;"></div>
-        <div class="started fr">
-            <div class="user-info user-hover">
-                <div class="user-action-time">
-                    <a href="/questions/${question_id}" class="started-link">asked
-                        <span
-                            title="${dateTitle}"
-                            class="relativetime"
-                        >${prettyAbsoluteDate_1.prettyAbsoluteDate(dateTitle) /* Newer dates will be immediately replaced by updateRelativeDates */}</span>
-                    </a>
-                </div>
-                <div class="user-gravatar32">
-                    ${owner.user_id ? makeRegisteredUserGravatar(owner) : '<span class="anonymous-gravatar"></span>'}
-                </div>
-                <div class="user-details">
-                    ${owner.user_id ? makeRegisteredUserDetails(owner) : owner.display_name}
-                </div>
-            </div>
-        </div>
-    `;
-};
-
-
-/***/ }),
-
-/***/ "./src/makeStartedHTMLForMiniList.ts":
-/*!*******************************************!*\
-  !*** ./src/makeStartedHTMLForMiniList.ts ***!
-  \*******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.makeStartedHTMLForMiniList = void 0;
-const addThousandsSeparators_1 = __webpack_require__(/*! ./addThousandsSeparators */ "./src/addThousandsSeparators.ts");
-const getShortRep_1 = __webpack_require__(/*! ./getShortRep */ "./src/getShortRep.ts");
-const prettyAbsoluteDate_1 = __webpack_require__(/*! ./prettyAbsoluteDate */ "./src/prettyAbsoluteDate.ts");
-const makeRegisteredUserHTML = (owner) => `
-    <a href="/users/${owner.user_id}">${owner.display_name /* Yes, these are already HTML-escaped */}</a>${owner.user_type === 'moderator' ? '<span class="mod-flair" title="moderator">♦</span>' : ''}
-    <span class="reputation-score" title="reputation score ${addThousandsSeparators_1.addThousandsSeparators(owner.reputation)}" dir="ltr">${getShortRep_1.getShortRep(owner.reputation)}</span>
-`;
-exports.makeStartedHTMLForMiniList = ({ owner, creation_date, question_id }) => {
-    // Create a string like "2019-12-24 01:25:57Z"
-    const dateTitle = new Date(creation_date * 1000).toISOString().replace('T', ' ').replace(/\.\d\d\dZ/g, 'Z');
-    return `
-        <div class="started" style="clear: right">
-            <a href="/questions/${question_id}" class="started-link">
-                asked
-                <span
-                    title="${dateTitle}"
-                    class="relativetime"
-                >${prettyAbsoluteDate_1.prettyAbsoluteDate(dateTitle) /* Newer dates will be immediately replaced by updateRelativeDates */}</span>
-            </a>
-            ${owner.user_id ? makeRegisteredUserHTML(owner) : ''}
-        </div>
-    `;
-};
-
-
-/***/ }),
-
 /***/ "./src/observeQuestionsContainer.ts":
 /*!******************************************!*\
   !*** ./src/observeQuestionsContainer.ts ***!
   \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-"use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.observeQuestionsContainer = void 0;
 const showToast_1 = __webpack_require__(/*! ../../common/showToast */ "../common/showToast.ts");
 const addResultsToQuestionList_1 = __webpack_require__(/*! ./addResultsToQuestionList */ "./src/addResultsToQuestionList.ts");
@@ -509,12 +374,10 @@ exports.observeQuestionsContainer = (questionsContainer) => {
 /*!***********************************!*\
   !*** ./src/prettyAbsoluteDate.ts ***!
   \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports) => {
 
-"use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.prettyAbsoluteDate = void 0;
 const shortMonthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 /**
@@ -532,6 +395,89 @@ exports.prettyAbsoluteDate = (dateTitle) => {
 };
 
 
+/***/ }),
+
+/***/ "../common/declareGlobalStackExchange.ts":
+/*!***********************************************!*\
+  !*** ../common/declareGlobalStackExchange.ts ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+
+
+/***/ }),
+
+/***/ "../common/showToast.ts":
+/*!******************************!*\
+  !*** ../common/showToast.ts ***!
+  \******************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.showToastInfo = exports.showToastError = void 0;
+__webpack_require__(/*! ./declareGlobalStackExchange */ "../common/declareGlobalStackExchange.ts");
+// Most scripts have `// @grant none`, and will see the native window.StackExchange
+// Those which have a different @grant will need to go through unsafeWindow.StackExchange
+const { helpers } = (window.StackExchange || unsafeWindow.StackExchange);
+exports.showToastError = (message) => {
+    helpers.showToast(message, { transient: false, type: 'danger' });
+};
+exports.showToastInfo = (message, transientTimeout = helpers.suggestedTransientTimeout(message, true)) => {
+    helpers.showToast(message, { transientTimeout, transient: true, type: 'info' });
+};
+
+
 /***/ })
 
-/******/ });
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+(() => {
+var exports = __webpack_exports__;
+/*!**********************!*\
+  !*** ./src/index.ts ***!
+  \**********************/
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__webpack_require__(/*! ../../common/declareGlobalStackExchange */ "../common/declareGlobalStackExchange.ts");
+const observeQuestionsContainer_1 = __webpack_require__(/*! ./observeQuestionsContainer */ "./src/observeQuestionsContainer.ts");
+const questions = document.querySelector('#questions');
+const miniList = document.querySelector('#question-mini-list');
+const questionsContainer = questions || miniList;
+if (questionsContainer) {
+    observeQuestionsContainer_1.observeQuestionsContainer(questionsContainer);
+}
+
+})();
+
+/******/ })()
+;

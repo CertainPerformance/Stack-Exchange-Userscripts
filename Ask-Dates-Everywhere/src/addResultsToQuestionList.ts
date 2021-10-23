@@ -1,6 +1,6 @@
 import { haveSEUpdateRelativeDates } from './haveSEUpdateRelativeDates';
 import { changeFullListItem } from './changeFullListItem';
-import { makeStartedHTMLForMiniList } from './makeStartedHTMLForMiniList';
+import { changeMiniListItem } from './changeMiniListItem';
 
 export const addResultsToQuestionList = (
     startedsToFixByQuestionId: Map<number, HTMLElement>,
@@ -14,7 +14,7 @@ export const addResultsToQuestionList = (
             continue;
         }
         if (questionsContainerIsMiniList) {
-            started.insertAdjacentHTML('afterend', makeStartedHTMLForMiniList(apiQuestion));
+            changeMiniListItem(started, apiQuestion);
         } else {
             changeFullListItem(started, apiQuestion);
         }
