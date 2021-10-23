@@ -8,7 +8,7 @@ import * as localforageUntyped from '../node_modules/localforage/dist/localforag
 const localforage = localforageUntyped as typeof import('localforage');
 
 // Only allow a get or set operation after the previous operation is complete:
-let lastProm: Promise<SavedComments | void> = Promise.resolve();
+let lastProm: Promise<SavedComments | null> = Promise.resolve(null);
 export const getDB = async () => {
     await lastProm;
     lastProm = localforage.getItem<SavedComments>('cpuserscriptCommentHistoryCheckerSavedComments');

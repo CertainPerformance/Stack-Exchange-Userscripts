@@ -5,11 +5,12 @@ import { commentHrefToIds } from '../commentHrefToIds';
  * @returns True if the database was changed, otherwise false
  */
 export const saveComment = (userCommentAnchor: HTMLAnchorElement, savedComments: SavedComments) => {
-    const dateElm = userCommentAnchor.nextElementSibling!.querySelector<HTMLElement>('.relativetime-clean')!;
+    const commentBody = userCommentAnchor.closest('.comment-body')!;
+    const dateElm = commentBody.querySelector<HTMLElement>('.relativetime-clean')!;
     // The title will be something like: "2020-05-12 16:08:33Z , License: CC BY-SA 4.0"
     const timestamp = new Date(dateElm.title.match(/^[^,]+?(?= ?, License)/)![0]).getTime();
     // Some sites have a MathJax preview which is the first child of the body, rather than the comment-copy being the first child
-    const commentHTML = userCommentAnchor.closest('.comment-body')!.querySelector('.comment-copy')!.innerHTML;
+    const commentHTML = commentBody.querySelector('.comment-copy')!.innerHTML;
     const questionAnchor = document.querySelector('#question-header > h1 > a');
     if (!questionAnchor) {
         // Spam/rude question - it's likely already in the database, just don't try to update it
@@ -18,7 +19,7 @@ export const saveComment = (userCommentAnchor: HTMLAnchorElement, savedComments:
     const questionTitle = questionAnchor.textContent!;
     // Cannot just use .href  of the comment-link below,
     // because there may be a query string which comes between the /question-title and the #commentID_postID
-    const commentHrefAttrib = userCommentAnchor.parentElement!.querySelector('a.comment-link')!.getAttribute('href')!;
+    const commentHrefAttrib = commentBody.querySelector('a.comment-link')!.getAttribute('href')!;
     const commentHref = window.location.origin + window.location.pathname + commentHrefAttrib;
     const { commentId } = commentHrefToIds(commentHref);
     const newCommentObj = {

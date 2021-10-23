@@ -10,11 +10,7 @@ const defaultParamsArr = [
     ['site', thisSite],
 ];
 
-type GetApi = {
-    (method: 'comments', ids: Array<number>): Promise<ApiComments>;
-    (method: 'questions', ids: Array<number>): Promise<ApiQuestions>;
-};
-export const getApi: GetApi = async (method: 'comments' | 'questions', ids: Array<number>) => {
+export const getApi = async <T extends 'comments' | 'questions'>(method: T, ids: Array<number>) => {
     if (!ids.length) {
         return { items: [] };
     }
@@ -24,5 +20,5 @@ export const getApi: GetApi = async (method: 'comments' | 'questions', ids: Arra
     const url = `https://api.stackexchange.com/2.2/${method}/${ids.join(';')}${paramsString}`;
     const response = await fetch(url);
     const responseObj = await response.json();
-    return responseObj;
+    return responseObj as T extends 'comments' ? ApiComments : ApiQuestions;
 };
