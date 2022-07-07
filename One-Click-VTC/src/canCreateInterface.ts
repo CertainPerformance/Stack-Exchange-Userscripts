@@ -1,7 +1,7 @@
 import { getSettings } from './settings';
 
 export const canCreateInterface = () => {
-    const myProfile = document.querySelector<HTMLAnchorElement>('.my-profile');
+    const myProfile = document.querySelector<HTMLAnchorElement>('.s-topbar--content .s-user-card');
     if (!myProfile) {
         // Not logged in, or site is down, don't do anything
         return;

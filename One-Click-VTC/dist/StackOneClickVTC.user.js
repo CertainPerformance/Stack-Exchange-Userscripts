@@ -3,7 +3,7 @@
 // @description      Allows voting to close with a single click
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.2.3
+// @version          1.2.4
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)/questions/\d+/
 // @grant            none
 // ==/UserScript==
@@ -37,7 +37,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.canCreateInterface = void 0;
 const settings_1 = __webpack_require__(/*! ./settings */ "./src/settings.ts");
 const canCreateInterface = () => {
-    const myProfile = document.querySelector('.my-profile');
+    const myProfile = document.querySelector('.s-topbar--content .s-user-card');
     if (!myProfile) {
         // Not logged in, or site is down, don't do anything
         return;
@@ -777,8 +777,7 @@ const showToastError = (message) => {
     helpers.showToast(message, { transient: false, type: 'danger' });
 };
 exports.showToastError = showToastError;
-const showToastInfo = (message) => {
-    const transientTimeout = helpers.suggestedTransientTimeout(message, true);
+const showToastInfo = (message, transientTimeout = helpers.suggestedTransientTimeout(message, true)) => {
     helpers.showToast(message, { transientTimeout, transient: true, type: 'info' });
 };
 exports.showToastInfo = showToastInfo;
