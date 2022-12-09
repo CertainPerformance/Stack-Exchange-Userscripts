@@ -3,7 +3,7 @@
 // @description      Indicates when the websocket is connected
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.0.0
+// @version          1.0.1
 // @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)//
 // @run-at           document-start
 // @grant            none
@@ -17,7 +17,7 @@
 'use strict';
 
 const changeBorder = (color) => {
-    const personalTopBar = document.querySelector('#search + ol');
+    const personalTopBar = document.querySelector('#search + nav > ol');
     personalTopBar.style.borderLeft = `4px solid ${color}`;
     personalTopBar.style.borderRight = `4px solid ${color}`;
 };
