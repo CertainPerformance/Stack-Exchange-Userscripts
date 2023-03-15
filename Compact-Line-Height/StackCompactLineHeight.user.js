@@ -3,8 +3,8 @@
 // @description      Reduces the space between lines back to what it used to be
 // @author           CertainPerformance
 // @namespace        https://github.com/CertainPerformance/Stack-Exchange-Userscripts
-// @version          1.3.0
-// @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps)\.com|mathoverflow\.net)//
+// @version          1.3.1
+// @include          /^https://(?:[^/]+\.)?(?:(?:stackoverflow|serverfault|superuser|stackexchange|askubuntu|stackapps|stackoverflowteams)\.com|mathoverflow\.net)//
 // @run-at           document-start
 // @grant            none
 // ==/UserScript==
